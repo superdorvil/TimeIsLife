@@ -20,7 +20,6 @@ const ActionButton = ({}) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    margin: 16,
   },
   outerButtonContainer: {
     flex: 1,
