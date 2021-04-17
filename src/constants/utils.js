@@ -18,14 +18,3 @@ export const weekdayFormat = {
   abbreviation: 'abbreviation',
   full: 'full',
 };
-
-// These strings are sooooooo long,should I think of another way to do it
-// I could write the funtion and then just use comments to explain, hmmmm,
-// Now for consistency I am doing it this way
-// I just wanted to use a singe function for this
-// And I prefer a single function over long ass function names
-export const randFormat = {
-  iMin_eMax: 'inclusive min and exclusive max',
-  whole_iMin_eMax: 'whole number inclusive min and exclusive max',
-  whole_iMin_iMax: 'whole number inclusive min and exclusive max',
-};
