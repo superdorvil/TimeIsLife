@@ -7,7 +7,7 @@ class ProjectList extends Component {
     return (
       <View style={styles.container}>
         <ActionContainer
-          weeklyProgressActive
+          weeklyProgressActive={false}
           progress={0.1}
           secondsWorked={30000}
           secondsGoal={54000}
@@ -32,6 +32,13 @@ class ProjectList extends Component {
           timerNavButton
           goalsActive
           goalsNavButton
+          backArrowPressed
+          centerIconName="goals"
+          actionDescription="Test"
+          subDescription="Hey bro"
+          subDescription2="yo"
+          editButtonActive={false}
+          topRightButtonActive={true}
         />
       </View>
     );

@@ -14,6 +14,13 @@ class ActionContainer extends Component {
           secondsWorked={this.props.secondsWorked}
           secondsGoal={this.props.secondsGoal}
           weekdaySeconds={this.props.weekdaySeconds}
+          backArrowPressed={this.props.backArrowPressed}
+          centerIconName={this.props.centerIconName}
+          actionDescription={this.props.actionDescription}
+          subDescription={this.props.subDescription}
+          subDescription2={this.props.subDescription2}
+          editButtonActive={this.props.editButtonActive}
+          topRightButtonActive={this.props.topRightButtonActive}
         />
         <BottomContainer
           topChild={this.props.topChild}
