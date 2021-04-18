@@ -17,7 +17,7 @@ class TopContainer extends Component {
         <ViewVisibleWrapper active={this.props.weeklyProgressActive}>
           <WeeklyProgress
             progress={this.props.progress}
-            goalSeconds={this.props.goalSeconds}
+            secondsGoal={this.props.secondsGoal}
             secondsWorked={this.props.secondsWorked}
             weekdaySeconds={this.props.weekdaySeconds}
           />

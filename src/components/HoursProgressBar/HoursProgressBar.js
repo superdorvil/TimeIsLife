@@ -1,16 +1,22 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
+import {HoursUtils} from '_utils';
 import {Colors} from '_resources';
 
 const HoursProgressBar = ({
   progress,
   secondsWorked,
-  goalSeconds,
+  secondsGoal,
   totalWeeklyHours,
 }) => {
-  const hoursWorked = secondsWorked; // FIXME:: Convert to seconds
-  const goalHours = goalSeconds; // FIXME:: convert to hours
+  const hoursWorked = HoursUtils.convertSecondsToHrs({
+    totalSeconds: secondsWorked,
+    decimalMinutes: true,
+  });
+  const hoursGoal = HoursUtils.convertSecondsToHrs({
+    totalSeconds: secondsGoal,
+  });
   const weeklyHours = totalWeeklyHours ? (
     <Text style={styles.weeklyHours16}>Weekly Hours</Text>
   ) : (
@@ -23,9 +29,9 @@ const HoursProgressBar = ({
         {weeklyHours}
         <View style={styles.hoursWorkedContainer}>
           <Text style={styles.hoursWorked}>{hoursWorked} h</Text>
-          <Text style={styles.goalHours}>
+          <Text style={styles.hoursGoal}>
             {'  /  '}
-            {goalHours} h
+            {hoursGoal} h
           </Text>
         </View>
       </View>
@@ -72,7 +78,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     fontWeight: 'bold',
   },
-  goalHours: {
+  hoursGoal: {
     fontSize: 12,
     color: Colors.tertiary,
     alignSelf: 'flex-end',

@@ -2,11 +2,19 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {ViewVisibleWrapper} from '_components';
 import {Colors} from '_resources';
+import {DateUtils, HoursUtils} from '_utils';
+import {Utils} from '_constants';
 
 const WeekdayHours = ({secondsWorked, weekday}) => {
-  const hoursWorked = secondsWorked; // FIXME:: convert me to hours
-  const weekdayString = weekday; // FIXME:: convert me to weekday string
-  const today = weekday === new Date().getDay() ? true : false;
+  const hoursWorked = HoursUtils.convertSecondsToHrs({
+    totalSeconds: secondsWorked,
+    decimalMinutes: true,
+  });
+  const weekdayString = DateUtils.convertDayToString({
+    date: weekday,
+    format: Utils.weekdayFormat.abbreviation_capital,
+  });
+  const today = weekday.getDay() === new Date().getDay() ? true : false;
   const textStyle = today ? styles.todayText : styles.weekdayText;
   const dividerStyle = today ? styles.todayDivider : styles.weekdayDivider;
 

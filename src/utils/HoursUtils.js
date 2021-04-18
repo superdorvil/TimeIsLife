@@ -20,6 +20,19 @@ export const convertSecondsToHrsMinsSecs = ({
   };
 };
 
+export const convertSecondsToHrs = ({totalSeconds, decimalMinutes}) => {
+  let hours = parseInt(totalSeconds / 3600, 10);
+  const remainderSeconds = totalSeconds - 3600 * hours;
+  const minutes = parseInt(remainderSeconds / 60, 10);
+
+  if (decimalMinutes) {
+    hours = hours + minutes / 60;
+    hours = +hours.toFixed(1);
+  }
+
+  return hours;
+};
+
 export const convertHrsMinsSecsToSeconds = ({hours, minutes, seconds}) => {
   const hoursToSecs = hours ? hours * 3600 : 0;
   const minutesToSecs = minutes ? minutes * 60 : 0;

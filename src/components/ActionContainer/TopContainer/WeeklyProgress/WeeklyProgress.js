@@ -6,7 +6,7 @@ import {Colors} from '_resources';
 
 const WeeklyProgress = ({
   progress,
-  goalSeconds,
+  secondsGoal,
   secondsWorked,
   totalWeeklyHours,
   weekdaySeconds,
@@ -16,7 +16,7 @@ const WeeklyProgress = ({
       <Text style={styles.timeIsLifeText}>Time Is Life</Text>
       <HoursProgressBar
         progress={progress}
-        goalSeconds={goalSeconds}
+        secondsGoal={secondsGoal}
         secondsWorked={secondsWorked}
         totalWeeklyHours={totalWeeklyHours}
       />

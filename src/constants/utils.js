@@ -17,4 +17,6 @@ export const weekdayFormat = {
   initial: 'initial',
   abbreviation: 'abbreviation',
   full: 'full',
+  abbreviation_capital: 'abbreviation capital',
+  full_capital: 'full capital',
 };

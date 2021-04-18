@@ -89,10 +89,14 @@ export const convertDayToString = ({date, format}) => {
       switch (format) {
         case Utils.weekdayFormat.initial:
           return 'S';
-        case Utils.weekdayFormat.abbreviate:
+        case Utils.weekdayFormat.abbreviation:
           return 'Sun';
         case Utils.weekdayFormat.full:
           return 'Sunday';
+        case Utils.weekdayFormat.abbreviation_capital:
+          return 'SUN';
+        case Utils.weekdayFormat.full_capital:
+          return 'SUNDAY';
         default:
           console.log(
             'convertDayToString given false weekdayFormat = ' + format,
@@ -103,10 +107,14 @@ export const convertDayToString = ({date, format}) => {
       switch (format) {
         case Utils.weekdayFormat.initial:
           return 'M';
-        case Utils.weekdayFormat.abbreviate:
+        case Utils.weekdayFormat.abbreviation:
           return 'Mon';
         case Utils.weekdayFormat.full:
           return 'Monday';
+        case Utils.weekdayFormat.abbreviation_capital:
+          return 'MON';
+        case Utils.weekdayFormat.full_capital:
+          return 'MONDAY';
         default:
           console.log(
             'convertDayToString given false weekdayFormat = ' + format,
@@ -117,10 +125,14 @@ export const convertDayToString = ({date, format}) => {
       switch (format) {
         case Utils.weekdayFormat.initial:
           return 'T';
-        case Utils.weekdayFormat.abbreviate:
+        case Utils.weekdayFormat.abbreviation:
           return 'Tue';
         case Utils.weekdayFormat.full:
           return 'Tuesday';
+        case Utils.weekdayFormat.abbreviation_capital:
+          return 'TUE';
+        case Utils.weekdayFormat.full_capital:
+          return 'TUESDAY';
         default:
           console.log(
             'convertDayToString given false weekdayFormat = ' + format,
@@ -131,10 +143,14 @@ export const convertDayToString = ({date, format}) => {
       switch (format) {
         case Utils.weekdayFormat.initial:
           return 'W';
-        case Utils.weekdayFormat.abbreviate:
+        case Utils.weekdayFormat.abbreviation:
           return 'Wed';
         case Utils.weekdayFormat.full:
           return 'Wednesday';
+        case Utils.weekdayFormat.abbreviation_capital:
+          return 'WED';
+        case Utils.weekdayFormat.full_capital:
+          return 'WEDNESDAY';
         default:
           console.log(
             'convertDayToString given false weekdayFormat = ' + format,
@@ -145,10 +161,14 @@ export const convertDayToString = ({date, format}) => {
       switch (format) {
         case Utils.weekdayFormat.initial:
           return 'T';
-        case Utils.weekdayFormat.abbreviate:
+        case Utils.weekdayFormat.abbreviation:
           return 'Thur';
         case Utils.weekdayFormat.full:
           return 'Thursday';
+        case Utils.weekdayFormat.abbreviation_capital:
+          return 'THUR';
+        case Utils.weekdayFormat.full_capital:
+          return 'THURSDAY';
         default:
           console.log(
             'convertDayToString given false weekdayFormat = ' + format,
@@ -159,10 +179,14 @@ export const convertDayToString = ({date, format}) => {
       switch (format) {
         case Utils.weekdayFormat.initial:
           return 'F';
-        case Utils.weekdayFormat.abbreviate:
+        case Utils.weekdayFormat.abbreviation:
           return 'Fri';
         case Utils.weekdayFormat.full:
           return 'Friday';
+        case Utils.weekdayFormat.abbreviation_capital:
+          return 'FRI';
+        case Utils.weekdayFormat.full_capital:
+          return 'FRIDAY';
         default:
           console.log(
             'convertDayToString given false weekdayFormat = ' + format,
@@ -173,10 +197,14 @@ export const convertDayToString = ({date, format}) => {
       switch (format) {
         case Utils.weekdayFormat.initial:
           return 'S';
-        case Utils.weekdayFormat.abbreviate:
+        case Utils.weekdayFormat.abbreviation:
           return 'Sat';
         case Utils.weekdayFormat.full:
           return 'Saturday';
+        case Utils.weekdayFormat.abbreviation_capital:
+          return 'SAT';
+        case Utils.weekdayFormat.full_capital:
+          return 'SATURDAY';
         default:
           console.log(
             'convertDayToString given false weekdayFormat = ' + format,
