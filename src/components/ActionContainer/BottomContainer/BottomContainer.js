@@ -3,6 +3,7 @@ import {View, StyleSheet, FlatList} from 'react-native';
 import {Colors} from '_resources';
 import {ViewVisibleWrapper, Divider} from '_components';
 import ActionButton from './ActionButton';
+import ActionNavBar from './ActionNavBar';
 //active, style, children, onPress
 
 //topChild
@@ -19,7 +20,15 @@ class BottomContainer extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.curvedBorder} />
+        <ActionNavBar
+          navBarActive={this.props.navBarActive}
+          taskActive={this.props.taskActive}
+          taskNavButton={this.props.taskNavButton}
+          timerActive={this.props.timerActive}
+          timerNavButton={this.props.timerNavButton}
+          goalsActive={this.props.goalsActive}
+          goalsNavButton={this.props.goalsNavButton}
+        />
         <View style={styles.innerContainer}>
           <ViewVisibleWrapper active={this.props.topChild}>
             {this.props.topChild}
@@ -53,16 +62,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   innerContainer: {
-    padding: 16,
-  },
-  curvedBorder: {
-    borderColor: Colors.primary,
-    borderTopWidth: 1,
-    borderRightWidth: 1,
-    borderLeftWidth: 1,
-    borderTopEndRadius: 16,
-    borderTopStartRadius: 16,
-    height: 16,
+    paddingTop: 12,
+    paddingStart: 16,
+    paddingEnd: 16,
+    paddingBottom: 16,
   },
   list: {
     flex: 1,
