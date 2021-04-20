@@ -4,13 +4,6 @@ import {Colors} from '_resources';
 import {ViewVisibleWrapper, Divider} from '_components';
 import ActionButton from './ActionButton';
 import ActionNavBar from './ActionNavBar';
-//active, style, children, onPress
-
-//topChild
-//actionButton
-//listData
-//renderListItem
-//bottomChild
 
 class BottomContainer extends Component {
   renderDivider() {
@@ -21,22 +14,26 @@ class BottomContainer extends Component {
     return (
       <View style={styles.container}>
         <ActionNavBar
-          navBarActive={this.props.navBarActive}
-          taskActive={this.props.taskActive}
-          taskNavButton={this.props.taskNavButton}
-          timerActive={this.props.timerActive}
-          timerNavButton={this.props.timerNavButton}
-          goalsActive={this.props.goalsActive}
-          goalsNavButton={this.props.goalsNavButton}
+          actionNavBarActive={this.props.navBarActive}
+          taskNavButtonActive={this.props.taskNavButtonActive}
+          taskNavButtonPressed={this.props.taskNavButtonPressed}
+          timerNavButtonActive={this.props.timerNavButtonActive}
+          timerNavButtonPressed={this.props.timerNavButtonPressed}
+          goalsNavButtonActive={this.props.goalsNavButtonActive}
+          goalsNavButtonPressed={this.props.goalsNavButtonPressed}
         />
         <View style={styles.innerContainer}>
-          <ViewVisibleWrapper active={this.props.topChild}>
+          <ViewVisibleWrapper active={this.props.topChildActive}>
             {this.props.topChild}
           </ViewVisibleWrapper>
-          <ViewVisibleWrapper active={this.props.actionButton}>
-            <ActionButton />
+          <ViewVisibleWrapper active={this.props.actionButtonActive}>
+            <ActionButton
+              actionButtonPressed={this.props.actionButtonPressed}
+            />
           </ViewVisibleWrapper>
-          <ViewVisibleWrapper active={this.props.listData} style={styles.list}>
+          <ViewVisibleWrapper
+            active={this.props.listDataActive}
+            style={styles.list}>
             <FlatList
               data={this.props.listData}
               renderItem={({item}) => this.props.renderListItem(item)}
@@ -46,7 +43,7 @@ class BottomContainer extends Component {
               contentContainerStyle={styles.listPadding}
             />
           </ViewVisibleWrapper>
-          <ViewVisibleWrapper active={this.props.bottomChild}>
+          <ViewVisibleWrapper active={this.props.bottomChildActive}>
             {this.props.bottomChild}
           </ViewVisibleWrapper>
         </View>

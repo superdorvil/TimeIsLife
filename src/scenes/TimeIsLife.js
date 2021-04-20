@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {StyleSheet} from 'react-native';
-import {ProjectList} from './ProjectActions';
+import ProjectNavigator from './ProjectNavigator';
 import {ViewVisibleWrapper} from '_components';
-import {SettingsSchema} from '_schemas';
-import projectDB from '_data';
+// import {SettingsSchema} from '_schemas';
+// import projectDB from '_data';
 
-const Realm = require('realm');
+// const Realm = require('realm');
 
 class TimeIsLife extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      realm: null,
+      realm: true, // null
     };
   }
 
@@ -45,10 +45,8 @@ class TimeIsLife extends Component {
 
   render() {
     return (
-      <ViewVisibleWrapper
-        active={true /*this.state.realm*/}
-        style={styles.container}>
-        <ProjectList realm={this.state.realm} />
+      <ViewVisibleWrapper active={this.state.realm} style={styles.container}>
+        <ProjectNavigator realm={this.state.realm} />
       </ViewVisibleWrapper>
     );
   }

@@ -5,36 +5,55 @@ import TopContainer from './TopContainer';
 import BottomContainer from './BottomContainer';
 
 class ActionContainer extends Component {
+  backArrowPressed() {}
+
   render() {
     return (
       <View style={styles.container}>
         <TopContainer
           weeklyProgressActive={this.props.weeklyProgressActive}
-          progress={this.props.progress}
-          secondsWorked={this.props.secondsWorked}
-          secondsGoal={this.props.secondsGoal}
-          weekdaySeconds={this.props.weekdaySeconds}
-          backArrowPressed={this.props.backArrowPressed}
-          centerIconName={this.props.centerIconName}
-          actionDescription={this.props.actionDescription}
-          subDescription={this.props.subDescription}
-          subDescription2={this.props.subDescription2}
-          editButtonActive={this.props.editButtonActive}
-          topRightButtonActive={this.props.topRightButtonActive}
+          progress={this.props.weeklyProgressData.progress}
+          secondsWorked={this.props.weeklyProgressData.secondsWorked}
+          secondsGoal={this.props.weeklyProgressData.secondsGoal}
+          weekdaySeconds={this.props.weeklyProgressData.weekdaySeconds}
+          backArrowActive={this.props.backArrowActive}
+          backArrowPressed={this.backArrowPressed}
+          centerIconName={this.props.actionScreenData.centerIconName}
+          actionDescription={this.props.actionScreenData.actionDescription}
+          subDescription={this.props.actionScreenData.subDescription}
+          subDescription2={this.props.actionScreenData.subDescription2}
+          editButtonActive={this.props.actionScreenData.editButtonActive}
+          topRightButtonActive={
+            this.props.actionScreenData.topRightButtonActive
+          }
         />
         <BottomContainer
+          topChildActive={this.props.topChildActive}
           topChild={this.props.topChild}
+          bottomChildActive={this.props.bottomChildActive}
+          bottomChild={this.props.bottomChild}
+          actionButtonActive={this.props.actionButtonActive}
           actionButton={this.props.actionButton}
           listData={this.props.listData}
+          listDataActive={this.props.listDataActive}
           renderListItem={this.props.renderListItem}
-          bottomChild={this.props.bottomChild}
-          navBarActive={this.props.navBarActive}
-          taskActive={this.props.taskActive}
-          taskNavButton={this.props.taskNavButton}
-          timerActive={this.props.timerActive}
-          timerNavButton={this.props.timerNavButton}
-          goalsActive={this.props.goalsActive}
-          goalsNavButton={this.props.goalsNavButton}
+          actionNavBarActive={this.props.actionNavBarActive}
+          taskNavButtonActive={this.props.actionNavBarData.taskNavButtonActive}
+          taskNavButtonPressed={
+            this.props.actionNavBarData.taskNavButtonPressed
+          }
+          timerNavButtonActive={
+            this.props.actionNavBarData.timerNavButtonActive
+          }
+          timerNavButtonPressed={
+            this.props.actionNavBarData.timerNavButtonPressed
+          }
+          goalsNavButtonActive={
+            this.props.actionNavBarData.goalsNavButtonActive
+          }
+          goalsNavButtonPressed={
+            this.props.actionNavBarData.goalsNavButtonPressed
+          }
         />
       </View>
     );

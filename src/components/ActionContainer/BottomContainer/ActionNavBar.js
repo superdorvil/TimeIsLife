@@ -5,31 +5,31 @@ import {Colors} from '_resources';
 import ActionNavBarButton from './ActionNavBarButton';
 
 const ActionNavBar = ({
-  navBarActive,
-  taskActive,
-  taskNavButton,
-  timerActive,
-  timerNavButton,
-  goalsActive,
-  goalsNavButton,
+  actionNavBarActive,
+  taskNavButtonActive,
+  taskNavButtonPressed,
+  timerNavButtonActive,
+  timerNavButtonPressed,
+  goalsNavButtonActive,
+  goalsNavButtonPressed,
 }) => {
   return (
     <View style={styles.container}>
-      <ViewVisibleWrapper active={navBarActive} style={styles.navBar}>
+      <ViewVisibleWrapper active={actionNavBarActive} style={styles.navBar}>
         <ActionNavBarButton
-          active={taskActive}
+          active={taskNavButtonActive}
           description="Task"
-          navButtonPressed={taskNavButton}
+          actionNavButtonPressed={taskNavButtonPressed}
         />
         <ActionNavBarButton
-          active={timerActive}
+          active={timerNavButtonActive}
           description="Timer"
-          navButtonPressed={taskNavButton}
+          actionNavButtonPressed={taskNavButtonPressed}
         />
         <ActionNavBarButton
-          active={goalsActive}
+          active={goalsNavButtonActive}
           description="Goals"
-          navButtonPressed={goalsNavButton}
+          actionNavButtonPressed={goalsNavButtonPressed}
         />
       </ViewVisibleWrapper>
       <View style={styles.divider} />
