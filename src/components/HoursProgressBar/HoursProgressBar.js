@@ -5,11 +5,11 @@ import {HoursUtils} from '_utils';
 import {Colors} from '_resources';
 
 const HoursProgressBar = ({
-  progress,
   secondsWorked,
   secondsGoal,
-  totalWeeklyHours,
+  weeklyHoursFontSizeBig,
 }) => {
+  const progress = secondsGoal > 0 ? secondsWorked / secondsGoal : 0;
   const hoursWorked = HoursUtils.convertSecondsToHrs({
     totalSeconds: secondsWorked,
     decimalMinutes: true,
@@ -17,7 +17,7 @@ const HoursProgressBar = ({
   const hoursGoal = HoursUtils.convertSecondsToHrs({
     totalSeconds: secondsGoal,
   });
-  const weeklyHours = totalWeeklyHours ? (
+  const weeklyHours = weeklyHoursFontSizeBig ? (
     <Text style={styles.weeklyHours16}>Weekly Hours</Text>
   ) : (
     <Text style={styles.weeklyHours12}>Weekly Hours</Text>
@@ -65,11 +65,11 @@ const styles = StyleSheet.create({
     right: 0,
   },
   weeklyHours12: {
-    fontSize: 16,
+    fontSize: 12,
     color: Colors.tertiary,
   },
   weeklyHours16: {
-    fontSize: 12,
+    fontSize: 16,
     color: Colors.tertiary,
   },
   hoursWorked: {

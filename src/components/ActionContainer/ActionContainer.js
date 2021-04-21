@@ -12,7 +12,6 @@ class ActionContainer extends Component {
       <View style={styles.container}>
         <TopContainer
           weeklyProgressActive={this.props.weeklyProgressActive}
-          progress={this.props.weeklyProgressData.progress}
           secondsWorked={this.props.weeklyProgressData.secondsWorked}
           secondsGoal={this.props.weeklyProgressData.secondsGoal}
           weekdaySeconds={this.props.weeklyProgressData.weekdaySeconds}
