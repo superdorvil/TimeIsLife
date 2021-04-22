@@ -9,7 +9,9 @@ const TopContainer = ({
   secondsGoal,
   secondsWorked,
   weekdaySeconds,
+  backArrowActive,
   backArrowPressed,
+  actionScreenActive,
   centerIconName,
   actionDescription,
   subDescription,
@@ -27,7 +29,7 @@ const TopContainer = ({
           weeklyHoursFontSizeBig={true}
         />
       </ViewVisibleWrapper>
-      <ViewVisibleWrapper active={!weeklyProgressActive}>
+      <ViewVisibleWrapper active={actionScreenActive}>
         <ActionScreen
           backArrowPressed={backArrowPressed}
           centerIconName={centerIconName}

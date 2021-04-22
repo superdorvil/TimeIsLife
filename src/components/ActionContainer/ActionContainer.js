@@ -17,6 +17,7 @@ class ActionContainer extends Component {
           weekdaySeconds={this.props.weeklyProgressData.weekdaySeconds}
           backArrowActive={this.props.backArrowActive}
           backArrowPressed={this.backArrowPressed}
+          actionScreenActive={this.props.actionScreenActive}
           centerIconName={this.props.actionScreenData.centerIconName}
           actionDescription={this.props.actionScreenData.actionDescription}
           subDescription={this.props.actionScreenData.subDescription}

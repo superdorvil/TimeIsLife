@@ -6,3 +6,4 @@ export Icon from './Icon';
 export Project from './Project';
 export TabBar from './TabBar';
 export ViewVisibleWrapper from './ViewVisibleWrapper';
+export WeeklyGoal from './WeeklyGoal';

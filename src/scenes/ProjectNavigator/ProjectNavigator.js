@@ -9,7 +9,7 @@ class ProjectNavigator extends Component {
     super(props);
 
     this.state = {
-      navigationState: Icons.projects,
+      navigationState: Icons.goals,
     };
 
     this.tabBarPressed = this.tabBarPressed.bind(this);
