@@ -22,7 +22,6 @@ const RouterComponent = () => (
         component={TimeIsLife}
         title="TimeIsLife"
         hideNavBar
-        initial
       />
       <Scene
         key="projectNavigator"
@@ -36,6 +35,7 @@ const RouterComponent = () => (
         component={CreateProject}
         title="CreateProject"
         hideNavBar
+        initial
       />
       <Scene
         key="createTask"

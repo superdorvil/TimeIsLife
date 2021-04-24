@@ -10,7 +10,6 @@ const TopContainer = ({
   secondsWorked,
   weekdaySeconds,
   backArrowActive,
-  backArrowPressed,
   actionScreenActive,
   centerIconName,
   actionDescription,
@@ -31,7 +30,7 @@ const TopContainer = ({
       </ViewVisibleWrapper>
       <ViewVisibleWrapper active={actionScreenActive}>
         <ActionScreen
-          backArrowPressed={backArrowPressed}
+          backArrowActive={backArrowActive}
           centerIconName={centerIconName}
           actionDescription={actionDescription}
           subDescription={subDescription}

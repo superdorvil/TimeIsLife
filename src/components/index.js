@@ -1,4 +1,5 @@
 export ActionContainer from './ActionContainer';
+export Button from './Button';
 export ChartDateInfoSelector from './ChartDateInfoSelector';
 export ChartNavBar from './ChartNavBar';
 export Divider from './Divider';
@@ -8,6 +9,7 @@ export HoursProgressBar from './HoursProgressBar';
 export HoursStatistics from './HoursStatistics';
 export Icon from './Icon';
 export Project from './Project';
+export ProjectInput from './ProjectInput';
 export SettingsItem from './SettingsItem';
 export TabBar from './TabBar';
 export ViewVisibleWrapper from './ViewVisibleWrapper';

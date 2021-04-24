@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
   divider: {
     borderColor: Colors.primary,
     borderTopWidth: 1,
+    marginTop: 8,
+    marginBottom: 8,
     /*borderRightWidth: 1,
     borderLeftWidth: 1,
     borderTopEndRadius: 16,

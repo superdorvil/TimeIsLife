@@ -7,6 +7,7 @@ import BackArrow from './BackArrow';
 import {Colors} from '_resources';
 
 const ActionScreen = ({
+  backArrowActive,
   backArrowPressed,
   centerIconName,
   actionDescription,
@@ -23,7 +24,9 @@ const ActionScreen = ({
         editButtonActive={editButtonActive}
         topRightPressed={topRightPressed}
       />
-      <BackArrow backArrowPressed={backArrowPressed} />
+      <ViewVisibleWrapper active={backArrowActive}>
+        <BackArrow backArrowPressed={backArrowPressed} />
+      </ViewVisibleWrapper>
       <CenterIcon centerIconName={centerIconName} />
       <Text style={styles.actionDescription}>{actionDescription}</Text>
       <ViewVisibleWrapper

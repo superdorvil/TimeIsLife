@@ -4,11 +4,13 @@ import {Colors} from '_resources';
 import {Icons} from '_constants';
 import {Icon} from '_components';
 
-const ActionButton = ({}) => {
+const ActionButton = ({actionButtonPressed}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.actionText}>Your Projects</Text>
-      <TouchableOpacity style={styles.outerButtonContainer}>
+      <TouchableOpacity
+        style={styles.outerButtonContainer}
+        onPress={actionButtonPressed}>
         <View style={styles.buttonContainer}>
           <Icon name={Icons.plus} size={16} style={styles.plus} />
         </View>

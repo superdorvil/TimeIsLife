@@ -15,7 +15,7 @@ class ActionContainer extends Component {
           secondsWorked={this.props.weeklyProgressData.secondsWorked}
           secondsGoal={this.props.weeklyProgressData.secondsGoal}
           weekdaySeconds={this.props.weeklyProgressData.weekdaySeconds}
-          backArrowActive={this.props.backArrowActive}
+          backArrowActive={this.props.actionScreenData.backArrowActive}
           backArrowPressed={this.backArrowPressed}
           actionScreenActive={this.props.actionScreenActive}
           centerIconName={this.props.actionScreenData.centerIconName}
@@ -33,7 +33,7 @@ class ActionContainer extends Component {
           bottomChildActive={this.props.bottomChildActive}
           bottomChild={this.props.bottomChild}
           actionButtonActive={this.props.actionButtonActive}
-          actionButton={this.props.actionButton}
+          actionButtonPressed={this.props.actionButtonPressed}
           listData={this.props.listData}
           listDataActive={this.props.listDataActive}
           renderListItem={this.props.renderListItem}

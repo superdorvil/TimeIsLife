@@ -1,9 +1,22 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import {ActionContainer} from '_components';
 import {Project} from '_components';
 
 class ProjectList extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+
+    this.createProject = this.createProject.bind(this);
+  }
+
+  createProject() {
+    Actions.createProject({realm: this.props.realm});
+  }
+
   renderProject(projectData) {
     return (
       <Project
@@ -115,7 +128,7 @@ class ProjectList extends Component {
           bottomChildActive={false}
           bottomChild={false}
           actionButtonActive={true}
-          actionButtonPressed={false}
+          actionButtonPressed={this.createProject}
           listData={projectData}
           listDataActive={true}
           renderListItem={this.renderProject}

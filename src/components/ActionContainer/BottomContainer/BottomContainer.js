@@ -43,7 +43,9 @@ class BottomContainer extends Component {
               contentContainerStyle={styles.listPadding}
             />
           </ViewVisibleWrapper>
-          <ViewVisibleWrapper active={this.props.bottomChildActive}>
+          <ViewVisibleWrapper
+            style={styles.bottomChild}
+            active={this.props.bottomChildActive}>
             {this.props.bottomChild}
           </ViewVisibleWrapper>
         </View>
@@ -64,10 +66,10 @@ const styles = StyleSheet.create({
     paddingEnd: 16,
     paddingBottom: 16,
   },
-  list: {},
   listPadding: {
     paddingBottom: 92,
   },
+  bottomChild: {},
 });
 
 export default BottomContainer;
