@@ -8,6 +8,7 @@ export HoursProgressBar from './HoursProgressBar';
 export HoursStatistics from './HoursStatistics';
 export Icon from './Icon';
 export Project from './Project';
+export SettingsItem from './SettingsItem';
 export TabBar from './TabBar';
 export ViewVisibleWrapper from './ViewVisibleWrapper';
 export WeeklyGoal from './WeeklyGoal';
