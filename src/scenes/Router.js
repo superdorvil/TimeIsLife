@@ -35,13 +35,13 @@ const RouterComponent = () => (
         component={CreateProject}
         title="CreateProject"
         hideNavBar
-        initial
       />
       <Scene
         key="createTask"
         component={CreateTask}
         title="CreateTask"
         hideNavBar
+        initial
       />
       <Scene
         key="editProject"

@@ -5,7 +5,7 @@ import {Colors} from '_resources';
 const Button = ({description, buttonPressed}) => {
   return (
     <TouchableOpacity style={styles.container} onPress={buttonPressed}>
-      <Text style={styles.description}>+ {description}</Text>
+      <Text style={styles.description}>{description}</Text>
     </TouchableOpacity>
   );
 };

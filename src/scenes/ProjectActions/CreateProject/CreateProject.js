@@ -39,7 +39,7 @@ class CreateProject extends Component {
           renderListItem={false}
         />
         <View style={styles.button}>
-          <Button description="Add Project" buttonPressed={false} />
+          <Button description="+ Add Project" buttonPressed={false} />
         </View>
       </View>
     );
