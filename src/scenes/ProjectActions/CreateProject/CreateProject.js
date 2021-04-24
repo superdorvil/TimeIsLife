@@ -29,7 +29,7 @@ class CreateProject extends Component {
               header="Project Name"
               //value={false}
               //onChangeText={false}
-              placeholder="hello"
+              placeholder="enter project name ..."
             />
           }
           actionButtonActive={false}

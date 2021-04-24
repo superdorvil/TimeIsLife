@@ -16,7 +16,7 @@ const TopContainer = ({
   subDescription,
   subDescription2,
   editButtonActive,
-  topRightButtonActive,
+  deleteButtonActive,
 }) => {
   return (
     <View style={styles.container}>
@@ -36,7 +36,7 @@ const TopContainer = ({
           subDescription={subDescription}
           subDescription2={subDescription2}
           editButtonActive={editButtonActive}
-          topRightButtonActive={topRightButtonActive}
+          deleteButtonActive={deleteButtonActive}
         />
       </ViewVisibleWrapper>
     </View>
@@ -45,7 +45,8 @@ const TopContainer = ({
 
 const styles = StyleSheet.create({
   container: {
-    margin: 16,
+    marginStart: 16,
+    marginEnd: 16,
   },
 });
 

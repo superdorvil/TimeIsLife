@@ -30,7 +30,7 @@ class CreateTask extends Component {
               header="Task Name"
               //value={false}
               //onChangeText={false}
-              placeholder="hello"
+              placeholder="enter task name ..."
             />
           }
           actionButtonActive={false}

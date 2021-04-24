@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     paddingStart: 16,
     paddingEnd: 16,
     paddingTop: 16,
-    paddingBottom: 24,
+    paddingBottom: 16,
   },
 });
 

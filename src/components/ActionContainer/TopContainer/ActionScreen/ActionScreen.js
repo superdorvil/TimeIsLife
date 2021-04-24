@@ -14,14 +14,14 @@ const ActionScreen = ({
   subDescription,
   subDescription2,
   editButtonActive,
+  deleteButtonActive,
   topRightPressed,
-  topRightButtonActive,
 }) => {
   return (
     <View style={styles.container}>
       <TopRightButton
-        topRightButtonActive={topRightButtonActive}
         editButtonActive={editButtonActive}
+        deleteButtonActive={deleteButtonActive}
         topRightPressed={topRightPressed}
       />
       <ViewVisibleWrapper active={backArrowActive}>
@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
   subDescriptionContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
-    paddingBottom: 16,
   },
 });
 

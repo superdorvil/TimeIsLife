@@ -4,18 +4,25 @@ import {ViewVisibleWrapper} from '_components';
 import {Colors} from '_resources';
 
 const TopRightButton = ({
-  topRightButtonActive,
   editButtonActive,
+  deleteButtonActive,
   topRightPressed,
 }) => {
+  let topRightStyle;
+  let topRightText;
+  if (editButtonActive) {
+    topRightStyle = styles.edit;
+    topRightText = 'Edit';
+  } else if (deleteButtonActive) {
+    topRightStyle = styles.remove;
+    topRightText = 'Delete';
+  }
   return (
     <ViewVisibleWrapper
-      active={topRightButtonActive}
+      active={editButtonActive || deleteButtonActive}
       style={styles.container}
       onPress={topRightPressed}>
-      <Text style={editButtonActive ? styles.edit : styles.remove}>
-        {editButtonActive ? 'Edit' : 'Delete'}
-      </Text>
+      <Text style={topRightStyle}>{topRightText}</Text>
     </ViewVisibleWrapper>
   );
 };
@@ -25,7 +32,7 @@ const styles = StyleSheet.create({
     paddingStart: 16,
     paddingEnd: 16,
     paddingTop: 16,
-    paddingBottom: 24,
+    paddingBottom: 16,
     position: 'absolute',
     top: 0,
     right: 0,
