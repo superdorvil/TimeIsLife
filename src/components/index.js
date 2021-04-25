@@ -14,5 +14,6 @@ export ProjectInput from './ProjectInput';
 export SettingsItem from './SettingsItem';
 export StartStopButton from './StartStopButton';
 export TabBar from './TabBar';
+export Task from './Task';
 export ViewVisibleWrapper from './ViewVisibleWrapper';
 export WeeklyGoal from './WeeklyGoal';

@@ -3,11 +3,13 @@ import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {ViewVisibleWrapper} from '_components';
 import {Colors} from '_resources';
 
-const ActionNavBarButton = ({selected, description, navButtonPressed}) => {
+const ActionNavBarButton = ({
+  selected,
+  description,
+  actionNavButtonPressed,
+}) => {
   return (
-    <TouchableOpacity
-      navButtonPressed={navButtonPressed}
-      style={styles.container}>
+    <TouchableOpacity onPress={actionNavButtonPressed} style={styles.container}>
       <Text style={selected ? styles.activeDescription : styles.description}>
         {description}
       </Text>

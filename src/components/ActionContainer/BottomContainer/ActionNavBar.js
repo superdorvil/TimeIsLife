@@ -24,7 +24,7 @@ const ActionNavBar = ({
         <ActionNavBarButton
           selected={timerNavButtonSelected}
           description="Timer"
-          actionNavButtonPressed={taskNavButtonPressed}
+          actionNavButtonPressed={timerNavButtonPressed}
         />
         <ActionNavBarButton
           selected={goalsNavButtonSelected}
