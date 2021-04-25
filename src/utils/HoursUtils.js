@@ -44,3 +44,11 @@ export const convertHrsMinsSecsToSeconds = ({hours, minutes, seconds}) => {
 export const formatDoubleDigits = ({digits}) => {
   return digits < 10 ? '0' + digits.toString() : digits.toString();
 };
+
+export const dateToTimeAMPM = ({date}) => {
+  //return date.toLocaleString();
+  return date.toLocaleTimeString(navigator.language, {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};

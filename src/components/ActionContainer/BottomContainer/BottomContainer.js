@@ -28,6 +28,7 @@ class BottomContainer extends Component {
           <View style={styles.innerContainer}>
             <ViewVisibleWrapper active={this.props.actionButtonActive}>
               <ActionButton
+                actionButtonDescription={this.props.actionButtonDescription}
                 actionButtonPressed={this.props.actionButtonPressed}
               />
             </ViewVisibleWrapper>
@@ -38,7 +39,9 @@ class BottomContainer extends Component {
                 data={this.props.listData}
                 renderItem={({item}) => this.props.renderListItem(item)}
                 keyExtractor={(item, index) => index.toString()}
-                ListHeaderComponent={this.renderDivider}
+                ListHeaderComponent={
+                  this.props.actionButtonActive ? this.renderDivider : <View />
+                }
                 ItemSeparatorComponent={this.renderDivider}
                 contentContainerStyle={styles.listPadding}
               />
@@ -57,6 +60,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   innerContainer: {
+    flex: 1,
     paddingTop: 12,
     paddingStart: 16,
     paddingEnd: 16,
@@ -68,8 +72,11 @@ const styles = StyleSheet.create({
     paddingEnd: 16,
     paddingBottom: 16,
   },
+  list: {
+    flex: 1,
+  },
   listPadding: {
-    paddingBottom: 92,
+    paddingBottom: 16,
   },
   bottomChild: {},
 });

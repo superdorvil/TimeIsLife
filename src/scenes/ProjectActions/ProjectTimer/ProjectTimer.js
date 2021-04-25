@@ -5,6 +5,8 @@ import {
   StartStopButton,
   ProjectClock,
   Task,
+  WeeklyGoal,
+  HoursWorked,
 } from '_components';
 import {Icons, States} from '_constants';
 
@@ -30,13 +32,28 @@ class ProjectTimer extends Component {
     }
   }
 
-  renderHoursWorked(hoursWorked) {}
+  renderHoursWorked(hoursWorkedData) {
+    return (
+      <HoursWorked
+        date={hoursWorkedData.date}
+        hoursWorkedList={hoursWorkedData.hoursWorkedList}
+      />
+    );
+  }
 
   renderTask(task) {
     return <Task description={task.description} complete={task.complete} />;
   }
 
-  renderGoal(goal) {}
+  renderGoal(goalData) {
+    return (
+      <WeeklyGoal
+        thisWeeksSecondsWorked={goalData.thisWeeksSecondsWorked}
+        thisWeeksSecondsGoal={goalData.thisWeeksSecondsGoal}
+        updateWeeklyGoal
+      />
+    );
+  }
 
   taskState() {
     console.log('hello');
@@ -88,6 +105,54 @@ class ProjectTimer extends Component {
       },
     ];
 
+    const goalData = [
+      {
+        thisWeeksSecondsWorked: 5000,
+        thisWeeksSecondsGoal: 33000,
+      },
+      {
+        thisWeeksSecondsWorked: 5000,
+        thisWeeksSecondsGoal: 33000,
+      },
+      {
+        thisWeeksSecondsWorked: 5000,
+        thisWeeksSecondsGoal: 33000,
+      },
+      {
+        thisWeeksSecondsWorked: 5000,
+        thisWeeksSecondsGoal: 33000,
+      },
+    ];
+
+    const hoursWorkedData = [
+      {
+        date: new Date('April 22, 2021 05:24'),
+        hoursWorkedList: [
+          {
+            startTime: new Date('April 22, 2021 05:24'),
+            endTime: new Date('April 22, 2021 08:57'),
+          },
+          {
+            startTime: new Date('April 23, 2021 09:24'),
+            endTime: new Date('April 23, 2021 13:57'),
+          },
+        ],
+      },
+      {
+        date: new Date(),
+        hoursWorkedList: [
+          {
+            startTime: new Date('April 24, 2021 05:24'),
+            endTime: new Date('April 24, 2021 08:57'),
+          },
+          {
+            startTime: new Date('April 25, 2021 09:24'),
+            endTime: new Date('April 25, 2021 12:57'),
+          },
+        ],
+      },
+    ];
+
     // Timer active state
     /*return (
       <View style={styles.container}>
@@ -108,6 +173,44 @@ class ProjectTimer extends Component {
         <StartStopButton />
       </View>
     );*/
+    // Task State
+    /*return (
+      <View style={styles.container}>
+        <ActionContainer
+          weeklyProgressActive={false}
+          weeklyProgressData={false}
+          actionScreenActive={true}
+          actionScreenData={actionScreenData}
+          actionNavBarActive={true}
+          actionNavBarData={actionNavBarData}
+          actionButtonActive={true}
+          actionButtonPressed={this.addPressed}
+          actionButtonDescription="Your Task"
+          listData={taskList}
+          listDataActive={true}
+          renderListItem={this.renderTask}
+        />
+      </View>
+    );*/
+
+    // Goal State
+    /*return (
+      <View style={styles.container}>
+        <ActionContainer
+          weeklyProgressActive={false}
+          weeklyProgressData={false}
+          actionScreenActive={true}
+          actionScreenData={actionScreenData}
+          actionNavBarActive={true}
+          actionNavBarData={actionNavBarData}
+          actionButtonActive={false}
+          actionButtonPressed={this.addPressed}
+          listData={goalData}
+          listDataActive={true}
+          renderListItem={this.renderGoal}
+        />
+      </View>
+    );*/
     return (
       <View style={styles.container}>
         <ActionContainer
@@ -119,10 +222,12 @@ class ProjectTimer extends Component {
           actionNavBarData={actionNavBarData}
           actionButtonActive={true}
           actionButtonPressed={this.addPressed}
-          listData={taskList}
+          actionButtonDescription="Hours Worked"
+          listData={hoursWorkedData}
           listDataActive={true}
-          renderListItem={this.renderTask}
+          renderListItem={this.renderHoursWorked}
         />
+        <StartStopButton />
       </View>
     );
   }

@@ -29,6 +29,7 @@ class ActionContainer extends Component {
           deactivateBottomContainer={this.props.deactivateBottomContainer}
           actionButtonActive={this.props.actionButtonActive}
           actionButtonPressed={this.props.actionButtonPressed}
+          actionButtonDescription={this.props.actionButtonDescription}
           listData={this.props.listData}
           listDataActive={this.props.listDataActive}
           renderListItem={this.props.renderListItem}
