@@ -1,17 +1,14 @@
 import React from 'react';
 import {TouchableOpacity, Text, View, StyleSheet} from 'react-native';
-import {HoursUtils} from '_utils';
 import {Icon} from '_components';
 import {Colors} from '_resources';
 
-const EditTimeButton = ({editDescription, time, icon}) => {
-  const timeAMPM = HoursUtils.dateToTimeAMPM({date: time});
-
+const EditTimeButton = ({editDescription, time, icon, editPressed}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.editDescription}>{editDescription}</Text>
       <TouchableOpacity style={styles.buttonContainer}>
-        <Text style={styles.time}>{timeAMPM}</Text>
+        <Text style={styles.time}>{time}</Text>
         <View style={styles.clockContainer}>
           <Icon name={icon} size={24} style={styles.clock} />
         </View>
@@ -21,9 +18,7 @@ const EditTimeButton = ({editDescription, time, icon}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {},
   buttonContainer: {
     borderWidth: 1,
     borderRadius: 8,

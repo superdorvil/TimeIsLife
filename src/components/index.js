@@ -15,6 +15,7 @@ export ProjectClock from './ProjectClock';
 export ProjectInput from './ProjectInput';
 export SettingsItem from './SettingsItem';
 export StartStopButton from './StartStopButton';
+export StartEndTimeButtons from './StartEndTimeButtons';
 export TabBar from './TabBar';
 export Task from './Task';
 export ViewVisibleWrapper from './ViewVisibleWrapper';
