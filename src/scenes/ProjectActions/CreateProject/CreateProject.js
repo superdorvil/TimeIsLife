@@ -23,21 +23,18 @@ class CreateProject extends Component {
           actionScreenData={actionScreenData}
           actionNavBarActive={false}
           actionNavBarData={false}
-          topChildActive={true}
-          topChild={
-            <ProjectInput
-              header="Project Name"
-              //value={false}
-              //onChangeText={false}
-              placeholder="enter project name ..."
-            />
-          }
           actionButtonActive={false}
           actionButtonPressed={false}
           listDataActive={false}
           listData={false}
-          renderListItem={false}
-        />
+          renderListItem={false}>
+          <ProjectInput
+            header="Project Name"
+            //value={false}
+            //onChangeText={false}
+            placeholder="enter project name ..."
+          />
+        </ActionContainer>
         <View style={styles.button}>
           <Button description="+ Add Project" buttonPressed={false} />
         </View>

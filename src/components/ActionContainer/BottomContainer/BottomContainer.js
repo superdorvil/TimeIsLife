@@ -14,41 +14,37 @@ class BottomContainer extends Component {
     return (
       <View style={styles.container}>
         <ActionNavBar
-          actionNavBarActive={this.props.navBarActive}
-          taskNavButtonActive={this.props.taskNavButtonActive}
+          actionNavBarActive={this.props.actionNavBarActive}
+          taskNavButtonSelected={this.props.taskNavButtonSelected}
           taskNavButtonPressed={this.props.taskNavButtonPressed}
-          timerNavButtonActive={this.props.timerNavButtonActive}
+          timerNavButtonSelected={this.props.timerNavButtonSelected}
           timerNavButtonPressed={this.props.timerNavButtonPressed}
-          goalsNavButtonActive={this.props.goalsNavButtonActive}
+          goalsNavButtonSelected={this.props.goalsNavButtonSelected}
           goalsNavButtonPressed={this.props.goalsNavButtonPressed}
         />
-        <View style={styles.innerContainer}>
-          <ViewVisibleWrapper active={this.props.topChildActive}>
-            {this.props.topChild}
-          </ViewVisibleWrapper>
-          <ViewVisibleWrapper active={this.props.actionButtonActive}>
-            <ActionButton
-              actionButtonPressed={this.props.actionButtonPressed}
-            />
-          </ViewVisibleWrapper>
-          <ViewVisibleWrapper
-            active={this.props.listDataActive}
-            style={styles.list}>
-            <FlatList
-              data={this.props.listData}
-              renderItem={({item}) => this.props.renderListItem(item)}
-              keyExtractor={(item, index) => index.toString()}
-              ListHeaderComponent={this.renderDivider}
-              ItemSeparatorComponent={this.renderDivider}
-              contentContainerStyle={styles.listPadding}
-            />
-          </ViewVisibleWrapper>
-          <ViewVisibleWrapper
-            style={styles.bottomChild}
-            active={this.props.bottomChildActive}>
-            {this.props.bottomChild}
-          </ViewVisibleWrapper>
-        </View>
+        {this.props.children ? (
+          <View style={styles.childrenContainer}>{this.props.children}</View>
+        ) : (
+          <View style={styles.innerContainer}>
+            <ViewVisibleWrapper active={this.props.actionButtonActive}>
+              <ActionButton
+                actionButtonPressed={this.props.actionButtonPressed}
+              />
+            </ViewVisibleWrapper>
+            <ViewVisibleWrapper
+              active={this.props.listDataActive}
+              style={styles.list}>
+              <FlatList
+                data={this.props.listData}
+                renderItem={({item}) => this.props.renderListItem(item)}
+                keyExtractor={(item, index) => index.toString()}
+                ListHeaderComponent={this.renderDivider}
+                ItemSeparatorComponent={this.renderDivider}
+                contentContainerStyle={styles.listPadding}
+              />
+            </ViewVisibleWrapper>
+          </View>
+        )}
       </View>
     );
   }
@@ -62,6 +58,12 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     paddingTop: 12,
+    paddingStart: 16,
+    paddingEnd: 16,
+    paddingBottom: 16,
+  },
+  childrenContainer: {
+    flex: 1,
     paddingStart: 16,
     paddingEnd: 16,
     paddingBottom: 16,

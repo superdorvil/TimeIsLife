@@ -3,15 +3,15 @@ import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {ViewVisibleWrapper} from '_components';
 import {Colors} from '_resources';
 
-const ActionNavBarButton = ({active, description, navButtonPressed}) => {
+const ActionNavBarButton = ({selected, description, navButtonPressed}) => {
   return (
     <TouchableOpacity
       navButtonPressed={navButtonPressed}
       style={styles.container}>
-      <Text style={active ? styles.activeDescription : styles.description}>
+      <Text style={selected ? styles.activeDescription : styles.description}>
         {description}
       </Text>
-      <ViewVisibleWrapper active={active} style={styles.highlight} />
+      <ViewVisibleWrapper active={selected} style={styles.highlight} />
     </TouchableOpacity>
   );
 };
@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   description: {
-    fontSize: 20,
+    fontSize: 16,
     color: Colors.tertiary,
   },
   activeDescription: {
-    fontSize: 20,
+    fontSize: 16,
     color: Colors.primary,
     fontWeight: 'bold',
   },

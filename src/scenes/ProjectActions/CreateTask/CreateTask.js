@@ -24,21 +24,18 @@ class CreateTask extends Component {
           actionScreenData={actionScreenData}
           actionNavBarActive={false}
           actionNavBarData={false}
-          topChildActive={true}
-          topChild={
-            <ProjectInput
-              header="Task Name"
-              //value={false}
-              //onChangeText={false}
-              placeholder="enter task name ..."
-            />
-          }
           actionButtonActive={false}
           actionButtonPressed={false}
           listDataActive={false}
           listData={false}
-          renderListItem={false}
-        />
+          renderListItem={false}>
+          <ProjectInput
+            header="Task Name"
+            //value={false}
+            //onChangeText={false}
+            placeholder="enter task name ..."
+          />
+        </ActionContainer>
         <View style={styles.button}>
           <Button description="+ Add Task" buttonPressed={false} />
         </View>

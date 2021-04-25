@@ -4,14 +4,14 @@ import {ActionContainer} from '_components';
 import {Button, ProjectInput} from '_components';
 import {Icons} from '_constants';
 
-class EditProject extends Component {
+class AddProjectHours extends Component {
   render() {
     const actionScreenData = {
       backArrowActive: true,
       editButtonActive: false,
-      deleteButtonActive: true,
+      topRightButtonActive: false,
       centerIconName: Icons.checkmark,
-      actionDescription: 'Edit Project',
+      actionDescription: 'Create New Task',
       subDescription: 'Time is Life',
     };
 
@@ -24,20 +24,23 @@ class EditProject extends Component {
           actionScreenData={actionScreenData}
           actionNavBarActive={false}
           actionNavBarData={false}
+          topChildActive={true}
+          topChild={
+            <ProjectInput
+              header="Task Name"
+              //value={false}
+              //onChangeText={false}
+              placeholder="enter task name ..."
+            />
+          }
           actionButtonActive={false}
           actionButtonPressed={false}
           listDataActive={false}
           listData={false}
-          renderListItem={false}>
-          <ProjectInput
-            header="Project Name"
-            //value={false}
-            //onChangeText={false}
-            placeholder="enter project name ..."
-          />
-        </ActionContainer>
+          renderListItem={false}
+        />
         <View style={styles.button}>
-          <Button description="Edit Project" buttonPressed={false} />
+          <Button description="+ Add Task" buttonPressed={false} />
         </View>
       </View>
     );
@@ -55,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditProject;
+export default AddProjectHours;

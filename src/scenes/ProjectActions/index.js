@@ -1,7 +1,7 @@
 import CreateProject from './CreateProject';
 import CreateTask from './CreateTask';
 import EditProject from './EditProject';
-import ManageProjectHours from './ManageProjectHours';
+import AddProjectHours from './AddProjectHours';
 import ManageSettings from './ManageSettings';
 import ManageWeeklyGoals from './ManageWeeklyGoals';
 import ProjectList from './ProjectList';
@@ -12,7 +12,7 @@ export {
   CreateProject,
   CreateTask,
   EditProject,
-  ManageProjectHours,
+  AddProjectHours,
   ManageSettings,
   ManageWeeklyGoals,
   ProjectList,

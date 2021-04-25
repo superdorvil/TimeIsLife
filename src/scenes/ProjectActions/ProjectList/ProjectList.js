@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {ActionContainer} from '_components';
 import {Project} from '_components';
+import {Icons} from '_constants';
 
 class ProjectList extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class ProjectList extends Component {
   renderProject(projectData) {
     return (
       <Project
-        projectPressed={false}
+        projectPressed={() => Actions.projectTimer()}
         description={projectData.description}
         secondsTotal={projectData.secondsTotal}
         thisWeeksSecondsWorked={projectData.thisWeeksSecondsWorked}
@@ -48,8 +49,8 @@ class ProjectList extends Component {
       backArrowActive: true,
       editButtonActive: true,
       topRightButtonActive: true,
-      centerIconName: 'Time Is Life',
-      actionDescription: '',
+      centerIconName: Icons.checkmark,
+      actionDescription: 'Time is Life',
       subDescription: '',
       subDescription2: '',
     };

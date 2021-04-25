@@ -26,33 +26,33 @@ class ActionContainer extends Component {
           deleteButtonActive={this.props.actionScreenData.deleteButtonActive}
         />
         <BottomContainer
-          topChildActive={this.props.topChildActive}
-          topChild={this.props.topChild}
-          bottomChildActive={this.props.bottomChildActive}
-          bottomChild={this.props.bottomChild}
+          deactivateBottomContainer={this.props.deactivateBottomContainer}
           actionButtonActive={this.props.actionButtonActive}
           actionButtonPressed={this.props.actionButtonPressed}
           listData={this.props.listData}
           listDataActive={this.props.listDataActive}
           renderListItem={this.props.renderListItem}
           actionNavBarActive={this.props.actionNavBarActive}
-          taskNavButtonActive={this.props.actionNavBarData.taskNavButtonActive}
+          taskNavButtonSelected={
+            this.props.actionNavBarData.taskNavButtonSelected
+          }
           taskNavButtonPressed={
             this.props.actionNavBarData.taskNavButtonPressed
           }
-          timerNavButtonActive={
-            this.props.actionNavBarData.timerNavButtonActive
+          timerNavButtonSelected={
+            this.props.actionNavBarData.timerNavButtonSelected
           }
           timerNavButtonPressed={
             this.props.actionNavBarData.timerNavButtonPressed
           }
-          goalsNavButtonActive={
-            this.props.actionNavBarData.goalsNavButtonActive
+          goalsNavButtonSelected={
+            this.props.actionNavBarData.goalsNavButtonSelected
           }
           goalsNavButtonPressed={
             this.props.actionNavBarData.goalsNavButtonPressed
-          }
-        />
+          }>
+          {this.props.children}
+        </BottomContainer>
       </View>
     );
   }

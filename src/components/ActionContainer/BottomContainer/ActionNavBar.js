@@ -6,33 +6,35 @@ import ActionNavBarButton from './ActionNavBarButton';
 
 const ActionNavBar = ({
   actionNavBarActive,
-  taskNavButtonActive,
+  taskNavButtonSelected,
   taskNavButtonPressed,
-  timerNavButtonActive,
+  timerNavButtonSelected,
   timerNavButtonPressed,
-  goalsNavButtonActive,
+  goalsNavButtonSelected,
   goalsNavButtonPressed,
 }) => {
   return (
     <View style={styles.container}>
       <ViewVisibleWrapper active={actionNavBarActive} style={styles.navBar}>
         <ActionNavBarButton
-          active={taskNavButtonActive}
+          selected={taskNavButtonSelected}
           description="Task"
           actionNavButtonPressed={taskNavButtonPressed}
         />
         <ActionNavBarButton
-          active={timerNavButtonActive}
+          selected={timerNavButtonSelected}
           description="Timer"
           actionNavButtonPressed={taskNavButtonPressed}
         />
         <ActionNavBarButton
-          active={goalsNavButtonActive}
+          selected={goalsNavButtonSelected}
           description="Goals"
           actionNavButtonPressed={goalsNavButtonPressed}
         />
       </ViewVisibleWrapper>
-      <View style={styles.divider} />
+      <View
+        style={actionNavBarActive ? styles.navBarDivider : styles.divider}
+      />
     </View>
   );
 };
@@ -45,8 +47,15 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 16,
   },
+  navBarDivider: {
+    borderColor: Colors.primary,
+    borderTopWidth: 1,
+    marginTop: 0,
+    marginBottom: 16,
+  },
   navBar: {
     flexDirection: 'row',
+    paddingTop: 16,
   },
   selectedText: {
     fontSize: 16,

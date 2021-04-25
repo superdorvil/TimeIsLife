@@ -6,7 +6,7 @@ import {
   CreateProject,
   CreateTask,
   EditProject,
-  ManageProjectHours,
+  AddProjectHours,
   ManageSettings,
   ManageWeeklyGoals,
   ProjectList,
@@ -47,13 +47,6 @@ const RouterComponent = () => (
         component={EditProject}
         title="EditProject"
         hideNavBar
-        initial
-      />
-      <Scene
-        key="manageProjectHours"
-        component={ManageProjectHours}
-        title="ManageProjectHours"
-        hideNavBar
       />
       <Scene
         key="manageSettings"
@@ -83,6 +76,12 @@ const RouterComponent = () => (
         key="viewProjectCharts"
         component={ViewProjectCharts}
         title="ViewProjectCharts"
+        hideNavBar
+      />
+      <Scene
+        key="addProjectHours"
+        component={AddProjectHours}
+        title="addProjectHours"
         hideNavBar
       />
     </Scene>
