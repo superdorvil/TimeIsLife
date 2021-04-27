@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {ActionContainer} from '_components';
 import {WeeklyGoal} from '_components';
 import {Icons} from '_constants';
+import {Colors} from '_resources';
 
 class ManageWeeklyGoals extends Component {
   renderGoal(goalData) {
@@ -86,6 +87,8 @@ class ManageWeeklyGoals extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 48,
+    backgroundColor: Colors.secondary,
   },
 });
 

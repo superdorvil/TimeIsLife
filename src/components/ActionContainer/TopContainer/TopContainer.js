@@ -10,6 +10,7 @@ const TopContainer = ({
   secondsWorked,
   weekdaySeconds,
   backArrowActive,
+  backArrowPressed,
   actionScreenActive,
   centerIconName,
   actionDescription,
@@ -17,6 +18,7 @@ const TopContainer = ({
   subDescription2,
   editButtonActive,
   deleteButtonActive,
+  topRightButtonPressed,
 }) => {
   return (
     <View style={styles.container}>
@@ -31,12 +33,14 @@ const TopContainer = ({
       <ViewVisibleWrapper active={actionScreenActive}>
         <ActionScreen
           backArrowActive={backArrowActive}
+          backArrowPressed={backArrowPressed}
           centerIconName={centerIconName}
           actionDescription={actionDescription}
           subDescription={subDescription}
           subDescription2={subDescription2}
           editButtonActive={editButtonActive}
           deleteButtonActive={deleteButtonActive}
+          topRightButtonPressed={topRightButtonPressed}
         />
       </ViewVisibleWrapper>
     </View>

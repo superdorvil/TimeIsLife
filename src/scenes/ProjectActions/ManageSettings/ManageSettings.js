@@ -15,6 +15,8 @@ class ManageSettings extends Component {
             <Icon name={Icons.settings} size={32} style={styles.settings} />
           </View>
         </View>
+        <SettingsItem description="SubTask Mode" settingsPressed />
+        <SettingsItem description="Color Scheme" settingsPressed />
         <SettingsItem description="Notifications" settingsPressed />
         <SettingsItem description="About" settingsPressed />
         <SettingsItem description="Help / Tutorial" settingsPressed />
@@ -30,6 +32,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.secondary,
+    borderBottomWidth: 1,
+    borderColor: Colors.primary,
   },
   settings: {
     color: Colors.primary,

@@ -23,7 +23,7 @@ class ViewProjectCharts extends Component {
         />
         <HoursChart
           labels={['1st', '5th', '10th', '15th', '20th', '25th']}
-          hours={[35, 25, 16, 18, 45, 35, 25, 16, 18, 45, 35, 25, 16, 18, 45, 35, 25, 16, 18, 45, 35, 25, 16, 18, 45, 35, 25, 16, 18, 45, 19]}
+          hours={[35, 25, 16, 18, 15, 43, 32, 37, 8, 19, 28, 20, 12]}
           dataWidth={5}
           yAxisSuffix=" hrs"
         />

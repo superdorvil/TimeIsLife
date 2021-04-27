@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import {
   ActionContainer,
   StartStopButton,
@@ -16,20 +17,31 @@ class ProjectTimer extends Component {
 
     this.state = {
       mode: States.timer,
+      timerActive: false,
     };
 
     this.addPressed = this.addPressed.bind(this);
+    this.editProject = this.editProject.bind(this);
     this.taskState = this.taskState.bind(this);
     this.timerState = this.timerState.bind(this);
     this.goalsState = this.goalsState.bind(this);
+    this.timerPressed = this.timerPressed.bind(this);
   }
 
   addPressed() {
     if (this.state.mode === States.task) {
-      console.log('add task');
-    } else if (this.state.mode === States.goals) {
-      console.log('add goals');
+      Actions.createTask();
+    } else if (this.state.mode === States.timer) {
+      Actions.addProjectHours();
     }
+  }
+
+  timerPressed() {
+    this.setState({timerActive: !this.state.timerActive});
+  }
+
+  editProject() {
+    Actions.editProject();
   }
 
   renderHoursWorked(hoursWorkedData) {
@@ -56,7 +68,6 @@ class ProjectTimer extends Component {
   }
 
   taskState() {
-    console.log('hello');
     this.setState({mode: States.task});
   }
 
@@ -72,9 +83,9 @@ class ProjectTimer extends Component {
     const actionScreenData = {
       backArrowActive: true,
       editButtonActive: true,
+      topRightButtonPressed: this.editProject,
       centerIconName: Icons.clock,
       actionDescription: 'Time Is Life',
-      subDescription: 'Project Timer',
     };
 
     const actionNavBarData = {
@@ -153,83 +164,90 @@ class ProjectTimer extends Component {
       },
     ];
 
-    // Timer active state
-    /*return (
-      <View style={styles.container}>
-        <ActionContainer
-          weeklyProgressActive={false}
-          weeklyProgressData={false}
-          actionScreenActive={true}
-          actionScreenData={actionScreenData}
-          actionNavBarActive={true}
-          actionNavBarData={actionNavBarData}
-          actionButtonActive={false}
-          actionButtonPressed={this.addPressed}
-          listData={false}
-          listDataActive={false}
-          renderListItem={false}>
-          <ProjectClock />
-        </ActionContainer>
-        <StartStopButton />
-      </View>
-    );*/
-    // Task State
-    /*return (
-      <View style={styles.container}>
-        <ActionContainer
-          weeklyProgressActive={false}
-          weeklyProgressData={false}
-          actionScreenActive={true}
-          actionScreenData={actionScreenData}
-          actionNavBarActive={true}
-          actionNavBarData={actionNavBarData}
-          actionButtonActive={true}
-          actionButtonPressed={this.addPressed}
-          actionButtonDescription="Your Task"
-          listData={taskList}
-          listDataActive={true}
-          renderListItem={this.renderTask}
-        />
-      </View>
-    );*/
+    if (this.state.mode === States.task) {
+      return (
+        <View style={styles.container}>
+          <ActionContainer
+            weeklyProgressActive={false}
+            weeklyProgressData={false}
+            actionScreenActive={true}
+            actionScreenData={actionScreenData}
+            actionNavBarActive={true}
+            actionNavBarData={actionNavBarData}
+            actionButtonActive={true}
+            actionButtonPressed={this.addPressed}
+            actionButtonDescription="Your Task"
+            listData={taskList}
+            listDataActive={true}
+            renderListItem={this.renderTask}
+          />
+        </View>
+      );
+    }
 
-    // Goal State
-    /*return (
-      <View style={styles.container}>
-        <ActionContainer
-          weeklyProgressActive={false}
-          weeklyProgressData={false}
-          actionScreenActive={true}
-          actionScreenData={actionScreenData}
-          actionNavBarActive={true}
-          actionNavBarData={actionNavBarData}
-          actionButtonActive={false}
-          actionButtonPressed={this.addPressed}
-          listData={goalData}
-          listDataActive={true}
-          renderListItem={this.renderGoal}
-        />
-      </View>
-    );*/
-    return (
-      <View style={styles.container}>
-        <ActionContainer
-          weeklyProgressActive={false}
-          weeklyProgressData={false}
-          actionScreenActive={true}
-          actionScreenData={actionScreenData}
-          actionNavBarActive={true}
-          actionNavBarData={actionNavBarData}
-          actionButtonActive={true}
-          actionButtonPressed={this.addPressed}
-          actionButtonDescription="Hours Worked"
-          listData={hoursWorkedData}
-          listDataActive={true}
-          renderListItem={this.renderHoursWorked}
-        />
-        <StartStopButton />
-      </View>
-    );
+    if (this.state.mode === States.timer) {
+      if (this.state.timerActive) {
+        return (
+          <View style={styles.container}>
+            <ActionContainer
+              weeklyProgressActive={false}
+              weeklyProgressData={false}
+              actionScreenActive={true}
+              actionScreenData={actionScreenData}
+              actionNavBarActive={true}
+              actionNavBarData={actionNavBarData}
+              actionButtonActive={false}
+              actionButtonPressed={this.addPressed}
+              listData={false}
+              listDataActive={false}
+              renderListItem={false}>
+              <ProjectClock />
+            </ActionContainer>
+            <StartStopButton timerPressed={this.timerPressed} />
+          </View>
+        );
+      } else if (!this.state.timerActive) {
+        return (
+          <View style={styles.container}>
+            <ActionContainer
+              weeklyProgressActive={false}
+              weeklyProgressData={false}
+              actionScreenActive={true}
+              actionScreenData={actionScreenData}
+              actionNavBarActive={true}
+              actionNavBarData={actionNavBarData}
+              actionButtonActive={true}
+              actionButtonPressed={this.addPressed}
+              actionButtonDescription="Hours Worked"
+              listData={hoursWorkedData}
+              listDataActive={true}
+              renderListItem={this.renderHoursWorked}
+            />
+            <StartStopButton timerPressed={this.timerPressed} />
+          </View>
+        );
+      }
+    }
+
+    if (this.state.mode === States.goals) {
+      return (
+        <View style={styles.container}>
+          <ActionContainer
+            weeklyProgressActive={false}
+            weeklyProgressData={false}
+            actionScreenActive={true}
+            actionScreenData={actionScreenData}
+            actionNavBarActive={true}
+            actionNavBarData={actionNavBarData}
+            actionButtonActive={false}
+            actionButtonPressed={this.addPressed}
+            listData={goalData}
+            listDataActive={true}
+            renderListItem={this.renderGoal}
+          />
+        </View>
+      );
+    }
   }
 }
 

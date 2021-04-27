@@ -10,7 +10,7 @@ const EditTimeButton = ({editDescription, time, icon, editPressed}) => {
       <TouchableOpacity style={styles.buttonContainer}>
         <Text style={styles.time}>{time}</Text>
         <View style={styles.clockContainer}>
-          <Icon name={icon} size={24} style={styles.clock} />
+          <Icon name={icon} size={20} style={styles.clock} />
         </View>
       </TouchableOpacity>
     </View>
@@ -24,15 +24,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: Colors.primary,
     flexDirection: 'row',
-    padding: 16,
+    padding: 12,
   },
   time: {
-    fontSize: 16,
+    fontSize: 12,
     color: Colors.tertiary,
     fontWeight: 'bold',
   },
   editDescription: {
-    fontSize: 16,
+    fontSize: 12,
     color: Colors.tertiary,
     fontWeight: 'bold',
     marginBottom: 8,

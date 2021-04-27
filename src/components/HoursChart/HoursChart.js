@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, ScrollView, StyleSheet, Dimensions} from 'react-native';
 import {Colors} from '_resources';
 import {LineChart} from 'react-native-chart-kit';
 
@@ -28,15 +28,16 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
           yAxisSuffix={yAxisSuffix}
           yAxisInterval={1} // optional, defaults to 1
           chartConfig={{
-            backgroundColor: Colors.secondary,
             backgroundGradientFrom: Colors.secondary,
-            backgroundGradientTo: Colors.secondary,
+            backgroundGradientTo: Colors.primary,
+            backgroundGradientFromOpacity: 0,
+            backgroundGradientToOpacity: 0.5,
+            fillShadowGradient: Colors.tertiary,
+            fillShadowGradientOpacity: 0.5,
             decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16,
-            },
+            color: (opacity = 1) => Colors.secondary, // `rgba(0, 0, 0, ${opacity})`,
+            labelColor: (opacity = 1) => Colors.tertiary, //`rgba(0, 0, 0, ${opacity})`,
+            strokeWidth: 2,
             propsForDots: {
               r: '6',
               strokeWidth: '2',

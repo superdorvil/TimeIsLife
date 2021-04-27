@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   outerContainer: {
     marginTop: 8,
-    marginBottom: 8,
+    marginBottom: 0,
     paddingStart: 16,
     paddingEnd: 16,
     paddingTop: 8,

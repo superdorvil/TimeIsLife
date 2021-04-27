@@ -45,13 +45,10 @@ const styles = StyleSheet.create({
     borderColor: Colors.primary,
     borderTopWidth: 1,
     marginTop: 16,
-    marginBottom: 16,
   },
   navBarDivider: {
     borderColor: Colors.primary,
     borderTopWidth: 1,
-    marginTop: 0,
-    marginBottom: 16,
   },
   navBar: {
     flexDirection: 'row',

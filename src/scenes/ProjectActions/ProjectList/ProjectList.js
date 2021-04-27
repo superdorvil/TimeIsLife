@@ -130,6 +130,7 @@ class ProjectList extends Component {
           bottomChild={false}
           actionButtonActive={true}
           actionButtonPressed={this.createProject}
+          actionButtonDescription="Your Projects"
           listData={projectData}
           listDataActive={true}
           renderListItem={this.renderProject}

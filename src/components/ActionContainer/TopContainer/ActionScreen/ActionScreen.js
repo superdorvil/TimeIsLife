@@ -15,16 +15,13 @@ const ActionScreen = ({
   subDescription2,
   editButtonActive,
   deleteButtonActive,
-  topRightPressed,
+  topRightButtonPressed,
 }) => {
   return (
     <View style={styles.container}>
-      <TopRightButton
-        editButtonActive={editButtonActive}
-        deleteButtonActive={deleteButtonActive}
-        topRightPressed={topRightPressed}
-      />
-      <ViewVisibleWrapper active={backArrowActive}>
+      <ViewVisibleWrapper
+        active={backArrowActive}
+        style={styles.backArrowContainer}>
         <BackArrow backArrowPressed={backArrowPressed} />
       </ViewVisibleWrapper>
       <CenterIcon centerIconName={centerIconName} />
@@ -35,6 +32,11 @@ const ActionScreen = ({
         <Text style={styles.subDescription}>{subDescription}</Text>
         <Text style={styles.subDescription2}>{subDescription2}</Text>
       </ViewVisibleWrapper>
+      <TopRightButton
+        editButtonActive={editButtonActive}
+        deleteButtonActive={deleteButtonActive}
+        topRightButtonPressed={topRightButtonPressed}
+      />
     </View>
   );
 };
@@ -59,6 +61,9 @@ const styles = StyleSheet.create({
   subDescriptionContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
+  },
+  backArrowContainer: {
+    alignSelf: 'baseline',
   },
 });
 

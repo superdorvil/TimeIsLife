@@ -20,8 +20,8 @@ const HoursStat = ({statistic, hours}) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    marginStart: 16,
-    marginEnd: 16,
+    marginStart: 32,
+    marginEnd: 32,
     alignItems: 'center',
   },
   statistic: {

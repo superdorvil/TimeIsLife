@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   sliderContainer: {
     borderRadius: 15,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: Colors.primary,
     backgroundColor: Colors.tertiary,
     flex: 1,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: Colors.primary,
   },
   percent: {

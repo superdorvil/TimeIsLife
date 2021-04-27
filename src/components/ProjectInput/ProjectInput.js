@@ -15,6 +15,7 @@ const ProjectInput = ({header, value, onChangeText, placeholder}) => {
           autoCorrect={false}
           onChangeText={onChangeText}
           placeholder={placeholder}
+          placeholderTextColor={Colors.primary}
         />
       </View>
     </View>
@@ -22,7 +23,9 @@ const ProjectInput = ({header, value, onChangeText, placeholder}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginTop: 16,
+  },
   header: {
     fontSize: 16,
     marginStart: 16,
@@ -30,9 +33,9 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     borderWidth: 1,
-    borderColor: Colors.tertiary,
+    borderColor: Colors.primary,
     borderRadius: 12,
-    backgroundColor: Colors.textbox,
+    backgroundColor: Colors.secondary,
     marginTop: 16,
   },
   textInput: {
@@ -42,8 +45,8 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     marginBottom: 16,
     borderBottomColor: Colors.tertiary,
-    borderBottomWidth: 2,
-    color: Colors.primary,
+    borderBottomWidth: 1,
+    color: Colors.tertiary,
   },
 });
 

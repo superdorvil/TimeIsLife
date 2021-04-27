@@ -1,11 +1,22 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import {Colors} from '_resources';
 import TopContainer from './TopContainer';
 import BottomContainer from './BottomContainer';
 
 class ActionContainer extends Component {
-  backArrowPressed() {}
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+
+    this.backArrowPressed = this.backArrowPressed.bind(this);
+  }
+
+  backArrowPressed() {
+    Actions.pop();
+  }
 
   render() {
     return (
@@ -24,6 +35,9 @@ class ActionContainer extends Component {
           subDescription2={this.props.actionScreenData.subDescription2}
           editButtonActive={this.props.actionScreenData.editButtonActive}
           deleteButtonActive={this.props.actionScreenData.deleteButtonActive}
+          topRightButtonPressed={
+            this.props.actionScreenData.topRightButtonPressed
+          }
         />
         <BottomContainer
           deactivateBottomContainer={this.props.deactivateBottomContainer}

@@ -25,7 +25,9 @@ const WeeklyProgress = ({
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginTop: 16,
+  },
   timeIsLifeText: {
     fontSize: 30,
     color: Colors.tertiary,

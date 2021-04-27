@@ -39,7 +39,7 @@ class AddProjectHours extends Component {
           listDataActive={false}
           listData={false}
           renderListItem={false}>
-          <View style={styles.container}>
+          <View style={styles.innerContainer}>
             <EditTimeButton
               editDescription="Select Date"
               time={DateUtils.convertDateToString({
@@ -49,6 +49,7 @@ class AddProjectHours extends Component {
               icon={Icons.calendar}
               editPressed
             />
+            <View style={styles.spacing} />
             <StartEndTimeButtons
               startTime={this.state.startTime}
               endTime={this.state.endTime}
@@ -69,6 +70,13 @@ class AddProjectHours extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  innerContainer: {
+    flex: 1,
+    marginTop: 16,
+  },
+  spacing: {
+    padding: 8,
   },
   button: {
     position: 'absolute',

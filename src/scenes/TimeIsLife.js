@@ -5,6 +5,7 @@ import {ViewVisibleWrapper} from '_components';
 // import {SettingsSchema} from '_schemas';
 // import projectDB from '_data';
 
+// import this instead?
 // const Realm = require('realm');
 
 class TimeIsLife extends Component {

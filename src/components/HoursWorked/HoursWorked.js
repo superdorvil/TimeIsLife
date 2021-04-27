@@ -33,12 +33,14 @@ const HoursWorked = ({date, hoursWorkedList}) => {
 
   hoursWorkedList.forEach((hoursWorked, i) => {
     startEndTimeButtons.push(
-      <StartEndTimeButtons
-        startTime={hoursWorked.startTime}
-        endTime={hoursWorked.endTime}
-        startPressed
-        endPressed
-      />,
+      <View style={styles.startEndTimeButtonsContainer} key={i}>
+        <StartEndTimeButtons
+          startTime={hoursWorked.startTime}
+          endTime={hoursWorked.endTime}
+          startPressed
+          endPressed
+        />
+      </View>,
     );
   });
 
@@ -75,6 +77,9 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     flex: 1,
     textAlign: 'right',
+  },
+  startEndTimeButtonsContainer: {
+    marginBottom: 8,
   },
 });
 

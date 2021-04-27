@@ -83,7 +83,6 @@ const RouterComponent = () => (
         component={AddProjectHours}
         title="addProjectHours"
         hideNavBar
-        initial
       />
     </Scene>
   </Router>

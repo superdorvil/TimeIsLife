@@ -14,7 +14,7 @@ const centerIcon = ({centerIconName}) => {
   } else {
     return (
       <View style={styles.centerContainer}>
-        <Icon size={80} name={centerIconName} style={styles.centerIcon} />
+        <Icon size={70} name={centerIconName} style={styles.centerIcon} />
       </View>
     );
   }

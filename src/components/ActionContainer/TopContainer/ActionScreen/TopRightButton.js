@@ -6,7 +6,7 @@ import {Colors} from '_resources';
 const TopRightButton = ({
   editButtonActive,
   deleteButtonActive,
-  topRightPressed,
+  topRightButtonPressed,
 }) => {
   let topRightStyle;
   let topRightText;
@@ -21,7 +21,7 @@ const TopRightButton = ({
     <ViewVisibleWrapper
       active={editButtonActive || deleteButtonActive}
       style={styles.container}
-      onPress={topRightPressed}>
+      onPress={topRightButtonPressed}>
       <Text style={topRightStyle}>{topRightText}</Text>
     </ViewVisibleWrapper>
   );

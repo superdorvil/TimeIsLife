@@ -13,13 +13,13 @@ const ChartDateInfoSelector = ({
     <View style={styles.container}>
       <TouchableOpacity
         onPress={leftArrowPressed}
-        style={styles.arrowContainer}>
+        style={styles.arrowLeftContainer}>
         <Icon name={Icons.leftArrow} size={35} style={styles.arrow} />
       </TouchableOpacity>
       <Text style={styles.dateInfo}>{dateInfo}</Text>
       <TouchableOpacity
         onPress={rightArrowPressed}
-        style={styles.arrowContainer}>
+        style={styles.arrowRightContainer}>
         <Icon name={Icons.rightArrow} size={35} style={styles.arrow} />
       </TouchableOpacity>
     </View>
@@ -35,12 +35,20 @@ const styles = StyleSheet.create({
   arrow: {
     color: Colors.primary,
   },
-  arrowContainer: {
+  arrowLeftContainer: {
     paddingStart: 16,
     paddingEnd: 16,
     paddingTop: 4,
     paddingBottom: 4,
-    borderWidth: 1,
+    borderEndWidth: 1,
+    borderColor: Colors.primary,
+  },
+  arrowRightContainer: {
+    paddingStart: 16,
+    paddingEnd: 16,
+    paddingTop: 4,
+    paddingBottom: 4,
+    borderStartWidth: 1,
     borderColor: Colors.primary,
   },
   dateInfo: {
