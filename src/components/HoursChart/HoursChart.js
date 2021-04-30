@@ -28,9 +28,9 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
           yAxisSuffix={yAxisSuffix}
           yAxisInterval={1} // optional, defaults to 1
           chartConfig={{
-            backgroundGradientFrom: Colors.secondary,
+            backgroundGradientFrom: Colors.primary,
             backgroundGradientTo: Colors.primary,
-            backgroundGradientFromOpacity: 0,
+            backgroundGradientFromOpacity: 0.5,
             backgroundGradientToOpacity: 0.5,
             fillShadowGradient: Colors.tertiary,
             fillShadowGradientOpacity: 0.5,
