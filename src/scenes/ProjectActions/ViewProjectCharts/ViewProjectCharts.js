@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import {
   ChartNavBar,
   HoursChart,
-  ChartDateInfoSelector,
+  ProjectChartsDataPicker,
   HoursStatistics,
 } from '_components';
 import {Colors} from '_resources';
@@ -27,7 +27,7 @@ class ViewProjectCharts extends Component {
           dataWidth={5}
           yAxisSuffix=" hrs"
         />
-        <ChartDateInfoSelector
+        <ProjectChartsDataPicker
           dateInfo="January 2020"
           leftArrowPressed
           rightArrowPressed

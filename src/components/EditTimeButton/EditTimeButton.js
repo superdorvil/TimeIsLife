@@ -7,7 +7,7 @@ const EditTimeButton = ({editDescription, time, icon, editPressed}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.editDescription}>{editDescription}</Text>
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={editPressed}>
         <Text style={styles.time}>{time}</Text>
         <View style={styles.clockContainer}>
           <Icon name={icon} size={20} style={styles.clock} />

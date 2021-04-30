@@ -4,7 +4,7 @@ import {Icon} from '_components';
 import {Icons} from '_constants';
 import {Colors} from '_resources';
 
-const ChartDateInfoSelector = ({
+const ProjectChartsDataPicker = ({
   dateInfo,
   leftArrowPressed,
   rightArrowPressed,
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChartDateInfoSelector;
+export default ProjectChartsDataPicker;
