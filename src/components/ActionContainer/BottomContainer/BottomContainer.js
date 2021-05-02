@@ -37,7 +37,9 @@ class BottomContainer extends Component {
               style={styles.list}>
               <FlatList
                 data={this.props.listData}
-                renderItem={({item}) => this.props.renderListItem(item)}
+                renderItem={({item}) =>
+                  this.props.renderListItem(item, this.props.extraData)
+                }
                 keyExtractor={(item, index) => index.toString()}
                 ListHeaderComponent={
                   this.props.actionButtonActive ? this.renderDivider : <View />

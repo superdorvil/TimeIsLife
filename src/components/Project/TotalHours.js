@@ -3,15 +3,15 @@ import {View, Text, StyleSheet} from 'react-native';
 import {HoursUtils} from '_utils';
 import {Colors} from '_resources';
 
-const TotalHours = ({secondsTotal}) => {
+const TotalHours = ({totalSecondsWorked}) => {
   let totalHours = HoursUtils.convertSecondsToHrs({
-    totalSeconds: secondsTotal,
+    totalSeconds: totalSecondsWorked,
     decimalMinutes: true,
   });
 
   if (totalHours > 999) {
     totalHours = HoursUtils.convertSecondsToHrs({
-      totalSeconds: secondsTotal,
+      totalSeconds: totalSecondsWorked,
       decimalMinutes: false,
     });
   }

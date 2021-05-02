@@ -1,10 +1,38 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
+import {Actions} from 'react-native-router-flux';
+import projectDB from '_data';
 import {ActionContainer} from '_components';
 import {Button, ProjectInput} from '_components';
 import {Icons} from '_constants';
 
 class CreateProject extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      description: '',
+    };
+
+    this.createProject = this.createProject.bind(this);
+    this.updateDescription = this.updateDescription.bind(this);
+  }
+
+  createProject() {
+    if (this.state.description !== '') {
+      projectDB.createProject({
+        realm: this.props.realm,
+        description: this.state.description,
+      });
+
+      Actions.pop();
+    }
+  }
+
+  updateDescription(description) {
+    this.setState({description});
+  }
+
   render() {
     const actionScreenData = {
       backArrowActive: true,
@@ -30,13 +58,16 @@ class CreateProject extends Component {
           renderListItem={false}>
           <ProjectInput
             header="Project Name"
-            //value={false}
-            //onChangeText={false}
+            value={this.state.description}
+            onChangeText={this.updateDescription}
             placeholder="enter project name ..."
           />
         </ActionContainer>
         <View style={styles.button}>
-          <Button description="+ Add Project" buttonPressed={false} />
+          <Button
+            description="+ Add Project"
+            buttonPressed={this.createProject}
+          />
         </View>
       </View>
     );

@@ -40,7 +40,7 @@ class ActionContainer extends Component {
           }
         />
         <BottomContainer
-          deactivateBottomContainer={this.props.deactivateBottomContainer}
+          extraData={this.props.extraData}
           actionButtonActive={this.props.actionButtonActive}
           actionButtonPressed={this.props.actionButtonPressed}
           actionButtonDescription={this.props.actionButtonDescription}

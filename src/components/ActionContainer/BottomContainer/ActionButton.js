@@ -8,13 +8,13 @@ const ActionButton = ({actionButtonDescription, actionButtonPressed}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.actionText}>{actionButtonDescription}</Text>
-      <TouchableOpacity
-        style={styles.outerButtonContainer}
-        onPress={actionButtonPressed}>
-        <View style={styles.buttonContainer}>
+      <View style={styles.outerButtonContainer}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={actionButtonPressed}>
           <Icon name={Icons.plus} size={16} style={styles.plus} />
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

@@ -5,7 +5,7 @@ import ProjectNavigator from './ProjectNavigator';
 import {ViewVisibleWrapper} from '_components';
 import {
   ProjectSchema,
-  ProjectSecondsSchema,
+  SecondsWorkedSchema,
   SettingsSchema,
   TaskSchema,
   WeeklyGoalSchema,
@@ -25,7 +25,7 @@ class TimeIsLife extends Component {
     Realm.open({
       schema: [
         ProjectSchema,
-        ProjectSecondsSchema,
+        SecondsWorkedSchema,
         SettingsSchema,
         TaskSchema,
         WeeklyGoalSchema,

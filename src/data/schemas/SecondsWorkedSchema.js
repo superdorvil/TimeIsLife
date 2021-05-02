@@ -1,8 +1,8 @@
 import {Schemas} from '_constants';
 
-const ProjectSecondsSchema = {
+const SecondsWorkedSchema = {
   primaryKey: 'id',
-  name: Schemas.projectSeconds,
+  name: Schemas.secondsWorked,
   properties: {
     id: 'int',
     taskID: 'int?',
@@ -15,4 +15,4 @@ const ProjectSecondsSchema = {
   },
 };
 
-export default ProjectSecondsSchema;
+export default SecondsWorkedSchema;

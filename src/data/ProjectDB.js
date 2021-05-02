@@ -16,39 +16,126 @@ class ProjectDB {
     }
   }
 
-  sumProjectsSeconds({projectHours}) {}
+  sumSecondsWorked({secondsWorked}) {
+    let totalSecondsWorked = 0;
 
-  getTask() {}
+    secondsWorked.forEach((sw, i) => {
+      totalSecondsWorked = totalSecondsWorked + sw.endTime - sw.startTime;
+    });
 
-  getProjects() {}
+    return totalSecondsWorked;
+  }
+
+  getTask({realm}) {}
+
+  getProjects({realm}) {
+    return realm.objects(Schemas.project);
+  }
 
   getSecondsWorked({
-    taskId,
-    projectId,
+    realm,
+    projectID,
+    taskID,
     dateIndex,
     weekIndex,
     monthIndex,
     sortType,
     ascendingSort,
     returnList,
-  }) {}
+  }) {
+    let secondsWorked = realm.objects(Schemas.secondsWorked);
+
+    if (projectID) {
+      secondsWorked = secondsWorked.filtered('projectID == $0', projectID);
+    }
+    if (taskID) {
+      secondsWorked = secondsWorked.filtered('taskID == $0', taskID);
+    }
+    if (dateIndex) {
+      secondsWorked = secondsWorked.filtered('dateIndex == $0', dateIndex);
+    }
+    if (weekIndex) {
+      secondsWorked = secondsWorked.filtered('weekIndex == $0', weekIndex);
+    }
+    if (monthIndex) {
+      secondsWorked = secondsWorked.filtered('monthIndex == $0', monthIndex);
+    }
+
+    if (returnList) {
+      return secondsWorked;
+    }
+
+    return this.sumSecondsWorked({secondsWorked});
+  }
 
   getCurrentWeeksDailySecondsWorked() {}
 
-  getWeeklyGoalSeconds({weekIndex, projectID}) {}
+  getWeeklyGoal({
+    realm,
+    weekIndex,
+    projectID = 0,
+    minimumWeekIndex,
+    maximumWeekIndex,
+  }) {
+    // return list with range
+    // try (data === parseInt(data, 10))
+    if (minimumWeekIndex !== undefined && maximumWeekIndex !== undefined) {
+      weeklyGoal = weeklyGoal
+        .filtered(
+          'projectID == $0 && weekIndex < $1 && weekIndex > $2',
+          projectID,
+          minimumWeekIndex,
+          maximumWeekIndex,
+        )
+        .sorted('weekIndex');
+      return weeklyGoal;
+    }
 
-  createRealmObject({objectData}) {}
+    let weeklyGoal = realm.objects(Schemas.weeklyGoal);
+
+    weeklyGoal = weeklyGoal.filtered(
+      'projectID == $0 && weekIndex == $1',
+      projectID,
+      weekIndex,
+    );
+
+    return weeklyGoal.length > 0 ? weeklyGoal[0].weeklyGoal : 0;
+  }
+
+  createProject({realm, description}) {
+    const projectList = realm.objects(Schemas.project);
+    let position = 0;
+    let project;
+
+    projectList.forEach((p, i) => {
+      if (p.position >= position) {
+        position = p.position + 1;
+      }
+    });
+
+    try {
+      realm.write(() => {
+        project = realm.create(Schemas.project, {
+          id: projectList.length + 1,
+          description: description,
+          position,
+        });
+      });
+    } catch (e) {
+      console.log('failed to create project ' + description);
+      console.log(e);
+    }
+
+    return project;
+  }
 
   // id prexisiting objects id + 1
   // sort order to the top
-  createProject({projectID, description}) {}
-
-  // id prexisiting objects id + 1
-  // sort order to the top
-  createTask({taskID, projectID, description}) {}
+  createTask({realm, taskID, projectID, description}) {}
 
   // id prexisiting objects id + 1
   createProjectSeconds({
+    realm,
     projectID,
     taskID,
     dateIndex,
@@ -58,29 +145,29 @@ class ProjectDB {
     endTime,
   }) {}
 
-  createWeeklyGoalSeconds({projectID, weekIndex, weeklyGoalSeonds}) {}
+  createWeeklyGoalSeconds({realm, projectID, weekIndex, weeklyGoalSeonds}) {}
 
-  updateRealmObject({objectData}) {}
+  updateRealmObject({realm, objectData}) {}
 
-  updateProjectDescription({projectID, description}) {}
+  updateProjectDescription({realm, projectID, description}) {}
 
-  updateProjectGoal({projectID, weekIndex, weeklyGoalSeconds}) {}
+  updateProjectGoal({realm, projectID, weekIndex, weeklyGoalSeconds}) {}
 
-  updateTime({projectID, startTime, endTime}) {}
+  updateTime({realm, projectID, startTime, endTime}) {}
 
-  topProjectPosition({projectId}) {}
+  topProjectPosition({realm, projectID}) {}
 
   // mark complete and incomplete
   // top the sort count
-  completeTask({taskID}) {}
+  completeTask({realm, taskID}) {}
 
-  deleteWeeklyGoal({projectID, weekIndex}) {}
-
-  // deleted boolean
-  deleteProject({projectID}) {}
+  deleteWeeklyGoal({realm, projectID, weekIndex}) {}
 
   // deleted boolean
-  restoreProject({projectID}) {}
+  deleteProject({realm, projectID}) {}
+
+  // deleted boolean
+  restoreProject({realm, projectID}) {}
 }
 
 const projectDB = new ProjectDB();

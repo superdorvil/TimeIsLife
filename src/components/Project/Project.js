@@ -6,13 +6,13 @@ import ProjectData from './ProjectData';
 const Project = ({
   projectPressed,
   description,
-  secondsTotal,
+  totalSecondsWorked,
   thisWeeksSecondsWorked,
   thisWeeksSecondsGoal,
 }) => {
   return (
     <TouchableOpacity onPress={projectPressed} style={styles.container}>
-      <TotalHours secondsTotal={secondsTotal} />
+      <TotalHours totalSecondsWorked={totalSecondsWorked} />
       <ProjectData
         description={description}
         secondsWorked={thisWeeksSecondsWorked}

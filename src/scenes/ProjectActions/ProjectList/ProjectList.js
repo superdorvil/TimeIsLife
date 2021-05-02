@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Actions} from 'react-native-router-flux';
+import projectDB from '_data';
 import {ActionContainer} from '_components';
 import {Project} from '_components';
 import {Icons} from '_constants';
@@ -9,23 +10,57 @@ class ProjectList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    console.log('realms = ' + this.props.realm);
+
+    this.state = {
+      projects: projectDB.getProjects({realm: this.props.realm}),
+      currentWeekIndex: 1, // date utils week index on current date
+    };
 
     this.createProject = this.createProject.bind(this);
+    console.log(this.state.projects);
+  }
+
+  componentDidMount() {
+    this.state.projects.addListener(() => {
+      this.setState({
+        projects: projectDB.getProjects({realm: this.props.realm}),
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.state.projects.removeAllListeners();
+
+    // Nulls State removing memory leak error state update on unmounted comp
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   createProject() {
     Actions.createProject({realm: this.props.realm});
   }
 
-  renderProject(projectData) {
+  renderProject(project, extraData) {
     return (
       <Project
         projectPressed={() => Actions.projectTimer()}
-        description={projectData.description}
-        secondsTotal={projectData.secondsTotal}
-        thisWeeksSecondsWorked={projectData.thisWeeksSecondsWorked}
-        thisWeeksSecondsGoal={projectData.thisWeeksSecondsGoal}
+        description={project.description}
+        totalSecondsWorked={projectDB.getSecondsWorked({
+          realm: extraData.realm,
+          projectID: project.id,
+        })}
+        thisWeeksSecondsWorked={projectDB.getSecondsWorked({
+          realm: extraData.realm,
+          projectID: project.id,
+          weekIndex: extraData.weekIndex,
+        })}
+        thisWeeksSecondsGoal={projectDB.getWeeklyGoal({
+          realm: extraData.realm,
+          projectID: project.id,
+          weekIndex: extraData.weekIndex,
+        })}
       />
     );
   }
@@ -64,60 +99,10 @@ class ProjectList extends Component {
       goalsNavButtonPressed: false,
     };
 
-    const projectData = [
-      {
-        description: 'Time Is Life App Design',
-        secondsTotal: 359996400,
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        description: 'Spanish',
-        secondsTotal: 100000,
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        description: 'Time Is Life App Design',
-        secondsTotal: 100000,
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        description: 'Spanish',
-        secondsTotal: 100000,
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        description: 'Time Is Life App Design',
-        secondsTotal: 100000,
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        description: 'Spanish',
-        secondsTotal: 100000,
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        description: 'Time Is Life App Design',
-        secondsTotal: 100000,
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        description: 'Spanish',
-        secondsTotal: 100000,
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-    ];
-
     return (
       <View style={styles.container}>
         <ActionContainer
+          extraData={{realm: this.props.realm, weekIndex: this.state.weekIndex}}
           weeklyProgressActive
           weeklyProgressData={weeklyProgressData}
           actionScreenActive={false}
@@ -131,7 +116,7 @@ class ProjectList extends Component {
           actionButtonActive={true}
           actionButtonPressed={this.createProject}
           actionButtonDescription="Your Projects"
-          listData={projectData}
+          listData={this.state.projects}
           listDataActive={true}
           renderListItem={this.renderProject}
         />
