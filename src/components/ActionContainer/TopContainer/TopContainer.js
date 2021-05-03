@@ -6,9 +6,9 @@ import ActionScreen from './ActionScreen';
 
 const TopContainer = ({
   weeklyProgressActive,
-  secondsGoal,
-  secondsWorked,
-  weekdaySeconds,
+  thisWeeksSecondsWorked,
+  thisWeeksGoalSeconds,
+  dailySecondsWorked,
   backArrowActive,
   backArrowPressed,
   actionScreenActive,
@@ -24,9 +24,9 @@ const TopContainer = ({
     <View style={styles.container}>
       <ViewVisibleWrapper active={weeklyProgressActive}>
         <WeeklyProgress
-          secondsGoal={secondsGoal}
-          secondsWorked={secondsWorked}
-          weekdaySeconds={weekdaySeconds}
+          thisWeeksGoalSeconds={thisWeeksGoalSeconds}
+          thisWeeksSecondsWorked={thisWeeksSecondsWorked}
+          dailySecondsWorked={dailySecondsWorked}
           weeklyHoursFontSizeBig={true}
         />
       </ViewVisibleWrapper>

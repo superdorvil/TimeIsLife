@@ -1,3 +1,4 @@
+import {DateUtils} from '_utils';
 import {Schemas} from '_constants';
 // import * as ProjectMigrations from './ProjectMigrations';
 
@@ -68,8 +69,60 @@ class ProjectDB {
     return this.sumSecondsWorked({secondsWorked});
   }
 
-  getCurrentWeeksDailySecondsWorked() {}
+  getDailySecondsWorked({realm, sundayIndex, weekIndex}) {
+    const dailySecondsWorked = {
+      sun: {secondsWorked: 0, weekday: 'SUN'},
+      mon: {secondsWorked: 0, weekday: 'MON'},
+      tue: {secondsWorked: 0, weekday: 'TUE'},
+      wed: {secondsWorked: 0, weekday: 'WED'},
+      thu: {secondsWorked: 0, weekday: 'THU'},
+      fri: {secondsWorked: 0, weekday: 'FRI'},
+      sat: {secondsWorked: 0, weekday: 'SAT'},
+    };
+    const thisWeeksSecondsWorked = this.getSecondsWorked({
+      realm,
+      weekIndex,
+      returnList: true,
+    });
 
+    thisWeeksSecondsWorked.forEach((sw, i) => {
+      switch (sw.dateIndex) {
+        case sundayIndex:
+          dailySecondsWorked.sun =
+            dailySecondsWorked.sun.secondsWorked + sw.startTime - sw.endTime;
+          break;
+        case sundayIndex + 1:
+          dailySecondsWorked.mon =
+            dailySecondsWorked.mon.secondsWorked + sw.startTime - sw.endTime;
+          break;
+        case sundayIndex + 2:
+          dailySecondsWorked.tue =
+            dailySecondsWorked.tue.secondsWorked + sw.startTime - sw.endTime;
+          break;
+        case sundayIndex + 3:
+          dailySecondsWorked.wed =
+            dailySecondsWorked.wed.secondsWorked + sw.startTime - sw.endTime;
+          break;
+        case sundayIndex + 4:
+          dailySecondsWorked.thu =
+            dailySecondsWorked.thu.secondsWorked + sw.startTime - sw.endTime;
+          break;
+        case sundayIndex + 5:
+          dailySecondsWorked.fri =
+            dailySecondsWorked.fri.secondsWorked + sw.startTime - sw.endTime;
+          break;
+        case sundayIndex + 6:
+          dailySecondsWorked.sat =
+            dailySecondsWorked.sat.secondsWorked + sw.startTime - sw.endTime;
+          break;
+        default:
+      }
+    });
+
+    return dailySecondsWorked;
+  }
+
+  // If no projectID than get totalWeekly goals which has a default projectID of 0
   getWeeklyGoal({
     realm,
     weekIndex,

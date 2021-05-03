@@ -10,20 +10,25 @@ const WeekdayHours = ({secondsWorked, weekday}) => {
     totalSeconds: secondsWorked,
     decimalMinutes: true,
   });
-  const weekdayString = DateUtils.convertDayToString({
-    date: weekday,
+  const todayString = DateUtils.convertDayToString({
+    date: new Date(),
     format: Utils.weekdayFormat.abbreviation_capital,
   });
-  const today = weekday.getDay() === new Date().getDay() ? true : false;
-  const textStyle = today ? styles.todayText : styles.weekdayText;
-  const dividerStyle = today ? styles.todayDivider : styles.weekdayDivider;
+  let todayActive = false;
+  if (weekday === todayString) {
+    todayActive = true;
+  }
+  const textStyle = todayActive ? styles.todayText : styles.weekdayText;
+  const dividerStyle = todayActive
+    ? styles.todayDivider
+    : styles.weekdayDivider;
 
   return (
     <View style={styles.container}>
       <Text style={textStyle}>{hoursWorked} h</Text>
       <View style={dividerStyle} />
-      <Text style={textStyle}>{weekdayString}</Text>
-      <ViewVisibleWrapper active={today} style={styles.todayHighlight} />
+      <Text style={textStyle}>{weekday}</Text>
+      <ViewVisibleWrapper active={todayActive} style={styles.todayHighlight} />
     </View>
   );
 };

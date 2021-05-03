@@ -394,34 +394,34 @@ export const getDateDiff = ({startDate, endDate}) => {
   return diffDays;
 };
 
-export const getDailyIndex = ({date}) => {
+export const getDateIndex = ({date}) => {
   // I need am using my birthday as the default initial date
-  const initialDaily = new Date('11/9/2019'); // My bday is Nov 9 :D
+  const initialDate = new Date('11/9/2019'); // My bday is Nov 9 :D
   const dateDiff = getDateDiff({
-    startDate: initialDaily,
+    startDate: initialDate,
     endDate: date,
   });
 
   return dateDiff;
 };
 
-export const getWeeklyIndex = ({date}) => {
+export const getWeekIndex = ({date}) => {
   // I need am using my birthday week as the default initial week
   // The goal is to have an index of each week with a unique
   // Using Sunday, as initial date
-  const initialWeeklyDate = new Date('11/3/2019'); // My bday is Nov 9 :D
+  const initialWeekDate = new Date('11/3/2019'); // My bday is Nov 9 :D
   const dateDiff = getDateDiff({
-    startDate: initialWeeklyDate,
+    startDate: initialWeekDate,
     endDate: date,
   });
 
   return Math.floor(dateDiff / 7);
 };
 
-export const getMonthlyIndex = ({date}) => {
+export const getMonthIndex = ({date}) => {
   // 2019 is the initial year we use for the indexing
   const yearIndex = date.getFullYear() - 2019;
-  const monthlyIndex = yearIndex * 12 + date.getMonth();
+  const monthIndex = yearIndex * 12 + date.getMonth();
 
-  return monthlyIndex;
+  return monthIndex;
 };

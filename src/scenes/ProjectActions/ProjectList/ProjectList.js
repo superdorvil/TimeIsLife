@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import projectDB from '_data';
+import {DateUtils} from '_utils';
 import {ActionContainer} from '_components';
 import {Project} from '_components';
 import {Icons} from '_constants';
@@ -10,21 +11,44 @@ class ProjectList extends Component {
   constructor(props) {
     super(props);
 
-    console.log('realms = ' + this.props.realm);
+    const today = new Date();
+    const projects = projectDB.getProjects({realm: this.props.realm});
+    const currentWeekIndex = DateUtils.getWeekIndex({date: today});
+    const currentDateIndex = DateUtils.getDateIndex({date: today});
+    const sundayIndex = currentDateIndex - today.getDay();
+    const dailySecondsWorked = projectDB.getDailySecondsWorked({
+      realm: this.props.realm,
+    });
+    const thisWeeksSecondsWorked = projectDB.getSecondsWorked({
+      realm: this.props.realm,
+      weekIndex: currentWeekIndex,
+    });
+    const thisWeeksGoalSeconds = projectDB.getWeeklyGoal({
+      realm: this.props.realm,
+      weekIndex: currentWeekIndex,
+    });
 
     this.state = {
-      projects: projectDB.getProjects({realm: this.props.realm}),
-      currentWeekIndex: 1, // date utils week index on current date
+      projects,
+      dailySecondsWorked,
+      currentWeekIndex,
+      currentDateIndex,
+      sundayIndex,
+      today,
+      thisWeeksGoalSeconds,
+      thisWeeksSecondsWorked,
     };
 
     this.createProject = this.createProject.bind(this);
-    console.log(this.state.projects);
   }
 
   componentDidMount() {
     this.state.projects.addListener(() => {
       this.setState({
         projects: projectDB.getProjects({realm: this.props.realm}),
+        dailySecondsWorked: projectDB.getDailySecondsWorked({
+          realm: this.props.realm,
+        }),
       });
     });
   }
@@ -66,20 +90,6 @@ class ProjectList extends Component {
   }
 
   render() {
-    const weeklyProgressData = {
-      secondsGoal: 3600,
-      secondsWorked: 2300,
-      weekdaySeconds: [
-        {weekday: new Date('Apr 11 2021'), secondsWorked: 30000},
-        {weekday: new Date('Apr 12 2021'), secondsWorked: 6000},
-        {weekday: new Date('Apr 13 2021'), secondsWorked: 50000},
-        {weekday: new Date('Apr 14 2021'), secondsWorked: 9007},
-        {weekday: new Date('Apr 15 2021'), secondsWorked: 7455},
-        {weekday: new Date('Apr 16 2021'), secondsWorked: 9888},
-        {weekday: new Date('Apr 17 2021'), secondsWorked: 2465},
-      ],
-    };
-
     const actionScreenData = {
       backArrowActive: true,
       editButtonActive: true,
@@ -104,7 +114,9 @@ class ProjectList extends Component {
         <ActionContainer
           extraData={{realm: this.props.realm, weekIndex: this.state.weekIndex}}
           weeklyProgressActive
-          weeklyProgressData={weeklyProgressData}
+          thisWeeksGoalSeconds={this.state.thisWeeksGoalSeconds}
+          thisWeeksSecondsWorked={this.state.thisWeeksSecondsWorked}
+          dailySecondsWorked={this.state.dailySecondsWorked}
           actionScreenActive={false}
           actionScreenData={actionScreenData}
           actionNavBarActive={false}

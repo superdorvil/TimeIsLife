@@ -2,19 +2,39 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import WeekdayHours from './WeekdayHours';
 
-const DailyHours = ({weekdaySeconds}) => {
-  const dailyHours = [];
-  weekdaySeconds.forEach((weekday, i) => {
-    dailyHours.push(
+const DailyHours = ({dailySecondsWorked}) => {
+  return (
+    <View style={styles.container}>
       <WeekdayHours
-        key={i}
-        secondsWorked={weekday.secondsWorked}
-        weekday={weekday.weekday}
-      />,
-    );
-  });
-
-  return <View style={styles.container}>{dailyHours}</View>;
+        secondsWorked={dailySecondsWorked.sun.secondsWorked}
+        weekday={dailySecondsWorked.sun.weekday}
+      />
+      <WeekdayHours
+        secondsWorked={dailySecondsWorked.mon.secondsWorked}
+        weekday={dailySecondsWorked.mon.weekday}
+      />
+      <WeekdayHours
+        secondsWorked={dailySecondsWorked.tue.secondsWorked}
+        weekday={dailySecondsWorked.tue.weekday}
+      />
+      <WeekdayHours
+        secondsWorked={dailySecondsWorked.wed.secondsWorked}
+        weekday={dailySecondsWorked.wed.weekday}
+      />
+      <WeekdayHours
+        secondsWorked={dailySecondsWorked.thu.secondsWorked}
+        weekday={dailySecondsWorked.thu.weekday}
+      />
+      <WeekdayHours
+        secondsWorked={dailySecondsWorked.fri.secondsWorked}
+        weekday={dailySecondsWorked.fri.weekday}
+      />
+      <WeekdayHours
+        secondsWorked={dailySecondsWorked.sat.secondsWorked}
+        weekday={dailySecondsWorked.sat.weekday}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

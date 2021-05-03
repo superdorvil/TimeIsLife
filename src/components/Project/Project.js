@@ -16,7 +16,7 @@ const Project = ({
       <ProjectData
         description={description}
         secondsWorked={thisWeeksSecondsWorked}
-        secondsGoal={thisWeeksSecondsGoal}
+        goalSeconds={thisWeeksSecondsGoal}
       />
     </TouchableOpacity>
   );

@@ -6,16 +6,16 @@ import {Colors} from '_resources';
 
 const HoursProgressBar = ({
   secondsWorked,
-  secondsGoal,
+  goalSeconds,
   weeklyHoursFontSizeBig,
 }) => {
-  const progress = secondsGoal > 0 ? secondsWorked / secondsGoal : 0;
+  const progress = goalSeconds > 0 ? secondsWorked / goalSeconds : 0;
   const hoursWorked = HoursUtils.convertSecondsToHrs({
     totalSeconds: secondsWorked,
     decimalMinutes: true,
   });
   const hoursGoal = HoursUtils.convertSecondsToHrs({
-    totalSeconds: secondsGoal,
+    totalSeconds: goalSeconds,
   });
   const weeklyHours = weeklyHoursFontSizeBig ? (
     <Text style={styles.weeklyHours16}>Weekly Hours</Text>

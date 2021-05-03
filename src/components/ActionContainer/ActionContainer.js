@@ -23,9 +23,9 @@ class ActionContainer extends Component {
       <View style={styles.container}>
         <TopContainer
           weeklyProgressActive={this.props.weeklyProgressActive}
-          secondsWorked={this.props.weeklyProgressData.secondsWorked}
-          secondsGoal={this.props.weeklyProgressData.secondsGoal}
-          weekdaySeconds={this.props.weeklyProgressData.weekdaySeconds}
+          thisWeeksSecondsWorked={this.props.thisWeeksSecondsWorked}
+          thisWeeksGoalSeconds={this.props.thisWeeksGoalSeconds}
+          dailySecondsWorked={this.props.dailySecondsWorked}
           backArrowActive={this.props.actionScreenData.backArrowActive}
           backArrowPressed={this.backArrowPressed}
           actionScreenActive={this.props.actionScreenActive}

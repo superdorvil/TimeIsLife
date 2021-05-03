@@ -5,21 +5,21 @@ import DailyHours from './DailyHours';
 import {Colors} from '_resources';
 
 const WeeklyProgress = ({
-  secondsGoal,
-  secondsWorked,
+  thisWeeksGoalSeconds,
+  thisWeeksSecondsWorked,
   weeklyHoursFontSizeBig,
-  weekdaySeconds,
+  dailySecondsWorked,
 }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.timeIsLifeText}>Time Is Life</Text>
       <HoursProgressBar
-        secondsGoal={secondsGoal}
-        secondsWorked={secondsWorked}
+        goalSeconds={thisWeeksGoalSeconds}
+        secondsWorked={thisWeeksSecondsWorked}
         weeklyHoursFontSizeBig={weeklyHoursFontSizeBig}
       />
       <Text style={styles.dailyHoursText}>Daily Hours</Text>
-      <DailyHours weekdaySeconds={weekdaySeconds} />
+      <DailyHours dailySecondsWorked={dailySecondsWorked} />
     </View>
   );
 };

@@ -3,13 +3,13 @@ import {Text, View, StyleSheet} from 'react-native';
 import {HoursProgressBar} from '_components';
 import {Colors} from '_resources';
 
-const ProjectData = ({description, secondsWorked, secondsGoal}) => {
+const ProjectData = ({description, secondsWorked, goalSeconds}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.description}>{description}</Text>
       <HoursProgressBar
         secondsWorked={secondsWorked}
-        secondsGoal={secondsGoal}
+        goalSeconds={goalSeconds}
       />
     </View>
   );

@@ -34,7 +34,7 @@ class AddProjectHours extends Component {
   }
 
   calendarPressed(dateObject) {
-    console.log(dateObject);
+    //console.log(dateObject);
     // this.setState({date: new Date(dateObject.timestamp + 86400000)});
     this.setState({
       date: new Date(dateObject.year, dateObject.month - 1, dateObject.day),
