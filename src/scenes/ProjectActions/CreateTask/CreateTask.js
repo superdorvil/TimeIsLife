@@ -1,10 +1,39 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import {ActionContainer} from '_components';
+import projectDB from '_data';
 import {Button, ProjectInput} from '_components';
 import {Icons} from '_constants';
 
 class CreateTask extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      description: '',
+    };
+
+    this.createTask = this.createTask.bind(this);
+    this.updateDescription = this.updateDescription.bind(this);
+  }
+
+  createTask() {
+    if (this.state.description !== '') {
+      projectDB.createTask({
+        realm: this.props.realm,
+        description: this.state.description,
+        projectID: this.props.project.id,
+      });
+
+      Actions.pop();
+    }
+  }
+
+  updateDescription(description) {
+    this.setState({description});
+  }
+
   render() {
     const actionScreenData = {
       backArrowActive: true,
@@ -31,13 +60,13 @@ class CreateTask extends Component {
           renderListItem={false}>
           <ProjectInput
             header="Task Name"
-            //value={false}
-            //onChangeText={false}
+            value={this.state.description}
+            onChangeText={this.updateDescription}
             placeholder="enter task name ..."
           />
         </ActionContainer>
         <View style={styles.button}>
-          <Button description="+ Add Task" buttonPressed={false} />
+          <Button description="+ Add Task" buttonPressed={this.createTask} />
         </View>
       </View>
     );

@@ -176,21 +176,14 @@ class ProjectDB {
 
   createProject({realm, description}) {
     const projects = realm.objects(Schemas.project);
-    let position = 0;
     let project;
-
-    projects.forEach((p, i) => {
-      if (p.position >= position) {
-        position = p.position + 1;
-      }
-    });
 
     try {
       realm.write(() => {
         project = realm.create(Schemas.project, {
           id: projects.length + 1,
           description: description,
-          position,
+          position: this.getTopPosition(projects),
         });
       });
     } catch (e) {
@@ -216,11 +209,11 @@ class ProjectDB {
 
     try {
       realm.write(() => {
-        task = realm.create(Schemas.project, {
+        task = realm.create(Schemas.task, {
           id: tasks.length + 1,
           projectID,
           description: description,
-          position,
+          position: this.getTopPosition(tasks),
         });
       });
     } catch (e) {
@@ -255,9 +248,14 @@ class ProjectDB {
 
   topProjectPosition({realm, projectID}) {}
 
-  // mark complete and incomplete
-  // top the sort count
-  completeTask({realm, taskID}) {}
+  completeTask({realm, taskID}) {
+    const task = realm.objectForPrimaryKey(Schemas.task, taskID);
+
+    realm.write(() => {
+      task.position = this.getTopPosition(realm.objects(Schemas.task));
+      task.completed = !task.completed;
+    });
+  }
 
   deleteWeeklyGoal({realm, projectID, weekIndex}) {}
 
@@ -266,6 +264,18 @@ class ProjectDB {
 
   // deleted boolean
   restoreProject({realm, projectID}) {}
+
+  getTopPosition(object) {
+    let position = 0;
+
+    object.forEach((o, i) => {
+      if (o.position >= position) {
+        position = position + 1;
+      }
+    });
+
+    return position;
+  }
 }
 
 const projectDB = new ProjectDB();

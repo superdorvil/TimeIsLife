@@ -4,8 +4,8 @@ import {Icon} from '_components';
 import {Icons} from '_constants';
 import {Colors} from '_resources';
 
-const Completion = ({complete}) => {
-  if (complete) {
+const Completion = ({completed}) => {
+  if (completed) {
     return (
       <View style={styles.checkmarkContainer}>
         <Icon size={32} style={styles.checkmark} name={Icons.checkmark} />
