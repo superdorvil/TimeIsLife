@@ -17,11 +17,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   time: {
-    fontSize: 24,
+    fontSize: 40,
     color: Colors.primary,
   },
   unit: {
-    fontSize: 12,
+    fontSize: 16,
     color: Colors.primary,
     justifyContent: 'flex-end',
   },

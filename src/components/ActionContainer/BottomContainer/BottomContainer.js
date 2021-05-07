@@ -42,7 +42,12 @@ class BottomContainer extends Component {
                 }
                 keyExtractor={(item, index) => index.toString()}
                 ListHeaderComponent={
-                  this.props.actionButtonActive ? this.renderDivider : <View />
+                  this.props.actionButtonActive &&
+                  this.props.listData.length > 0 ? (
+                    this.renderDivider
+                  ) : (
+                    <View />
+                  )
                 }
                 ItemSeparatorComponent={this.renderDivider}
                 contentContainerStyle={styles.listPadding}

@@ -1,8 +1,8 @@
 Total Weekly Goal
   Total Weekly Goals sets of 8
-  Total Weekly Goal Load more button
+*****  Total Weekly Goal Load more button
   Total Weekly Goal update weekly goal
-  Update the design of the view / oval of hours and percent
+*****  Update the design of the view / oval of hours and percent
 
 Charts
   Get Daily Weekly Monthly Hours range
@@ -24,11 +24,13 @@ Charts
       Weekly shows 3 months at a time January - March 2020
 
 Settings
+**** Restore modal type stuff
   Restore Project, - green color
   SubTask Mode - last
   Color Scheme - last
 
-Create a timer screen
+Timer screen
+*****  Create Timer Screen
   start and stop timer
   primary color
   list the hours worked in a non clickable fashion for todays hours
@@ -37,11 +39,11 @@ Hours Worked screen
   squish the content to have more space
   list hours Worked
   edit start and end time allowed
-  load more button, only do like a week at a time
+*****  load more button, only do like a week at a time
 
 Edit Project
   edit description
-  delete project with modal, and message you can alway restore in the Settings
+*******  delete project with modal, and message you can alway restore in the Settings
     filter all data on projects that are not deleted, string builder filter???
 
 Add Project hours
@@ -53,4 +55,18 @@ Project Goal screen
 Project Task
   add task
   complete
-  update the design of the view
+******  update the design of the view
+
+Remove Action Screen data and just put in data without action screen
+
+People friendlyFi the app
+
+Timer screen new design
+  link to people grinding
+  block sites
+  motivate
+  connect
+  help
+  focus app view with the oval start timer button and 4 buttons at borderBottomWidth
+
+ViewVisibleWrapper active to visible :(

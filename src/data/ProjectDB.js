@@ -27,7 +27,9 @@ class ProjectDB {
     return totalSecondsWorked;
   }
 
-  getTask({realm}) {}
+  getTasks({realm}) {
+    return realm.objects(Schemas.task);
+  }
 
   getProjects({realm}) {
     return realm.objects(Schemas.project);
@@ -43,6 +45,8 @@ class ProjectDB {
     sortType,
     ascendingSort,
     returnList,
+    minimumWeekIndex,
+    maximumWeekIndex,
   }) {
     let secondsWorked = realm.objects(Schemas.secondsWorked);
 
@@ -60,6 +64,20 @@ class ProjectDB {
     }
     if (monthIndex) {
       secondsWorked = secondsWorked.filtered('monthIndex == $0', monthIndex);
+    }
+
+    // return list with range
+    // try (data === parseInt(data, 10))
+    if (minimumWeekIndex !== undefined && maximumWeekIndex !== undefined) {
+      secondsWorked = secondsWorked
+        .filtered(
+          'weekIndex < $0 && weekIndex > $1',
+          minimumWeekIndex,
+          maximumWeekIndex,
+        )
+        .sorted('startTime');
+
+      return secondsWorked;
     }
 
     if (returnList) {
@@ -123,13 +141,15 @@ class ProjectDB {
   }
 
   // If no projectID than get totalWeekly goals which has a default projectID of 0
-  getWeeklyGoal({
+  getWeeklyGoals({
     realm,
     weekIndex,
     projectID = 0,
     minimumWeekIndex,
     maximumWeekIndex,
   }) {
+    let weeklyGoal = realm.objects(Schemas.weeklyGoal);
+
     // return list with range
     // try (data === parseInt(data, 10))
     if (minimumWeekIndex !== undefined && maximumWeekIndex !== undefined) {
@@ -141,10 +161,9 @@ class ProjectDB {
           maximumWeekIndex,
         )
         .sorted('weekIndex');
+
       return weeklyGoal;
     }
-
-    let weeklyGoal = realm.objects(Schemas.weeklyGoal);
 
     weeklyGoal = weeklyGoal.filtered(
       'projectID == $0 && weekIndex == $1',
@@ -156,11 +175,11 @@ class ProjectDB {
   }
 
   createProject({realm, description}) {
-    const projectList = realm.objects(Schemas.project);
+    const projects = realm.objects(Schemas.project);
     let position = 0;
     let project;
 
-    projectList.forEach((p, i) => {
+    projects.forEach((p, i) => {
       if (p.position >= position) {
         position = p.position + 1;
       }
@@ -169,7 +188,7 @@ class ProjectDB {
     try {
       realm.write(() => {
         project = realm.create(Schemas.project, {
-          id: projectList.length + 1,
+          id: projects.length + 1,
           description: description,
           position,
         });
@@ -184,7 +203,33 @@ class ProjectDB {
 
   // id prexisiting objects id + 1
   // sort order to the top
-  createTask({realm, taskID, projectID, description}) {}
+  createTask({realm, projectID, description}) {
+    const tasks = realm.objects(Schemas.task);
+    let position = 0;
+    let task;
+
+    tasks.forEach((t, i) => {
+      if (t.position >= position) {
+        position = t.position + 1;
+      }
+    });
+
+    try {
+      realm.write(() => {
+        task = realm.create(Schemas.project, {
+          id: tasks.length + 1,
+          projectID,
+          description: description,
+          position,
+        });
+      });
+    } catch (e) {
+      console.log('failed to create task ' + description);
+      console.log(e);
+    }
+
+    return task;
+  }
 
   // id prexisiting objects id + 1
   createProjectSeconds({

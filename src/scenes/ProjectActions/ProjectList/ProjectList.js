@@ -23,7 +23,7 @@ class ProjectList extends Component {
       realm: this.props.realm,
       weekIndex: currentWeekIndex,
     });
-    const thisWeeksGoalSeconds = projectDB.getWeeklyGoal({
+    const thisWeeksGoalSeconds = projectDB.getWeeklyGoals({
       realm: this.props.realm,
       weekIndex: currentWeekIndex,
     });
@@ -69,7 +69,13 @@ class ProjectList extends Component {
   renderProject(project, extraData) {
     return (
       <Project
-        projectPressed={() => Actions.projectTimer()}
+        projectPressed={() =>
+          Actions.projectManager({
+            realm: extraData.realm,
+            project,
+            currentWeekIndex: extraData.currentWeekIndex,
+          })
+        }
         description={project.description}
         totalSecondsWorked={projectDB.getSecondsWorked({
           realm: extraData.realm,
@@ -78,12 +84,12 @@ class ProjectList extends Component {
         thisWeeksSecondsWorked={projectDB.getSecondsWorked({
           realm: extraData.realm,
           projectID: project.id,
-          weekIndex: extraData.weekIndex,
+          weekIndex: extraData.currentWeekIndex,
         })}
-        thisWeeksSecondsGoal={projectDB.getWeeklyGoal({
+        thisWeeksSecondsGoal={projectDB.getWeeklyGoals({
           realm: extraData.realm,
           projectID: project.id,
-          weekIndex: extraData.weekIndex,
+          weekIndex: extraData.currentWeekIndex,
         })}
       />
     );
@@ -112,7 +118,10 @@ class ProjectList extends Component {
     return (
       <View style={styles.container}>
         <ActionContainer
-          extraData={{realm: this.props.realm, weekIndex: this.state.weekIndex}}
+          extraData={{
+            realm: this.props.realm,
+            currentWeekIndex: this.state.currentWeekIndex,
+          }}
           weeklyProgressActive
           thisWeeksGoalSeconds={this.state.thisWeeksGoalSeconds}
           thisWeeksSecondsWorked={this.state.thisWeeksSecondsWorked}

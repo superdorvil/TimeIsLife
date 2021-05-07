@@ -10,6 +10,7 @@ import {
   ManageSettings,
   ManageWeeklyGoals,
   ProjectList,
+  ProjectManager,
   ProjectTimer,
   ViewProjectCharts,
 } from './ProjectActions';
@@ -49,6 +50,12 @@ const RouterComponent = () => (
         hideNavBar
       />
       <Scene
+        key="projectManager"
+        component={ProjectManager}
+        title="ProjectManager"
+        hideNavBar
+      />
+      <Scene
         key="manageSettings"
         component={ManageSettings}
         title="ManageSettings"
@@ -70,7 +77,7 @@ const RouterComponent = () => (
         key="projectTimer"
         component={ProjectTimer}
         title="ProjectTimer"
-        hideNavBar
+        hideNavBarl
       />
       <Scene
         key="viewProjectCharts"
