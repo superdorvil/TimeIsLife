@@ -10,6 +10,7 @@ import {
   ViewVisibleWrapper,
 } from '_components';
 import projectDB from '_data';
+import {Schemas} from '_constants';
 import {Icons, States} from '_constants';
 
 class ProjectManager extends Component {
@@ -29,8 +30,12 @@ class ProjectManager extends Component {
       minimumWeekIndex: this.props.currentWeekIndex - 8,
       maximumWeekIndex: this.props.currentWeekIndex,
     });
-
+    const project = this.props.realm.objectForPrimaryKey(
+      Schemas.project,
+      this.props.project.id,
+    );
     this.state = {
+      project,
       mode: States.timer,
       centerIconName: Icons.clock,
       tasks,
@@ -53,6 +58,14 @@ class ProjectManager extends Component {
   }
 
   componentDidMount() {
+    this.state.project.addListener(() => {
+      this.setState({
+        project: this.props.realm.objectForPrimaryKey(
+          Schemas.project,
+          this.props.project.id,
+        ),
+      });
+    });
     this.state.tasks.addListener(() => {
       this.setState({tasks: projectDB.getTasks({realm: this.props.realm})});
     });
@@ -108,7 +121,7 @@ class ProjectManager extends Component {
   }
 
   editProject() {
-    Actions.editProject();
+    Actions.editProject({realm: this.props.realm, project: this.props.project});
   }
 
   taskState() {
@@ -138,8 +151,6 @@ class ProjectManager extends Component {
   }
 
   renderListItem(listData, extraData) {
-    console.log(listData);
-    console.log(extraData)
     switch (extraData.mode) {
       case States.task:
         return (
@@ -192,7 +203,7 @@ class ProjectManager extends Component {
       editButtonActive: true,
       topRightButtonPressed: this.editProject,
       centerIconName: this.state.centerIconName,
-      actionDescription: this.props.project.description,
+      actionDescription: this.state.project.description,
     };
 
     const actionNavBarData = {

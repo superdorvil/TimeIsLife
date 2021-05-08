@@ -252,7 +252,21 @@ class ProjectDB {
 
   updateRealmObject({realm, objectData}) {}
 
-  updateProjectDescription({realm, projectID, description}) {}
+  editProject({realm, projectID, description}) {
+    const project = realm.objectForPrimaryKey(Schemas.project, projectID);
+
+    realm.write(() => {
+      project.description = description;
+    });
+  }
+
+  editTask({realm, taskID, description}) {
+    const task = realm.objectForPrimaryKey(Schemas.task, taskID);
+
+    realm.write(() => {
+      task.description = description;
+    });
+  }
 
   updateWeeklyGoal({realm, projectID, weekIndex, weeklyGoalSeconds}) {
     const weeklyGoal = realm

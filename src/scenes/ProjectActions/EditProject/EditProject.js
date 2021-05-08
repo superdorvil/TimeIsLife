@@ -1,10 +1,40 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
+import {Actions} from 'react-native-router-flux';
+import projectDB from '_data';
 import {ActionContainer} from '_components';
 import {Button, ProjectInput} from '_components';
+
 import {Icons} from '_constants';
 
 class EditProject extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      description: this.props.project.description,
+    };
+
+    this.editProject = this.editProject.bind(this);
+    this.updateDescription = this.updateDescription.bind(this);
+  }
+
+  editProject() {
+    if (this.state.description !== '') {
+      projectDB.editProject({
+        realm: this.props.realm,
+        projectID: this.props.project.id,
+        description: this.state.description,
+      });
+
+      Actions.pop();
+    }
+  }
+
+  updateDescription(description) {
+    this.setState({description});
+  }
+
   render() {
     const actionScreenData = {
       backArrowActive: true,
@@ -31,13 +61,13 @@ class EditProject extends Component {
           renderListItem={false}>
           <ProjectInput
             header="Project Name"
-            //value={false}
-            //onChangeText={false}
+            value={this.state.description}
+            onChangeText={this.updateDescription}
             placeholder="enter project name ..."
           />
         </ActionContainer>
         <View style={styles.button}>
-          <Button description="Edit Project" buttonPressed={false} />
+          <Button description="Edit Project" buttonPressed={this.editProject} />
         </View>
       </View>
     );
