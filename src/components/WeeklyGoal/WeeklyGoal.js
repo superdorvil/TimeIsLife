@@ -45,6 +45,7 @@ const WeeklyGoal = ({
           maximumValue={168}
           minimumTrackTintColor={Colors.secondary}
           maximumTrackTintColor={Colors.secondary}
+          onSlidingComplete={updateWeeklyGoal}
         />
       </View>
     </View>

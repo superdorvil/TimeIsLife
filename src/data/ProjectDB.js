@@ -236,17 +236,47 @@ class ProjectDB {
     endTime,
   }) {}
 
-  createWeeklyGoalSeconds({realm, projectID, weekIndex, weeklyGoalSeonds}) {}
+  createWeeklyGoal({realm, projectID, weekIndex, weeklyGoalSeconds}) {
+    let weeklyGoal;
+
+    realm.write(() => {
+      weeklyGoal = realm.create(Schemas.weeklyGoal, {
+        projectID,
+        weekIndex,
+        weeklyGoalSeconds,
+      });
+    });
+
+    return weeklyGoal;
+  }
 
   updateRealmObject({realm, objectData}) {}
 
   updateProjectDescription({realm, projectID, description}) {}
 
-  updateProjectGoal({realm, projectID, weekIndex, weeklyGoalSeconds}) {}
+  updateWeeklyGoal({realm, projectID, weekIndex, weeklyGoalSeconds}) {
+    const weeklyGoal = realm
+      .objects(Schemas.weeklyGoal)
+      .filtered('projectID == $0 && weekIndex == $1', projectID, weekIndex);
+
+    realm.write(() => {
+      if (weeklyGoal.length > 0) {
+        weeklyGoal[0].weeklyGoalSeconds = weeklyGoalSeconds;
+      } else {
+        this.createWeeklyGoal({realm, projectID, weekIndex, weeklyGoalSeconds});
+      }
+    });
+  }
 
   updateTime({realm, projectID, startTime, endTime}) {}
 
-  topProjectPosition({realm, projectID}) {}
+  topProjectPosition({realm, projectID}) {
+    const project = realm.objectForPrimaryKey(Schemas.project, projectID);
+
+    realm.write(() => {
+      project.position = this.getTopPosition(realm.objects(Schemas.projects));
+    });
+  }
 
   completeTask({realm, taskID}) {
     const task = realm.objectForPrimaryKey(Schemas.task, taskID);
@@ -265,10 +295,10 @@ class ProjectDB {
   // deleted boolean
   restoreProject({realm, projectID}) {}
 
-  getTopPosition(object) {
+  getTopPosition(objects) {
     let position = 0;
 
-    object.forEach((o, i) => {
+    objects.forEach((o, i) => {
       if (o.position >= position) {
         position = position + 1;
       }
