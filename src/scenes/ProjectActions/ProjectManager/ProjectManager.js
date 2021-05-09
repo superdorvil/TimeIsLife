@@ -10,7 +10,6 @@ import {
   ViewVisibleWrapper,
 } from '_components';
 import projectDB from '_data';
-import {Schemas} from '_constants';
 import {Icons, States} from '_constants';
 
 class ProjectManager extends Component {
@@ -30,10 +29,10 @@ class ProjectManager extends Component {
       minimumWeekIndex: this.props.currentWeekIndex - 8,
       maximumWeekIndex: this.props.currentWeekIndex,
     });
-    const project = this.props.realm.objectForPrimaryKey(
-      Schemas.project,
-      this.props.project.id,
-    );
+    const project = projectDB.getProjects({
+      realm: this.props.realm,
+      projectID: this.props.project.id,
+    });
     this.state = {
       project,
       mode: States.timer,
@@ -60,10 +59,10 @@ class ProjectManager extends Component {
   componentDidMount() {
     this.state.project.addListener(() => {
       this.setState({
-        project: this.props.realm.objectForPrimaryKey(
-          Schemas.project,
-          this.props.project.id,
-        ),
+        project: projectDB.getProjects({
+          realm: this.props.realm,
+          projectID: this.state.project.id,
+        }),
       });
     });
     this.state.tasks.addListener(() => {
@@ -73,7 +72,7 @@ class ProjectManager extends Component {
       this.setState({
         secondsWorked: projectDB.getSecondsWorked({
           realm: this.props.realm,
-          projectID: this.props.project.id,
+          projectID: this.state.project.id,
           minimumWeekIndex: this.props.secondsWorkedMinWeekIndex,
           maximumWeekIndex: this.props.secondsWorkedMaxWeekIndex,
         }),
@@ -83,7 +82,7 @@ class ProjectManager extends Component {
       this.setState({
         weeklyGoals: projectDB.getWeeklyGoals({
           realm: this.props.realm,
-          projectID: this.props.project.id,
+          projectID: this.state.project.id,
           minimumWeekIndex: this.props.goalsMinWeekIndex,
           maximumWeekIndex: this.props.goalsMaxWeekIndex,
         }),
@@ -95,6 +94,7 @@ class ProjectManager extends Component {
     this.state.tasks.removeAllListeners();
     //this.state.secondsWorked.removeAllListeners();
     //this.state.weeklyGoals.removeAllListeners();
+    this.state.project.removeAllListeners();
 
     // Nulls State removing memory leak error state update on unmounted comp
     this.setState = (state, callback) => {
@@ -106,22 +106,25 @@ class ProjectManager extends Component {
     if (this.state.mode === States.task) {
       Actions.createTask({
         realm: this.props.realm,
-        project: this.props.project,
+        project: this.state.project,
       });
     } else if (this.state.mode === States.timer) {
       Actions.addProjectHours({
         realm: this.props.realm,
-        project: this.props.project,
+        project: this.state.project,
       });
     }
   }
 
   timerPressed() {
-    Actions.ProjectTimer();
+    Actions.projectTimer({
+      realm: this.props.realm,
+      project: this.state.project,
+    });
   }
 
   editProject() {
-    Actions.editProject({realm: this.props.realm, project: this.props.project});
+    Actions.editProject({realm: this.props.realm, project: this.state.project});
   }
 
   taskState() {
@@ -238,7 +241,7 @@ class ProjectManager extends Component {
           renderListItem={this.renderListItem}
         />
         <ViewVisibleWrapper active={this.state.mode === States.timer}>
-          <StartStopButton timerPressed={this.timerPressed} />
+          <StartStopButton stopMode={false} timerPressed={this.timerPressed} />
         </ViewVisibleWrapper>
       </View>
     );

@@ -1,9 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {ViewVisibleWrapper} from '_components';
+import {ViewVisibleWrapper, BackArrow} from '_components';
 import CenterIcon from './CenterIcon';
 import TopRightButton from './TopRightButton';
-import BackArrow from './BackArrow';
 import {Colors} from '_resources';
 
 const ActionScreen = ({

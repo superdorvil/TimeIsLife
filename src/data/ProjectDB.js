@@ -21,17 +21,26 @@ class ProjectDB {
     let totalSecondsWorked = 0;
 
     secondsWorked.forEach((sw, i) => {
-      totalSecondsWorked = totalSecondsWorked + sw.endTime - sw.startTime;
+      totalSecondsWorked =
+        totalSecondsWorked + (sw.endTime - sw.startTime) / 1000;
     });
 
     return totalSecondsWorked;
   }
 
-  getTasks({realm}) {
+  getTasks({realm, taskID}) {
+    if (taskID) {
+      return realm.objectForPrimaryKey(Schemas.task, taskID);
+    }
+
     return realm.objects(Schemas.task);
   }
 
-  getProjects({realm}) {
+  getProjects({realm, projectID}) {
+    if (projectID) {
+      return realm.objectForPrimaryKey(Schemas.project, projectID);
+    }
+
     return realm.objects(Schemas.project);
   }
 
@@ -224,18 +233,6 @@ class ProjectDB {
     return task;
   }
 
-  // id prexisiting objects id + 1
-  createProjectSeconds({
-    realm,
-    projectID,
-    taskID,
-    dateIndex,
-    weekIndex,
-    monthIndex,
-    startTime,
-    endTime,
-  }) {}
-
   createWeeklyGoal({realm, projectID, weekIndex, weeklyGoalSeconds}) {
     let weeklyGoal;
 
@@ -289,6 +286,36 @@ class ProjectDB {
 
     realm.write(() => {
       project.position = this.getTopPosition(realm.objects(Schemas.projects));
+    });
+  }
+
+  startTimer({realm, projectID}) {
+    const project = realm.objectForPrimaryKey(Schemas.project, projectID);
+
+    realm.write(() => {
+      project.timerStartTime = new Date();
+      project.timerActive = true;
+    });
+  }
+
+  stopTimer({realm, projectID}) {
+    const project = realm.objectForPrimaryKey(Schemas.project, projectID);
+    const endTime = new Date();
+    const dateIndex = DateUtils.getDateIndex({date: project.timerStartTime});
+    const weekIndex = DateUtils.getWeekIndex({date: project.timerStartTime});
+    const monthIndex = DateUtils.getMonthIndex({date: project.timerStartTime});
+
+    realm.write(() => {
+      project.timerActive = false;
+      realm.create(Schemas.secondsWorked, {
+        id: realm.objects(Schemas.secondsWorked).length + 1,
+        projectID,
+        dateIndex,
+        weekIndex,
+        monthIndex,
+        startTime: project.timerStartTime,
+        endTime,
+      });
     });
   }
 

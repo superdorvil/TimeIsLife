@@ -12,6 +12,7 @@ const SecondsWorkedSchema = {
     monthIndex: 'int',
     startTime: 'date',
     endTime: 'date',
+    deleted: {type: 'bool', default: false},
   },
 };
 

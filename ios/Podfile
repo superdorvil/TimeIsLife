@@ -15,6 +15,8 @@ target 'TimeIsLife' do
 
   pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
+  pod 'react-native-uuid-generator', :path => '../node_modules/react-native-uuid-generator'
+
   target 'TimeIsLifeTests' do
     inherit! :complete
     # Pods for testing

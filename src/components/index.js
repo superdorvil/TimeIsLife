@@ -1,4 +1,5 @@
 export ActionContainer from './ActionContainer';
+export BackArrow from './BackArrow';
 export Button from './Button';
 export ProjectChartsDataPicker from './ProjectChartsDataPicker';
 export ChartNavBar from './ChartNavBar';

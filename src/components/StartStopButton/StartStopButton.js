@@ -2,11 +2,11 @@ import React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import {Colors} from '_resources';
 
-const StartStopButton = ({timerPressed}) => {
+const StartStopButton = ({stopMode, timerPressed}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.circle} onPress={timerPressed}>
-        <Text style={styles.text}>Start</Text>
+        <Text style={styles.text}>{stopMode ? 'Stop' : 'Start'}</Text>
         <Text style={styles.text}>Timer</Text>
       </TouchableOpacity>
     </View>

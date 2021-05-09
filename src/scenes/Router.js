@@ -77,7 +77,7 @@ const RouterComponent = () => (
         key="projectTimer"
         component={ProjectTimer}
         title="ProjectTimer"
-        hideNavBarl
+        hideNavBar
       />
       <Scene
         key="viewProjectCharts"

@@ -42,7 +42,6 @@ Hours Worked screen
 *****  load more button, only do like a week at a time
 
 Edit Project
-  edit description
 *******  delete project with modal, and message you can alway restore in the Settings
     filter all data on projects that are not deleted, string builder filter???
 
@@ -52,10 +51,12 @@ Add Project hours
 Project Goal screen
   copy total weekly goal, add project id to filter
 
-Project Task
-  add task
-  complete
-******  update the design of the view
+
+
+
+
+
+******  Project Task update the design of the view
 
 Remove Action Screen data and just put in data without action screen
 

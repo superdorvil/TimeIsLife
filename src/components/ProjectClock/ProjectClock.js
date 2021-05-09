@@ -2,18 +2,25 @@ import React from 'react';
 import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import Time from './Time';
 import {Colors} from '_resources';
+import {HoursUtils} from '_utils';
 
 const ProjectClock = ({secondsWorked}) => {
-  const timeWorked = secondsWorked;
+  const timeWorked = HoursUtils.convertSecondsToHrsMinsSecs({
+    totalSeconds: secondsWorked,
+    doubleDigitHours: true,
+    doubleDigitMinutes: true,
+    doubleDigitSeconds: true,
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.circle}>
         <View style={styles.timeContainer}>
-          <Time time="00" unit="h" />
+          <Time time={timeWorked.hours} unit="h" />
           <Text style={styles.colon}> : </Text>
-          <Time time="00" unit="m" />
+          <Time time={timeWorked.minutes} unit="m" />
           <Text style={styles.colon}> : </Text>
-          <Time time="00" unit="s" />
+          <Time time={timeWorked.seconds} unit="s" />
         </View>
         <Text style={styles.hoursToday}>Hours Today</Text>
       </View>
