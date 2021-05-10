@@ -18,7 +18,7 @@ const WeeklyGoal = ({
   });
   const progress =
     thisWeeksHoursGoal > 0
-      ? Math.round((thisWeeksHoursGoal / thisWeeksSecondsGoal) * 100)
+      ? Math.round((thisWeeksSecondsWorked / thisWeeksSecondsGoal) * 100)
       : 0;
 
   return (
@@ -43,6 +43,7 @@ const WeeklyGoal = ({
           style={styles.slider}
           minimumValue={0}
           maximumValue={168}
+          value={thisWeeksHoursGoal}
           minimumTrackTintColor={Colors.secondary}
           maximumTrackTintColor={Colors.secondary}
           onSlidingComplete={updateWeeklyGoal}

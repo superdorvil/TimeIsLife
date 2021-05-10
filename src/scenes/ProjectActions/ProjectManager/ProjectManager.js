@@ -11,6 +11,7 @@ import {
 } from '_components';
 import projectDB from '_data';
 import {Icons, States} from '_constants';
+import {HoursUtils} from '_utils';
 
 class ProjectManager extends Component {
   constructor(props) {
@@ -23,16 +24,15 @@ class ProjectManager extends Component {
       limit: 35,
     });
     const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
-    const weeklyGoals = projectDB.getWeeklyGoals({
-      realm: this.props.realm,
-      projectID: this.props.project.id,
-      minimumWeekIndex: this.props.currentWeekIndex - 8,
-      maximumWeekIndex: this.props.currentWeekIndex,
-    });
     const project = projectDB.getProjects({
       realm: this.props.realm,
       projectID: this.props.project.id,
     });
+    const weeklyGoalWeekIndexes = []; // 10 weeks
+    for (let i = 0; i < 10; i++) {
+      weeklyGoalWeekIndexes.push({weekIndex: this.props.currentWeekIndex - i});
+    }
+
     this.state = {
       project,
       mode: States.timer,
@@ -40,12 +40,8 @@ class ProjectManager extends Component {
       tasks,
       secondsWorked,
       secondsWorkedDisplay,
-      weeklyGoals,
+      weeklyGoalWeekIndexes,
       listData: secondsWorkedDisplay,
-      goalsMaxWeekIndex: this.props.currentWeekIndex,
-      goalsMinWeekIndex: this.props.currentWeekIndex - 8,
-      secondsWorkedMaxWeekIndex: this.props.currentWeekIndex,
-      secondsWorkedMinWeekIndex: this.props.currentWeekIndex - 8,
       actionButtonDescription: 'Hours Worked',
     };
 
@@ -55,6 +51,7 @@ class ProjectManager extends Component {
     this.goalsState = this.goalsState.bind(this);
     this.timerPressed = this.timerPressed.bind(this);
     this.addPressed = this.addPressed.bind(this);
+    this.updateWeeklyGoal = this.updateWeeklyGoal.bind(this);
   }
 
   componentDidMount() {
@@ -89,22 +86,11 @@ class ProjectManager extends Component {
         }),
       });
     });
-    /*this.state.weeklyGoals.addListener(() => {
-      this.setState({
-        weeklyGoals: projectDB.getWeeklyGoals({
-          realm: this.props.realm,
-          projectID: this.state.project.id,
-          minimumWeekIndex: this.props.goalsMinWeekIndex,
-          maximumWeekIndex: this.props.goalsMaxWeekIndex,
-        }),
-      });
-    });*/
   }
 
   componentWillUnmount() {
     this.state.tasks.removeAllListeners();
     //this.state.secondsWorked.removeAllListeners();
-    //this.state.weeklyGoals.removeAllListeners();
     this.state.project.removeAllListeners();
 
     // Nulls State removing memory leak error state update on unmounted comp
@@ -194,7 +180,7 @@ class ProjectManager extends Component {
     this.setState({
       mode: States.goals,
       centerIconName: Icons.goals,
-      listData: this.state.weeklyGoals,
+      listData: this.state.weeklyGoalWeekIndexes,
     });
   }
 
@@ -226,22 +212,40 @@ class ProjectManager extends Component {
             thisWeeksSecondsWorked={projectDB.getSecondsWorked({
               realm: extraData.realm,
               weekIndex: listData.weekIndex,
-              projectID: listData.projectID,
+              projectID: extraData.project.id,
             })}
-            thisWeeksSecondsGoal={listData.weeklyGoalSeconds}
+            thisWeeksSecondsGoal={projectDB.getWeeklyGoals({
+              realm: extraData.realm,
+              weekIndex: listData.weekIndex,
+              projectID: extraData.project.id,
+            })}
             updateWeeklyGoal={value => {
-              projectDB.updateWeeklyGoal({
-                realm: extraData.realm,
-                weekIndex: listData.weekIndex,
-                projectID: listData.projectID,
-                weeklyGoalSeconds: value,
-              });
+              extraData.updateWeeklyGoal(
+                extraData.realm,
+                listData.weekIndex,
+                extraData.project.id,
+                value,
+              );
             }}
           />
         );
       default:
       // FIXME:  add error handling
     }
+  }
+
+  updateWeeklyGoal(realm, weekIndex, projectID, value) {
+    projectDB.updateWeeklyGoal({
+      realm: realm,
+      weekIndex: weekIndex,
+      projectID: projectID,
+      weeklyGoalSeconds: HoursUtils.convertHrsMinsSecsToSeconds({hours: value}),
+    });
+
+    this.setState({
+      listData: this.state.weeklyGoalWeekIndexes,
+      weeklyGoalWeekIndexes: this.state.weeklyGoalWeekIndexes,
+    });
   }
 
   render() {
@@ -268,6 +272,8 @@ class ProjectManager extends Component {
           extraData={{
             realm: this.props.realm,
             mode: this.state.mode,
+            project: this.state.project,
+            updateWeeklyGoal: this.updateWeeklyGoal,
           }}
           weeklyProgressActive={false}
           weeklyProgressData={false}
@@ -299,51 +305,3 @@ const styles = StyleSheet.create({
 });
 
 export default ProjectManager;
-
-/*const goalData = [
-  {
-    thisWeeksSecondsWorked: 5000,
-    thisWeeksSecondsGoal: 33000,
-  },
-  {
-    thisWeeksSecondsWorked: 5000,
-    thisWeeksSecondsGoal: 33000,
-  },
-  {
-    thisWeeksSecondsWorked: 5000,
-    thisWeeksSecondsGoal: 33000,
-  },
-  {
-    thisWeeksSecondsWorked: 5000,
-    thisWeeksSecondsGoal: 33000,
-  },
-];
-
-const hoursWorkedData = [
-  {
-    date: new Date('April 22, 2021 05:24'),
-    hoursWorkedList: [
-      {
-        startTime: new Date('April 22, 2021 05:24'),
-        endTime: new Date('April 22, 2021 08:57'),
-      },
-      {
-        startTime: new Date('April 23, 2021 09:24'),
-        endTime: new Date('April 23, 2021 13:57'),
-      },
-    ],
-  },
-  {
-    date: new Date(),
-    hoursWorkedList: [
-      {
-        startTime: new Date('April 24, 2021 05:24'),
-        endTime: new Date('April 24, 2021 08:57'),
-      },
-      {
-        startTime: new Date('April 25, 2021 09:24'),
-        endTime: new Date('April 25, 2021 12:57'),
-      },
-    ],
-  },
-];*/

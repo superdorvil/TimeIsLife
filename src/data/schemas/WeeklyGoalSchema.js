@@ -4,7 +4,7 @@ const WeeklyGoalSchema = {
   name: Schemas.weeklyGoal,
   properties: {
     weekIndex: 'int',
-    weeklyGoalSeconds: 'int',
+    weeklyGoalSeconds: 'int', // FIXME:: Change to hours???
     projectID: 'int',
   },
 };

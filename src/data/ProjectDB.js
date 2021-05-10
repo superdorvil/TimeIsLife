@@ -194,7 +194,7 @@ class ProjectDB {
       weekIndex,
     );
 
-    return weeklyGoal.length > 0 ? weeklyGoal[0].weeklyGoal : 0;
+    return weeklyGoal.length > 0 ? weeklyGoal[0].weeklyGoalSeconds : 0;
   }
 
   createProject({realm, description}) {
@@ -280,17 +280,26 @@ class ProjectDB {
   }
 
   updateWeeklyGoal({realm, projectID, weekIndex, weeklyGoalSeconds}) {
-    const weeklyGoal = realm
+    let weeklyGoal = realm
       .objects(Schemas.weeklyGoal)
       .filtered('projectID == $0 && weekIndex == $1', projectID, weekIndex);
 
-    realm.write(() => {
-      if (weeklyGoal.length > 0) {
-        weeklyGoal[0].weeklyGoalSeconds = weeklyGoalSeconds;
-      } else {
-        this.createWeeklyGoal({realm, projectID, weekIndex, weeklyGoalSeconds});
-      }
-    });
+    if (weeklyGoal.length === 0) {
+      weeklyGoal = this.createWeeklyGoal({
+        realm,
+        projectID,
+        weekIndex,
+        weeklyGoalSeconds,
+      });
+    } else {
+      realm.write(() => {
+        if (weeklyGoal.length > 0) {
+          weeklyGoal[0].weeklyGoalSeconds = weeklyGoalSeconds;
+        }
+      });
+    }
+
+    return weeklyGoal;
   }
 
   updateTime({realm, projectID, startTime, endTime}) {}
