@@ -394,6 +394,16 @@ export const getDateDiff = ({startDate, endDate}) => {
   return diffDays;
 };
 
+export const previousDate = ({diff, date}) => {
+  const prevDate = date.getDate() - diff;
+  return new Date(new Date().setDate(prevDate));
+};
+
+export const futureDate = ({diff, date}) => {
+  const nextDate = date.getDate() - diff;
+  return new Date(new Date().setDate(nextDate));
+};
+
 export const getDateIndex = ({date}) => {
   // I need am using my birthday as the default initial date
   const initialDate = new Date('11/9/2019'); // My bday is Nov 9 :D

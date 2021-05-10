@@ -54,10 +54,13 @@ class ProjectDB {
     sortType,
     ascendingSort,
     returnList,
-    minimumWeekIndex,
-    maximumWeekIndex,
+    limit,
+    // minimumWeekIndex,
+    // maximumWeekIndex,
   }) {
-    let secondsWorked = realm.objects(Schemas.secondsWorked);
+    let secondsWorked = realm
+      .objects(Schemas.secondsWorked)
+      .sorted('startTime');
 
     if (projectID) {
       secondsWorked = secondsWorked.filtered('projectID == $0', projectID);
@@ -75,7 +78,18 @@ class ProjectDB {
       secondsWorked = secondsWorked.filtered('monthIndex == $0', monthIndex);
     }
 
-    // return list with range
+    if (limit) {
+      if (secondsWorked.length > limit) {
+        secondsWorked.filtered(
+          'dateIndex >= $0',
+          secondsWorked[limit].dateIndex,
+        );
+      }
+
+      return secondsWorked; //as a list
+    }
+
+    /*// return list with range
     // try (data === parseInt(data, 10))
     if (minimumWeekIndex !== undefined && maximumWeekIndex !== undefined) {
       secondsWorked = secondsWorked
@@ -87,7 +101,7 @@ class ProjectDB {
         .sorted('startTime');
 
       return secondsWorked;
-    }
+    }*/
 
     if (returnList) {
       return secondsWorked;
@@ -154,12 +168,12 @@ class ProjectDB {
     realm,
     weekIndex,
     projectID = 0,
-    minimumWeekIndex,
-    maximumWeekIndex,
+    // minimumWeekIndex,
+    // maximumWeekIndex,
   }) {
     let weeklyGoal = realm.objects(Schemas.weeklyGoal);
 
-    // return list with range
+    /*// return list with range
     // try (data === parseInt(data, 10))
     if (minimumWeekIndex !== undefined && maximumWeekIndex !== undefined) {
       weeklyGoal = weeklyGoal
@@ -172,7 +186,7 @@ class ProjectDB {
         .sorted('weekIndex');
 
       return weeklyGoal;
-    }
+    }*/
 
     weeklyGoal = weeklyGoal.filtered(
       'projectID == $0 && weekIndex == $1',

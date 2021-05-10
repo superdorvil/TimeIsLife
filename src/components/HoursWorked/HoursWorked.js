@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {StartEndTimeButtons} from '_components';
-import {DateUtils} from '_utils';
+import {DateUtils, HoursUtils} from '_utils';
 import {Utils} from '_constants';
 import {Colors} from '_resources';
 
-const HoursWorked = ({date, hoursWorkedList}) => {
+const HoursWorked = ({date, secondsWorkedList}) => {
   const today = new Date();
   let yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
@@ -28,20 +28,26 @@ const HoursWorked = ({date, hoursWorkedList}) => {
       format: Utils.dateFormat.monthDateYear,
     });
   }
-
+  let totalSeconds = 0;
   const startEndTimeButtons = [];
 
-  hoursWorkedList.forEach((hoursWorked, i) => {
+  secondsWorkedList.forEach((secondsWorked, i) => {
     startEndTimeButtons.push(
       <View style={styles.startEndTimeButtonsContainer} key={i}>
         <StartEndTimeButtons
-          startTime={hoursWorked.startTime}
-          endTime={hoursWorked.endTime}
+          startTime={secondsWorked.startTime}
+          endTime={secondsWorked.endTime}
           startPressed
           endPressed
         />
       </View>,
     );
+    totalSeconds =
+      totalSeconds + (secondsWorked.endTime - secondsWorked.startTime);
+  });
+  const totalHours = HoursUtils.convertSecondsToHrs({
+    totalSeconds: totalSeconds / 1000,
+    decimalMinutes: true,
   });
 
   return (
@@ -51,7 +57,7 @@ const HoursWorked = ({date, hoursWorkedList}) => {
           Total Hours {dayOfWeekText}
           {dateText}:
         </Text>
-        <Text style={styles.hours}>3.6 h</Text>
+        <Text style={styles.hours}>{totalHours} h</Text>
       </View>
       {startEndTimeButtons}
     </View>

@@ -20,9 +20,9 @@ class ProjectManager extends Component {
     const secondsWorked = projectDB.getSecondsWorked({
       realm: this.props.realm,
       projectID: this.props.project.id,
-      minimumWeekIndex: this.props.currentWeekIndex - 8,
-      maximumWeekIndex: this.props.currentWeekIndex,
+      limit: 35,
     });
+    const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
     const weeklyGoals = projectDB.getWeeklyGoals({
       realm: this.props.realm,
       projectID: this.props.project.id,
@@ -39,8 +39,9 @@ class ProjectManager extends Component {
       centerIconName: Icons.clock,
       tasks,
       secondsWorked,
+      secondsWorkedDisplay,
       weeklyGoals,
-      listData: secondsWorked,
+      listData: secondsWorkedDisplay,
       goalsMaxWeekIndex: this.props.currentWeekIndex,
       goalsMinWeekIndex: this.props.currentWeekIndex - 8,
       secondsWorkedMaxWeekIndex: this.props.currentWeekIndex,
@@ -69,6 +70,16 @@ class ProjectManager extends Component {
       this.setState({tasks: projectDB.getTasks({realm: this.props.realm})});
     });
     this.state.secondsWorked.addListener(() => {
+      const secondsWorked = projectDB.getSecondsWorked({
+        realm: this.props.realm,
+        projectID: this.props.project.id,
+        limit: 35,
+      });
+      const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
+      this.setState({
+        secondsWorked,
+        secondsWorkedDisplay,
+      });
       this.setState({
         secondsWorked: projectDB.getSecondsWorked({
           realm: this.props.realm,
@@ -78,7 +89,7 @@ class ProjectManager extends Component {
         }),
       });
     });
-    this.state.weeklyGoals.addListener(() => {
+    /*this.state.weeklyGoals.addListener(() => {
       this.setState({
         weeklyGoals: projectDB.getWeeklyGoals({
           realm: this.props.realm,
@@ -87,7 +98,7 @@ class ProjectManager extends Component {
           maximumWeekIndex: this.props.goalsMaxWeekIndex,
         }),
       });
-    });
+    });*/
   }
 
   componentWillUnmount() {
@@ -100,6 +111,40 @@ class ProjectManager extends Component {
     this.setState = (state, callback) => {
       return;
     };
+  }
+
+  formatSecondsWorked(secondsWorked) {
+    const secondsWorkedDisplay = [];
+    let swHelper = [];
+    let currentDateIndex = 0;
+
+    secondsWorked.forEach((sw, i) => {
+      if (currentDateIndex === 0) {
+        currentDateIndex = sw.dateIndex;
+      }
+
+      if (currentDateIndex !== sw.dateIndex) {
+        secondsWorkedDisplay.push({
+          secondsWorkedList: swHelper,
+          date: swHelper[0].startTime,
+        });
+
+        swHelper = [];
+      } else {
+        swHelper.push({
+          id: sw.id,
+          startTime: sw.startTime,
+          endTime: sw.endTime,
+        });
+      }
+    });
+
+    secondsWorkedDisplay.push({
+      secondsWorkedList: swHelper,
+      date: swHelper[0].startTime,
+    });
+
+    return secondsWorkedDisplay;
   }
 
   addPressed() {
@@ -140,7 +185,7 @@ class ProjectManager extends Component {
     this.setState({
       mode: States.timer,
       centerIconName: Icons.clock,
-      listData: this.state.secondsWorked,
+      listData: this.state.secondsWorkedDisplay,
       actionButtonDescription: 'Hours Worked',
     });
   }
@@ -169,13 +214,12 @@ class ProjectManager extends Component {
           />
         );
       case States.timer:
-        return <View />;
-      /*return (
+        return (
           <HoursWorked
             date={listData.date}
-            hoursWorkedList={listData.hoursWorkedList}
+            secondsWorkedList={listData.secondsWorkedList}
           />
-        );*/
+        );
       case States.goals:
         return (
           <WeeklyGoal
