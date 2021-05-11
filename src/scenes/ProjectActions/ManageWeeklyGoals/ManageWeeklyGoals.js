@@ -4,16 +4,57 @@ import {ActionContainer} from '_components';
 import {WeeklyGoal} from '_components';
 import {Icons} from '_constants';
 import {Colors} from '_resources';
+import projectDB from '_data';
+import {HoursUtils, DateUtils} from '_utils';
 
 class ManageWeeklyGoals extends Component {
-  renderGoal(goalData) {
+  constructor(props) {
+    super(props);
+
+    const currentWeekIndex = DateUtils.getWeekIndex({date: new Date()});
+    const weeklyGoalWeekIndexes = []; // 10 weeks
+    for (let i = 0; i < 10; i++) {
+      weeklyGoalWeekIndexes.push({weekIndex: currentWeekIndex - i});
+    }
+
+    this.state = {
+      weeklyGoalWeekIndexes,
+    };
+
+    this.updateWeeklyGoal = this.updateWeeklyGoal.bind(this);
+    console.log(this.props);
+  }
+
+  renderGoal(goalData, extraData) {
     return (
       <WeeklyGoal
-        thisWeeksSecondsWorked={goalData.thisWeeksSecondsWorked}
-        thisWeeksSecondsGoal={goalData.thisWeeksSecondsGoal}
-        updateWeeklyGoal
+        thisWeeksSecondsWorked={projectDB.getSecondsWorked({
+          realm: extraData.realm,
+          weekIndex: goalData.weekIndex,
+        })}
+        thisWeeksSecondsGoal={projectDB.getWeeklyGoals({
+          realm: extraData.realm,
+          weekIndex: goalData.weekIndex,
+        })}
+        updateWeeklyGoal={value => {
+          extraData.updateWeeklyGoal(
+            extraData.realm,
+            goalData.weekIndex,
+            value,
+          );
+        }}
       />
     );
+  }
+
+  updateWeeklyGoal(realm, weekIndex, value) {
+    projectDB.updateWeeklyGoal({
+      realm: realm,
+      weekIndex: weekIndex,
+      weeklyGoalSeconds: HoursUtils.convertHrsMinsSecsToSeconds({hours: value}),
+    });
+
+    this.setState({weeklyGoalWeekIndexes: this.state.weeklyGoalWeekIndexes});
   }
 
   render() {
@@ -25,44 +66,13 @@ class ManageWeeklyGoals extends Component {
       actionDescription: 'Total Weekly Goals',
     };
 
-    const goalData = [
-      {
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-      {
-        thisWeeksSecondsWorked: 5000,
-        thisWeeksSecondsGoal: 33000,
-      },
-    ];
-
     return (
       <View style={styles.container}>
         <ActionContainer
+          extraData={{
+            realm: this.props.realm,
+            updateWeeklyGoal: this.updateWeeklyGoal,
+          }}
           weeklyProgressActive={false}
           weeklyProgressData={false}
           actionScreenActive={true}
@@ -75,7 +85,7 @@ class ManageWeeklyGoals extends Component {
           bottomChild={false}
           actionButtonActive={false}
           actionButtonPressed={false}
-          listData={goalData}
+          listData={this.state.weeklyGoalWeekIndexes}
           listDataActive={true}
           renderListItem={this.renderGoal}
         />

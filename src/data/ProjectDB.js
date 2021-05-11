@@ -279,7 +279,7 @@ class ProjectDB {
     });
   }
 
-  updateWeeklyGoal({realm, projectID, weekIndex, weeklyGoalSeconds}) {
+  updateWeeklyGoal({realm, projectID = 0, weekIndex, weeklyGoalSeconds}) {
     let weeklyGoal = realm
       .objects(Schemas.weeklyGoal)
       .filtered('projectID == $0 && weekIndex == $1', projectID, weekIndex);

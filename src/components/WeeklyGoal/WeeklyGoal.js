@@ -42,7 +42,7 @@ const WeeklyGoal = ({
         <Slider
           style={styles.slider}
           minimumValue={0}
-          maximumValue={168}
+          maximumValue={100}
           value={thisWeeksHoursGoal}
           minimumTrackTintColor={Colors.secondary}
           maximumTrackTintColor={Colors.secondary}
