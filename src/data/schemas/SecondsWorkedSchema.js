@@ -10,6 +10,7 @@ const SecondsWorkedSchema = {
     dateIndex: 'int',
     weekIndex: 'int',
     monthIndex: 'int',
+    yearIndex: 'int',
     startTime: 'date',
     endTime: 'date',
     deleted: {type: 'bool', default: false},

@@ -242,6 +242,10 @@ export const convertDateToString = ({date, format}) => {
       dateText = dateText + convertMonthToString({date, abbreviate: false});
       dateText = dateText + ' ' + date.getDate();
       break;
+    case Utils.dateFormat.monthYear:
+      dateText = dateText + convertMonthToString({date, abbreviate: false});
+      dateText = dateText + ' ' + date.getFullYear();
+      break;
     case Utils.dateFormat.monDateYear:
       dateText = dateText + convertMonthToString({date, abbreviate: true});
       dateText = dateText + ' ' + date.getDate();
@@ -369,6 +373,16 @@ export const getSunday = ({date}) => {
   return sunday;
 };
 
+export const getSaturday = ({date}) => {
+  const saturday = new Date(date);
+
+  while (saturday.getDay() !== 6) {
+    saturday.setDate(saturday.getDate() + 1);
+  }
+
+  return saturday;
+};
+
 // Checks if it has the same, date, month and year, excludes hours
 export const isDateEqual = ({date1, date2}) => {
   let equal = true;
@@ -400,13 +414,55 @@ export const previousDate = ({diff, date}) => {
 };
 
 export const futureDate = ({diff, date}) => {
-  const nextDate = date.getDate() - diff;
+  const nextDate = date.getDate() + diff;
   return new Date(new Date().setDate(nextDate));
+};
+
+export const getFirstDayOfMonth = ({date}) => {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+};
+
+export const getLastDayOfMonth = ({date}) => {
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+};
+
+export const getFirstDayOfNextMonth = ({date}) => {
+  if (date.getMonth() === 11) {
+    return new Date(date.getFullYear() + 1, 0, 1);
+  } else {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 1);
+  }
+};
+
+export const getLastDayOfNextMonth = ({date}) => {
+  return getLastDayOfMonth({date: getFirstDayOfNextMonth({date})});
+};
+
+export const getFirstDayOfPreviousMonth = ({date}) => {
+  if (date.getMonth() === 0) {
+    return new Date(date.getFullYear() - 1, 11, 1);
+  } else {
+    return new Date(date.getFullYear(), date.getMonth() - 1, 1);
+  }
+};
+
+export const getLastDayOfPreviousMonth = ({date}) => {
+  return getLastDayOfMonth({date: getFirstDayOfPreviousMonth({date})});
+};
+
+// good for getting first month index
+export const getFirstDayOfYear = ({date}) => {
+  return new Date(date.getFullYear(), 0, 0);
+};
+
+// good for getting last month index
+export const getLastDayOfYear = ({date}) => {
+  return new Date(date.getFullYear(), 11, 31);
 };
 
 export const getDateIndex = ({date}) => {
   // I need am using my birthday as the default initial date
-  const initialDate = new Date('11/9/2019'); // My bday is Nov 9 :D
+  const initialDate = new Date('11/9/1994'); // My bday is Nov 9 :D
   const dateDiff = getDateDiff({
     startDate: initialDate,
     endDate: date,
@@ -419,7 +475,7 @@ export const getWeekIndex = ({date}) => {
   // I need am using my birthday week as the default initial week
   // The goal is to have an index of each week with a unique
   // Using Sunday, as initial date
-  const initialWeekDate = new Date('11/3/2019'); // My bday is Nov 9 :D
+  const initialWeekDate = new Date('11/3/1994'); // My bday is Nov 9 :D
   const dateDiff = getDateDiff({
     startDate: initialWeekDate,
     endDate: date,
@@ -430,8 +486,22 @@ export const getWeekIndex = ({date}) => {
 
 export const getMonthIndex = ({date}) => {
   // 2019 is the initial year we use for the indexing
-  const yearIndex = date.getFullYear() - 2019;
-  const monthIndex = yearIndex * 12 + date.getMonth();
+  const yearIndex = getYearIndex({date});
+  // Javascript months are off by 1, so November is 10, but you add plus one, hence plus 11
+  const monthIndex = yearIndex * 12 + date.getMonth() + 11; // My bday month :D
 
   return monthIndex;
+};
+
+export const getYearIndex = ({date}) => {
+  // 2019 is the initial year we use for the indexing
+  return date.getFullYear() - 1994; // My bday year :D
+};
+
+export const getFirstMonthOfYearIndex = ({date}) => {
+  return getMonthIndex({date: getFirstDayOfYear({date})});
+};
+
+export const getLastMonthOfYearIndex = ({date}) => {
+  return getMonthIndex({date: getLastDayOfYear({date})});
 };

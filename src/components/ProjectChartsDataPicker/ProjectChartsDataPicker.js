@@ -6,19 +6,19 @@ import {Colors} from '_resources';
 
 const ProjectChartsDataPicker = ({
   dateInfo,
-  leftArrowPressed,
-  rightArrowPressed,
+  incrementChartIndex,
+  decrementChartIndex,
 }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={leftArrowPressed}
+        onPress={incrementChartIndex}
         style={styles.arrowLeftContainer}>
         <Icon name={Icons.leftArrow} size={35} style={styles.arrow} />
       </TouchableOpacity>
       <Text style={styles.dateInfo}>{dateInfo}</Text>
       <TouchableOpacity
-        onPress={rightArrowPressed}
+        onPress={decrementChartIndex}
         style={styles.arrowRightContainer}>
         <Icon name={Icons.rightArrow} size={35} style={styles.arrow} />
       </TouchableOpacity>

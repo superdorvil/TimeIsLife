@@ -3,6 +3,7 @@ export const dateFormat = {
   month: 'month',
   monDate: 'mon date',
   monthDate: 'month date',
+  monthYear: 'month year',
   monDateYear: 'mon date year',
   monthDateYear: 'month date year',
   m_d_yy: 'm-d-yy',

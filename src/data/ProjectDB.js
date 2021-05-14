@@ -51,6 +51,7 @@ class ProjectDB {
     dateIndex,
     weekIndex,
     monthIndex,
+    yearIndex,
     sortType,
     ascendingSort,
     returnList,
@@ -76,6 +77,9 @@ class ProjectDB {
     }
     if (monthIndex) {
       secondsWorked = secondsWorked.filtered('monthIndex == $0', monthIndex);
+    }
+    if (yearIndex) {
+      secondsWorked = secondsWorked.filtered('yearIndex == $0', yearIndex);
     }
 
     if (limit) {
@@ -327,6 +331,7 @@ class ProjectDB {
     const dateIndex = DateUtils.getDateIndex({date: project.timerStartTime});
     const weekIndex = DateUtils.getWeekIndex({date: project.timerStartTime});
     const monthIndex = DateUtils.getMonthIndex({date: project.timerStartTime});
+    const yearIndex = DateUtils.getYearIndex({date: project.timerStartTime});
 
     realm.write(() => {
       project.timerActive = false;
@@ -336,6 +341,7 @@ class ProjectDB {
         dateIndex,
         weekIndex,
         monthIndex,
+        yearIndex,
         startTime: project.timerStartTime,
         endTime,
       });
