@@ -30,7 +30,15 @@ class ProjectManager extends Component {
     });
     const weeklyGoalWeekIndexes = []; // 10 weeks
     for (let i = 0; i < 10; i++) {
-      weeklyGoalWeekIndexes.push({weekIndex: this.props.currentWeekIndex - i});
+      weeklyGoalWeekIndexes.push({
+        index: i,
+        weekIndex: this.props.currentWeekIndex - i,
+        thisWeeksSecondsGoal: projectDB.getWeeklyGoals({
+          realm: this.props.realm,
+          weekIndex: this.props.currentWeekIndex - i,
+          projectId: this.props.project.id,
+        }),
+      });
     }
 
     this.state = {
@@ -52,6 +60,7 @@ class ProjectManager extends Component {
     this.timerPressed = this.timerPressed.bind(this);
     this.addPressed = this.addPressed.bind(this);
     this.updateWeeklyGoal = this.updateWeeklyGoal.bind(this);
+    this.updateWeeklyGoalSlider = this.updateWeeklyGoalSlider.bind(this);
   }
 
   componentDidMount() {
@@ -214,11 +223,7 @@ class ProjectManager extends Component {
               weekIndex: listData.weekIndex,
               projectID: extraData.project.id,
             })}
-            thisWeeksSecondsGoal={projectDB.getWeeklyGoals({
-              realm: extraData.realm,
-              weekIndex: listData.weekIndex,
-              projectID: extraData.project.id,
-            })}
+            thisWeeksSecondsGoal={listData.thisWeeksSecondsGoal}
             updateWeeklyGoal={value => {
               extraData.updateWeeklyGoal(
                 extraData.realm,
@@ -226,6 +231,9 @@ class ProjectManager extends Component {
                 extraData.project.id,
                 value,
               );
+            }}
+            updateWeeklyGoalSlider={value => {
+              extraData.updateWeeklyGoalSlider(value, listData.index);
             }}
           />
         );
@@ -246,6 +254,13 @@ class ProjectManager extends Component {
       listData: this.state.weeklyGoalWeekIndexes,
       weeklyGoalWeekIndexes: this.state.weeklyGoalWeekIndexes,
     });
+  }
+
+  updateWeeklyGoalSlider(value, index) {
+    const weeklyGoalWeekIndexes = this.state.weeklyGoalWeekIndexes;
+    weeklyGoalWeekIndexes[index].thisWeeksSecondsGoal = value * 3600;
+
+    this.setState({weeklyGoalWeekIndexes});
   }
 
   render() {
@@ -274,6 +289,7 @@ class ProjectManager extends Component {
             mode: this.state.mode,
             project: this.state.project,
             updateWeeklyGoal: this.updateWeeklyGoal,
+            updateWeeklyGoalSlider: this.updateWeeklyGoalSlider,
           }}
           weeklyProgressActive={false}
           weeklyProgressData={false}

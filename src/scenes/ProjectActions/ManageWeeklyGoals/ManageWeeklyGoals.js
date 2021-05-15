@@ -14,7 +14,14 @@ class ManageWeeklyGoals extends Component {
     const currentWeekIndex = DateUtils.getWeekIndex({date: new Date()});
     const weeklyGoalWeekIndexes = []; // 10 weeks
     for (let i = 0; i < 10; i++) {
-      weeklyGoalWeekIndexes.push({weekIndex: currentWeekIndex - i});
+      weeklyGoalWeekIndexes.push({
+        index: i,
+        weekIndex: currentWeekIndex - i,
+        thisWeeksSecondsGoal: projectDB.getWeeklyGoals({
+          realm: this.props.realm,
+          weekIndex: currentWeekIndex - i,
+        }),
+      });
     }
 
     this.state = {
@@ -22,7 +29,7 @@ class ManageWeeklyGoals extends Component {
     };
 
     this.updateWeeklyGoal = this.updateWeeklyGoal.bind(this);
-    console.log(this.props);
+    this.updateWeeklyGoalSlider = this.updateWeeklyGoalSlider.bind(this);
   }
 
   renderGoal(goalData, extraData) {
@@ -32,16 +39,16 @@ class ManageWeeklyGoals extends Component {
           realm: extraData.realm,
           weekIndex: goalData.weekIndex,
         })}
-        thisWeeksSecondsGoal={projectDB.getWeeklyGoals({
-          realm: extraData.realm,
-          weekIndex: goalData.weekIndex,
-        })}
+        thisWeeksSecondsGoal={goalData.thisWeeksSecondsGoal}
         updateWeeklyGoal={value => {
           extraData.updateWeeklyGoal(
             extraData.realm,
             goalData.weekIndex,
             value,
           );
+        }}
+        updateWeeklyGoalSlider={value => {
+          extraData.updateWeeklyGoalSlider(value, goalData.index);
         }}
       />
     );
@@ -55,6 +62,13 @@ class ManageWeeklyGoals extends Component {
     });
 
     this.setState({weeklyGoalWeekIndexes: this.state.weeklyGoalWeekIndexes});
+  }
+
+  updateWeeklyGoalSlider(value, index) {
+    const weeklyGoalWeekIndexes = this.state.weeklyGoalWeekIndexes;
+    weeklyGoalWeekIndexes[index].thisWeeksSecondsGoal = value * 3600;
+
+    this.setState({weeklyGoalWeekIndexes});
   }
 
   render() {
@@ -72,6 +86,7 @@ class ManageWeeklyGoals extends Component {
           extraData={{
             realm: this.props.realm,
             updateWeeklyGoal: this.updateWeeklyGoal,
+            updateWeeklyGoalSlider: this.updateWeeklyGoalSlider,
           }}
           weeklyProgressActive={false}
           weeklyProgressData={false}

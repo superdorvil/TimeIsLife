@@ -8,6 +8,7 @@ const WeeklyGoal = ({
   thisWeeksSecondsWorked,
   thisWeeksSecondsGoal,
   updateWeeklyGoal,
+  updateWeeklyGoalSlider,
 }) => {
   const thisWeeksHoursWorked = HoursUtils.convertSecondsToHrs({
     totalSeconds: thisWeeksSecondsWorked,
@@ -47,6 +48,7 @@ const WeeklyGoal = ({
           minimumTrackTintColor={Colors.secondary}
           maximumTrackTintColor={Colors.secondary}
           onSlidingComplete={updateWeeklyGoal}
+          onValueChange={updateWeeklyGoalSlider}
         />
       </View>
     </View>
