@@ -16,25 +16,10 @@ class ViewProjectCharts extends Component {
     super(props);
 
     const currentDate = new Date();
-    const startDate = DateUtils.getSunday({
-      date: currentDate,
-    });
-    // get 12 weeks from now on Saturday
-    const endDate = DateUtils.getSaturday({
-      date: DateUtils.futureDate({
-        diff: 84, // 12 weeks
-        date: currentDate,
-      }),
-    });
-
-    const chartDataDescription = DateUtils.convertDateToString({
-      date: {d1: startDate, d2: endDate},
-      format: Utils.dateFormat.monDateYear_monDateYear,
-    });
 
     this.state = {
       mode: States.weekly,
-      chartDataDescription,
+      chartDataDescription: 'Weekly Hours Worked',
       totalHours: 0,
       averageDailyHours: 0,
       averageWeeklyHours: 0,
@@ -46,9 +31,13 @@ class ViewProjectCharts extends Component {
       averageThursdayHours: 0,
       averageFridayHours: 0,
       averageSaturdayHours: 0,
-      dailyDataIndex: DateUtils.getFirstDayOfMonth({date: currentDate}), // inc by first day of next month
-      weeklyDataIndex: currentDate, // inc by 12, every 12 weeks
-      monthlyDataIndex: DateUtils.getFirstMonthOfYearIndex({date: currentDate}), // inc by 12 // every year
+      dailyDataIndex: DateUtils.getDateIndex({date: currentDate}),
+      weeklyDataIndex: DateUtils.getWeekIndex({date: currentDate}),
+      monthlyDataIndex: currentDate, // using date for simplicity
+      chartData: this.getChartData(
+        States.weekly,
+        DateUtils.getWeekIndex({date: currentDate}),
+      ),
     };
 
     this.incrementChartIndex = this.incrementChartIndex.bind(this);
@@ -64,21 +53,33 @@ class ViewProjectCharts extends Component {
     switch (this.state.mode) {
       case States.daily:
         this.setState({
-          dailyDataIndex: DateUtils.getFirstDayOfNextMonth({
-            date: this.state.dailyDataIndex,
-          }),
+          dailyDataIndex: this.state.dailyDataIndex + 25,
+          chartData: this.getChartData(
+            States.daily,
+            this.state.dailyDataIndex + 25,
+          ),
         });
         break;
       case States.weekly:
         this.setState({
-          weeklyDataIndex: DateUtils.futureDate({
-            diff: 84, // 12 weeks
-            date: this.state.weeklyDataIndex,
-          }),
+          weeklyDataIndex: this.state.weeklyDataIndex + 25,
+          chartData: this.getChartData(
+            States.weekly,
+            this.state.weeklyDataIndex + 25,
+          ),
         });
         break;
       case States.monthly:
-        this.setState({monthlyDataIndex: this.state.monthlyDataIndex + 12});
+        let futureMonth;
+        for (let i = 0; i < 25; i++) {
+          futureMonth = DateUtils.getFirstDayOfNextMonth({
+            date: this.state.monthlyDataIndex,
+          });
+        }
+        this.setState({
+          monthlyDataIndex: futureMonth,
+          chartData: this.getChartData(States.monthly, futureMonth),
+        });
         break;
       default:
       // FIXME:: add error checking
@@ -89,25 +90,39 @@ class ViewProjectCharts extends Component {
     switch (this.state.mode) {
       case States.daily:
         this.setState({
-          dailyDataIndex: DateUtils.getFirstDayOfPreviousMonth({
-            date: this.state.dailyDataIndex,
-          }),
+          dailyDataIndex: this.state.dailyDataIndex - 25,
+          chartData: this.getChartData(
+            States.daily,
+            this.state.dailyDataIndex - 25,
+          ),
         });
         break;
       case States.weekly:
         this.setState({
-          weeklyDataIndex: DateUtils.futureDate({
-            diff: -84, // 12 weeks
-            date: this.state.weeklyDataIndex,
-          }),
+          weeklyDataIndex: this.state.weeklyDataIndex - 25,
+          chartData: this.getChartData(
+            States.weekly,
+            this.state.weeklyDataIndex - 25,
+          ),
         });
         break;
       case States.monthly:
-        this.setState({monthlyDataIndex: this.state.monthlyDataIndex - 12});
+        let pastMonth;
+        for (let i = 0; i < 25; i++) {
+          pastMonth = DateUtils.getFirstDayOfPreviousMonth({
+            date: this.state.monthlyDataIndex,
+          });
+        }
+        this.setState({
+          monthlyDataIndex: pastMonth,
+          chartData: this.getChartData(States.monthly, pastMonth),
+        });
         break;
       default:
       // FIXME:: add error checking
     }
+
+    this.getChartData();
   }
 
   chartNavBarPressed(navButton) {
@@ -115,41 +130,38 @@ class ViewProjectCharts extends Component {
       case States.daily:
         this.setState({
           mode: States.daily,
-          chartDataDescription: DateUtils.convertDateToString({
-            date: this.state.dailyDataIndex,
-            format: Utils.dateFormat.monthYear,
-          }),
+          chartDataDescription: 'Daily Hours Worked',
+          chartData: this.getChartData(
+            States.daily,
+            this.state.weeklyDataIndex,
+          ),
         });
         break;
       case States.weekly:
-        const startDate = DateUtils.getSunday({
-          date: this.state.weeklyDataIndex,
-        });
-        // get 12 weeks from now on Saturday
-        const endDate = DateUtils.getSaturday({
-          date: DateUtils.futureDate({
-            diff: 84, // 12 weeks
-            date: this.state.weeklyDataIndex,
-          }),
-        });
         this.setState({
           mode: States.weekly,
-          chartDataDescription: DateUtils.convertDateToString({
-            date: {d1: startDate, d2: endDate},
-            format: Utils.dateFormat.monDateYear_monDateYear,
-          }),
+          chartDataDescription: 'Weekly Hours Worked',
+          chartData: this.getChartData(
+            States.weekly,
+            this.state.weeklyDataIndex,
+          ),
         });
         break;
       case States.monthly:
         this.setState({
           mode: States.monthly,
-          // 1994 because the year index uses my year structure
-          chartDataDescription: this.state.monthlyDataIndex + 1994,
+          chartDataDescription: 'Monthly Hours Worked',
+          chartData: this.getChartData(
+            States.monthly,
+            this.state.monthlyDataIndex,
+          ),
         });
         break;
       default:
       // FIXME:: add error checking
     }
+
+    this.getChartData();
   }
 
   initializeStatistics() {
@@ -257,130 +269,80 @@ class ViewProjectCharts extends Component {
     });
   }
 
-  getLabels() {
-    switch (this.state.mode) {
+  getChartData(mode, index) {
+    const chartHours = [];
+    const chartLabels = [];
+    switch (mode) {
       case States.daily:
-        return this.getDailyLabels();
-      case States.weekly:
-        return this.getWeeklyLabels();
-      case States.monthly:
-        return this.getMonthlyLabels();
-      default:
-      // FIXME:: add error checking
-    }
-  }
-
-  getHours() {
-    switch (this.state.mode) {
-      case States.daily:
-        return this.getDailyHours();
-      case States.weekly:
-        return this.getWeeklyHours();
-      case States.monthly:
-        return this.getMonthlyHours();
-      default:
-      // FIXME:: add error checking
-    }
-  }
-
-  getDailyLabels() {
-    return [];
-  }
-
-  getWeeklyLabels() {
-    return [
-      'w1',
-      'w2',
-      'w3',
-      'w4',
-      'w5',
-      'w6',
-      'w7',
-      'w8',
-      'w9',
-      'w10',
-      'w11',
-      'w12',
-    ];
-  }
-
-  getMonthlyLabels() {
-    return [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-  }
-
-  getDailyHours() {
-    const dailyHours = [];
-    const firstDayOfMonthIndex = DateUtils.getDateIndex({
-      date: this.state.dailyDataIndex,
-    });
-    const lastDayOfMonthIndex = DateUtils.getDateIndex({
-      date: DateUtils.getLastDayOfMonth({date: this.state.dailyDataIndex}),
-    });
-
-    for (let i = firstDayOfMonthIndex; i < lastDayOfMonthIndex + 1; i++) {
-      dailyHours.push(
-        projectDB.getSecondsWorked({
-          realm: this.props.realm,
-          dateIndex: i,
-        }),
-      );
-    }
-
-    return dailyHours;
-  }
-
-  getWeeklyHours() {
-    const weeklyHours = [];
-
-    for (let i = 0; i < 12; i++) {
-      weeklyHours.push(
-        HoursUtils.convertSecondsToHrs({
-          totalSeconds: projectDB.getSecondsWorked({
-            realm: this.props.realm,
-            weekIndex: DateUtils.getWeekIndex({
-              date: DateUtils.futureDate({
-                date: this.state.weeklyDataIndex,
-                diff: i,
-              }),
+        for (let i = 0; i < 25; i++) {
+          chartHours.push(
+            projectDB.getSecondsWorked({
+              realm: this.props.realm,
+              dateIndex: index - i,
             }),
-          }),
-          decimalMinutes: true,
-        }),
-      );
+          );
+          chartLabels.push(
+            DateUtils.convertDateToString({
+              date: DateUtils.getDateFromDateIndex({
+                dateIndex: index - i,
+              }),
+              format: Utils.dateFormat.monthDate,
+            }),
+          );
+        }
+        break;
+      case States.weekly:
+        for (let i = 0; i < 25; i++) {
+          chartHours.push(
+            projectDB.getSecondsWorked({
+              realm: this.props.realm,
+              weekIndex: index - i,
+            }),
+          );
+          chartLabels.push(
+            DateUtils.convertDateToString({
+              date: {
+                d1: DateUtils.getDateFromWeekIndex({
+                  weekIndex: index - i,
+                  weekday: 0,
+                }),
+                d2: DateUtils.getDateFromWeekIndex({
+                  weekIndex: index - i,
+                  weekday: 6,
+                }),
+              },
+              format: Utils.dateFormat.monDate_monDate,
+            }),
+          );
+        }
+        break;
+      case States.monthly:
+        let firstOfMonth = index;
+        let monthIndex;
+        for (let i = 0; i < 25; i++) {
+          firstOfMonth = DateUtils.getFirstDayOfPreviousMonth({
+            date: firstOfMonth,
+          });
+          monthIndex = DateUtils.getMonthIndex({date: firstOfMonth});
+          chartHours.push(
+            projectDB.getSecondsWorked({
+              realm: this.props.realm,
+              monthIndex,
+            }),
+          );
+          chartLabels.push(
+            DateUtils.convertDateToString({
+              date: firstOfMonth,
+              format: Utils.dateFormat.monthYear,
+            }),
+          );
+        }
+        break;
+      default:
+      // FIXME:: add error checking
     }
 
-    return weeklyHours;
-  }
-
-  getMonthlyHours() {
-    const monthlyHours = [];
-
-    for (let i = 0; i < 12; i++) {
-      monthlyHours.push(
-        HoursUtils.convertSecondsToHrs({
-          totalSeconds: projectDB.getSecondsWorked({
-            realm: this.props.realm,
-            monthlyIndex: this.state.monthlyDataIndex + i,
-          }),
-          decimalMinutes: true,
-        }),
-      );
-    }
-
-    return monthlyHours;
+    return {chartHours, chartLabels};
   }
 
   render() {
@@ -396,13 +358,13 @@ class ViewProjectCharts extends Component {
           monthlyPressed={() => this.chartNavBarPressed(States.monthly)}
         />
         <HoursChart
-          labels={this.getLabels()}
-          hours={this.getHours()}
-          dataWidth={70}
+          labels={this.state.chartData.chartLabels}
+          hours={this.state.chartData.chartHours}
+          dataWidth={100}
           yAxisSuffix=" hrs"
         />
         <ProjectChartsDataPicker
-          dateInfo={this.state.chartDataDescription + ' Hours'}
+          dateInfo={this.state.chartDataDescription}
           incrementChartIndex={this.incrementChartIndex}
           decrementChartIndex={this.decrementChartIndex}
         />

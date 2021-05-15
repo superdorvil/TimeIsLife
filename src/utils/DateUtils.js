@@ -413,8 +413,13 @@ export const previousDate = ({diff, date}) => {
   return new Date(new Date().setDate(prevDate));
 };
 
-export const futureDate = ({diff, date}) => {
+export const getFutureDate = ({diff, date}) => {
   const nextDate = date.getDate() + diff;
+  return new Date(new Date().setDate(nextDate));
+};
+
+export const getPastDate = ({diff, date}) => {
+  const nextDate = date.getDate() - diff;
   return new Date(new Date().setDate(nextDate));
 };
 
@@ -504,4 +509,15 @@ export const getFirstMonthOfYearIndex = ({date}) => {
 
 export const getLastMonthOfYearIndex = ({date}) => {
   return getMonthIndex({date: getLastDayOfYear({date})});
+};
+
+export const getDateFromDateIndex = ({dateIndex}) => {
+  return getFutureDate({diff: dateIndex, date: new Date('11/9/1994')});
+};
+
+export const getDateFromWeekIndex = ({weekIndex, weekday = 0}) => {
+  const dateIndex = weekIndex * 7; // should be the sundayIndex
+  let date = getDateFromDateIndex({dateIndex});
+
+  return getFutureDate({diff: weekday, date});
 };

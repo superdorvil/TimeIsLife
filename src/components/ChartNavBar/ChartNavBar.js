@@ -40,6 +40,8 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     borderWidth: 1,
     borderColor: Colors.primary,
+    paddingEnd: 4,
+    paddingStart: 4,
   },
   outerContainer: {
     marginTop: 8,
