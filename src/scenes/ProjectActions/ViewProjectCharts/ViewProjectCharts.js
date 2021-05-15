@@ -398,7 +398,7 @@ class ViewProjectCharts extends Component {
         <HoursChart
           labels={this.getLabels()}
           hours={this.getHours()}
-          dataWidth={5}
+          dataWidth={70}
           yAxisSuffix=" hrs"
         />
         <ProjectChartsDataPicker

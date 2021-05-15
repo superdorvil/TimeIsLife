@@ -17,6 +17,8 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
   } else {
     datasets = [{data: hours}];
   }
+  //datasets.color = (opacity = 1) => `rgba(134, 65, 244, ${opacity})`;
+  //datasets.strokeWidth = 2;
 
   return (
     <View style={styles.container}>
@@ -28,6 +30,7 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
           yAxisSuffix={yAxisSuffix}
           yAxisInterval={1} // optional, defaults to 1
           chartConfig={{
+            fromZero: false,
             backgroundGradientFrom: Colors.primary,
             backgroundGradientTo: Colors.primary,
             backgroundGradientFromOpacity: 0.5,
@@ -35,8 +38,10 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
             fillShadowGradient: Colors.tertiary,
             fillShadowGradientOpacity: 0.5,
             decimalPlaces: 0,
-            color: (opacity = 1) => Colors.secondary, // `rgba(0, 0, 0, ${opacity})`,
-            labelColor: (opacity = 1) => Colors.tertiary, //`rgba(0, 0, 0, ${opacity})`,
+            //color: (opacity = 1) => Colors.secondary, // `rgba(0, 0, 0, ${opacity})`,
+            //labelColor: (opacity = 1) => Colors.tertiary, //`rgba(0, 0, 0, ${opacity})`,
+            color: (opacity = 1) => Colors.secondary, //`rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             strokeWidth: 2,
             propsForDots: {
               r: '6',
@@ -47,6 +52,37 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
           style={styles.chart}
         />
       </ScrollView>
+      <View style={styles.invisibleChart}>
+        <LineChart
+          data={{labels: [], datasets}}
+          width={65} // from react-native
+          height={180}
+          yAxisSuffix={yAxisSuffix}
+          yAxisInterval={1} // optional, defaults to 1
+          withDots={false}
+          withShadow={false}
+          withInnerLines={false}
+          withOuterLines={false}
+          chartConfig={{
+            backgroundGradientFrom: Colors.primary,
+            backgroundGradientTo: Colors.primary,
+            backgroundGradientFromOpacity: 0,
+            backgroundGradientToOpacity: 0,
+            fillShadowGradient: 'rgba(0, 0, 0, 0)',
+            fillShadowGradientOpacity: 0.5,
+            decimalPlaces: 0,
+            color: (opacity = 0) => Colors.secondary, //`rgba(0, 0, 0, ${opacity})`,
+            labelColor: (opacity = 0) => Colors.tertiary, //`rgba(0, 0, 0, ${opacity})`,
+            strokeWidth: 1,
+            propsForDots: {
+              r: '0',
+              strokeWidth: '0',
+              stroke: 'rgba(0, 0, 0, 0)',
+            },
+          }}
+          style={styles.chart}
+        />
+      </View>
     </View>
   );
 };
@@ -60,6 +96,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.white,
     backgroundColor: Colors.secondary,
+  },
+  invisibleChart: {
+    position: 'absolute',
   },
 });
 
