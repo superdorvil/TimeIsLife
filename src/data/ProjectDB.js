@@ -61,7 +61,7 @@ class ProjectDB {
   }) {
     let secondsWorked = realm
       .objects(Schemas.secondsWorked)
-      .sorted('startTime');
+      .sorted('startTime', true);
 
     if (projectID) {
       secondsWorked = secondsWorked.filtered('projectID == $0', projectID);
@@ -265,7 +265,29 @@ class ProjectDB {
     return weeklyGoal;
   }
 
-  updateRealmObject({realm, objectData}) {}
+  createSecondsWorked({
+    realm,
+    projectID,
+    dateIndex,
+    weekIndex,
+    monthIndex,
+    yearIndex,
+    startTime,
+    endTime,
+  }) {
+    realm.write(() => {
+      realm.create(Schemas.secondsWorked, {
+        id: realm.objects(Schemas.secondsWorked).length + 1,
+        projectID,
+        dateIndex,
+        weekIndex,
+        monthIndex,
+        yearIndex,
+        startTime,
+        endTime,
+      });
+    });
+  }
 
   editProject({realm, projectID, description}) {
     const project = realm.objectForPrimaryKey(Schemas.project, projectID);
@@ -306,7 +328,32 @@ class ProjectDB {
     return weeklyGoal;
   }
 
-  updateTime({realm, projectID, startTime, endTime}) {}
+  updateSecondsWorked({
+    realm,
+    secondsWorkedID,
+    hours,
+    minutes,
+    updateStartTime,
+  }) {
+    const secondsWorked = realm.objectForPrimaryKey(
+      Schemas.secondsWorked,
+      secondsWorkedID,
+    );
+    const startTime = secondsWorked.startTime;
+    const endTime = secondsWorked.endTime;
+
+    realm.write(() => {
+      if (updateStartTime) {
+        startTime.setHours(hours);
+        startTime.setMinutes(minutes);
+        secondsWorked.startTime = startTime;
+      } else {
+        endTime.setHours(hours);
+        endTime.setMinutes(minutes);
+        secondsWorked.endTime = endTime;
+      }
+    });
+  }
 
   topProjectPosition({realm, projectID}) {
     const project = realm.objectForPrimaryKey(Schemas.project, projectID);
@@ -335,16 +382,17 @@ class ProjectDB {
 
     realm.write(() => {
       project.timerActive = false;
-      realm.create(Schemas.secondsWorked, {
-        id: realm.objects(Schemas.secondsWorked).length + 1,
-        projectID,
-        dateIndex,
-        weekIndex,
-        monthIndex,
-        yearIndex,
-        startTime: project.timerStartTime,
-        endTime,
-      });
+    });
+
+    this.createSecondsWorked({
+      realm,
+      projectID,
+      dateIndex,
+      weekIndex,
+      monthIndex,
+      yearIndex,
+      startTime: project.timerStartTime,
+      endTime,
     });
   }
 

@@ -334,35 +334,6 @@ export const convertDateToString = ({date, format}) => {
   return dateText;
 };
 
-/* FIXME:: Not Properly Tested :(
-// 0 = Sunday and 6 == Saturday
-// to explain nextWeekday boolean we use the example of assuming day === sunday
-// Then if the date is a Sunday already, if nextWeekday is true it will return
-// the next Sunday and not the current date
-export const getWeekday = ({date, day, nextWeekday, weeks}) => {
-  const weekday = new Date(date);
-  let weeksCount = weeks ? weeks : 0;
-
-  // garentee we get the next weeks day
-  if (nextWeekday) {
-    if (weekday.getDay() === day) {
-      weekday.setDate(date.getDate() + 1);
-    }
-  }
-
-  for (let i = 0; i < weeksCount; i++) {
-    if (i > 0) {
-      weekday.setDate(weekday.getDate() + 1);
-    }
-    while (weekday.getDay() !== day) {
-      weekday.setDate(weekday.getDate() + 1);
-    }
-  }
-
-  return weekday;
-};
-*/
-
 export const getSunday = ({date}) => {
   const sunday = new Date(date);
 
@@ -466,8 +437,7 @@ export const getLastDayOfYear = ({date}) => {
 };
 
 export const getDateIndex = ({date}) => {
-  // I need am using my birthday as the default initial date
-  const initialDate = new Date('11/9/1994'); // My bday is Nov 9 :D
+  const initialDate = new Date(Utils.initialDateString);
   const dateDiff = getDateDiff({
     startDate: initialDate,
     endDate: date,
@@ -477,10 +447,7 @@ export const getDateIndex = ({date}) => {
 };
 
 export const getWeekIndex = ({date}) => {
-  // I need am using my birthday week as the default initial week
-  // The goal is to have an index of each week with a unique
-  // Using Sunday, as initial date
-  const initialWeekDate = new Date('11/3/1994'); // My bday is Nov 9 :D
+  const initialWeekDate = new Date(Utils.initialSundayString);
   const dateDiff = getDateDiff({
     startDate: initialWeekDate,
     endDate: date,
@@ -490,17 +457,16 @@ export const getWeekIndex = ({date}) => {
 };
 
 export const getMonthIndex = ({date}) => {
-  // 2019 is the initial year we use for the indexing
   const yearIndex = getYearIndex({date});
   // Javascript months are off by 1, so November is 10, but you add plus one, hence plus 11
-  const monthIndex = yearIndex * 12 + date.getMonth() + 11; // My bday month :D
+  const monthIndex = yearIndex * 12 + date.getMonth() + Utils.initialMonth + 1; // My bday month :D
 
   return monthIndex;
 };
 
 export const getYearIndex = ({date}) => {
   // 2019 is the initial year we use for the indexing
-  return date.getFullYear() - 1994; // My bday year :D
+  return date.getFullYear() - Utils.initialYear; // My bday year :D
 };
 
 export const getFirstMonthOfYearIndex = ({date}) => {
@@ -512,7 +478,10 @@ export const getLastMonthOfYearIndex = ({date}) => {
 };
 
 export const getDateFromDateIndex = ({dateIndex}) => {
-  return getFutureDate({diff: dateIndex, date: new Date('11/9/1994')});
+  return getFutureDate({
+    diff: dateIndex,
+    date: new Date(Utils.initialDateString),
+  });
 };
 
 export const getDateFromWeekIndex = ({weekIndex, weekday = 0}) => {

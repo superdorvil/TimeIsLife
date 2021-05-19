@@ -8,10 +8,11 @@ import {
   WeeklyGoal,
   Task,
   ViewVisibleWrapper,
+  TimeSelector,
 } from '_components';
 import projectDB from '_data';
 import {Icons, States} from '_constants';
-import {HoursUtils} from '_utils';
+import {HoursUtils, InputUtils} from '_utils';
 
 class ProjectManager extends Component {
   constructor(props) {
@@ -51,6 +52,12 @@ class ProjectManager extends Component {
       weeklyGoalWeekIndexes,
       listData: secondsWorkedDisplay,
       actionButtonDescription: 'Hours Worked',
+      startTimeModalVisible: false,
+      endTimeModalVisible: false,
+      setTimeHours: 0,
+      setTimeMinutes: 0,
+      ampm: States.am,
+      secondsWorkedID: 0,
     };
 
     this.editProject = this.editProject.bind(this);
@@ -61,6 +68,13 @@ class ProjectManager extends Component {
     this.addPressed = this.addPressed.bind(this);
     this.updateWeeklyGoal = this.updateWeeklyGoal.bind(this);
     this.updateWeeklyGoalSlider = this.updateWeeklyGoalSlider.bind(this);
+    this.ampmPressed = this.ampmPressed.bind(this);
+    this.openStartTimeModal = this.openStartTimeModal.bind(this);
+    this.openEndTimeModal = this.openEndTimeModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.updateSetTimeHours = this.updateSetTimeHours.bind(this);
+    this.updateSetTimeMinutes = this.updateSetTimeMinutes.bind(this);
+    this.updateSecondsWorked = this.updateSecondsWorked.bind(this);
   }
 
   componentDidMount() {
@@ -86,20 +100,12 @@ class ProjectManager extends Component {
         secondsWorked,
         secondsWorkedDisplay,
       });
-      this.setState({
-        secondsWorked: projectDB.getSecondsWorked({
-          realm: this.props.realm,
-          projectID: this.state.project.id,
-          minimumWeekIndex: this.props.secondsWorkedMinWeekIndex,
-          maximumWeekIndex: this.props.secondsWorkedMaxWeekIndex,
-        }),
-      });
     });
   }
 
   componentWillUnmount() {
+    this.state.secondsWorked.removeAllListeners();
     this.state.tasks.removeAllListeners();
-    //this.state.secondsWorked.removeAllListeners();
     this.state.project.removeAllListeners();
 
     // Nulls State removing memory leak error state update on unmounted comp
@@ -108,36 +114,83 @@ class ProjectManager extends Component {
     };
   }
 
+  openStartTimeModal(secondsWorkedID) {
+    this.setState({startTimeModalVisible: true, secondsWorkedID});
+  }
+
+  openEndTimeModal(secondsWorkedID) {
+    this.setState({endTimeModalVisible: true, secondsWorkedID});
+  }
+
+  closeModal() {
+    this.setState({
+      startTimeModalVisible: false,
+      endTimeModalVisible: false,
+    });
+  }
+
+  updateSetTimeHours(value) {
+    this.setState({
+      setTimeHours: InputUtils.numberRangeInput({min: 0, max: 23, value}),
+    });
+  }
+
+  updateSetTimeMinutes(value) {
+    this.setState({
+      setTimeMinutes: InputUtils.numberRangeInput({min: 0, max: 59, value}),
+    });
+  }
+
+  ampmPressed(ampm) {
+    this.setState({ampm});
+  }
+
+  updateSecondsWorked() {
+    projectDB.updateSecondsWorked({
+      realm: this.props.realm,
+      secondsWorkedID: this.state.secondsWorkedID,
+      hours: this.state.setTimeHours,
+      minutes: this.state.setTimeMinutes,
+      updateStartTime: this.state.startTimeModalVisible,
+    });
+
+    this.closeModal();
+  }
+
   formatSecondsWorked(secondsWorked) {
     const secondsWorkedDisplay = [];
     let swHelper = [];
     let currentDateIndex = 0;
 
-    secondsWorked.forEach((sw, i) => {
-      if (currentDateIndex === 0) {
-        currentDateIndex = sw.dateIndex;
-      }
+    if (secondsWorked.length > 0) {
+      currentDateIndex = secondsWorked[0].dateIndex;
 
-      if (currentDateIndex !== sw.dateIndex) {
-        secondsWorkedDisplay.push({
-          secondsWorkedList: swHelper,
-          date: swHelper[0].startTime,
-        });
+      for (let i = 0; i < secondsWorked.length; i++) {
+        if (currentDateIndex !== secondsWorked[i].dateIndex) {
+          secondsWorkedDisplay.push({
+            secondsWorkedList: swHelper,
+            date: swHelper[0].startTime,
+          });
 
-        swHelper = [];
-      } else {
+          swHelper = [];
+          currentDateIndex = secondsWorked[i].dateIndex;
+        }
+
         swHelper.push({
-          id: sw.id,
-          startTime: sw.startTime,
-          endTime: sw.endTime,
+          id: secondsWorked[i].id,
+          startTime: secondsWorked[i].startTime,
+          endTime: secondsWorked[i].endTime,
         });
-      }
-    });
 
-    secondsWorkedDisplay.push({
-      secondsWorkedList: swHelper,
-      date: swHelper[0].startTime,
-    });
+        // last element
+        if (i === secondsWorked.length - 1) {
+          secondsWorkedDisplay.push({
+            secondsWorkedList: swHelper,
+            date: swHelper[0].startTime,
+          });
+        }
+      }
+    }
 
     return secondsWorkedDisplay;
   }
@@ -213,6 +266,12 @@ class ProjectManager extends Component {
           <HoursWorked
             date={listData.date}
             secondsWorkedList={listData.secondsWorkedList}
+            editStartTime={secondsWorkedID =>
+              extraData.openStartTimeModal(secondsWorkedID)
+            }
+            editEndTime={secondsWorkedID =>
+              extraData.openEndTimeModal(secondsWorkedID)
+            }
           />
         );
       case States.goals:
@@ -290,6 +349,8 @@ class ProjectManager extends Component {
             project: this.state.project,
             updateWeeklyGoal: this.updateWeeklyGoal,
             updateWeeklyGoalSlider: this.updateWeeklyGoalSlider,
+            openStartTimeModal: this.openStartTimeModal,
+            openEndTimeModal: this.openEndTimeModal,
           }}
           weeklyProgressActive={false}
           weeklyProgressData={false}
@@ -309,6 +370,23 @@ class ProjectManager extends Component {
         <ViewVisibleWrapper active={this.state.mode === States.timer}>
           <StartStopButton stopMode={false} timerPressed={this.timerPressed} />
         </ViewVisibleWrapper>
+        <TimeSelector
+          visible={
+            this.state.startTimeModalVisible || this.state.endTimeModalVisible
+          }
+          setTimeDescription={
+            this.state.startTimeModalVisible ? 'Set Start Time' : 'Set End Time'
+          }
+          hours={this.state.setTimeHours}
+          minutes={this.state.setTimeMinutes}
+          updateHours={this.updateSetTimeHours}
+          updateMinutes={this.updateSetTimeMinutes}
+          amPressed={() => this.ampmPressed(States.am)}
+          pmPressed={() => this.ampmPressed(States.pm)}
+          ampm={this.state.ampm}
+          okayPressed={this.updateSecondsWorked}
+          cancelPressed={this.closeModal}
+        />
       </View>
     );
   }

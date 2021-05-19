@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import {ActionContainer} from '_components';
 import {
   Button,
@@ -11,54 +12,145 @@ import {
 import {DateUtils} from '_utils';
 import {Icons, Utils} from '_constants';
 import {Colors} from '_resources';
+import {States} from '_constants';
+import {HoursUtils, InputUtils} from '_utils';
+import projectDB from '_data';
 
 class AddProjectHours extends Component {
   constructor(props) {
     super(props);
 
+    const currentDate = new Date();
+    currentDate.setSeconds(0);
+
     this.state = {
-      date: new Date(),
-      startTime: new Date(),
-      endTime: new Date(),
+      date: new Date(currentDate),
+      tempDate: new Date(currentDate),
+      startTime: new Date(currentDate),
+      endTime: new Date(currentDate),
+      setTimeHours: 0,
+      setTimeMinutes: 0,
       dateModalVisible: false,
       startTimeModalVisible: false,
       endTimeModalVisible: false,
-      ampm: 'am',
+      ampm: States.am,
     };
 
-    this.calendarPressed = this.calendarPressed.bind(this);
-    this.datePressed = this.datePressed.bind(this);
-    this.startTimePressed = this.startTimePressed.bind(this);
-    this.endTimePressed = this.endTimePressed.bind(this);
-    this.cancelPressed = this.cancelPressed.bind(this);
+    this.changeDate = this.changeDate.bind(this);
+    this.openDateModal = this.openDateModal.bind(this);
+    this.confirmDateChange = this.confirmDateChange.bind(this);
+    this.confirmTimeChange = this.confirmTimeChange.bind(this);
+    this.openStartTimeModal = this.openStartTimeModal.bind(this);
+    this.openEndTimeModal = this.openEndTimeModal.bind(this);
+    this.ampmPressed = this.ampmPressed.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.updateSetTimeHours = this.updateSetTimeHours.bind(this);
+    this.updateSetTimeMinutes = this.updateSetTimeMinutes.bind(this);
+    this.addSecondsWorked = this.addSecondsWorked.bind(this);
   }
 
-  calendarPressed(dateObject) {
+  changeDate(dateObject) {
     //console.log(dateObject);
     // this.setState({date: new Date(dateObject.timestamp + 86400000)});
     this.setState({
-      date: new Date(dateObject.year, dateObject.month - 1, dateObject.day),
+      tempDate: new Date(dateObject.year, dateObject.month - 1, dateObject.day),
     });
   }
 
-  datePressed() {
-    this.setState({dateModalVisible: true});
+  openDateModal() {
+    this.setState({dateModalVisible: true, tempDate: this.state.date});
   }
 
-  startTimePressed() {
+  confirmDateChange() {
+    this.setState({
+      date: this.state.tempDate,
+      startTime: new Date(
+        this.state.tempDate.getFullYear(),
+        this.state.tempDate.getMonth() + 1,
+        this.state.tempDate.getDate(),
+        this.state.startTime.getHours(),
+        this.state.startTime.getMinutes(),
+        0,
+      ),
+      endTime: new Date(
+        this.state.tempDate.getFullYear(),
+        this.state.tempDate.getMonth() + 1,
+        this.state.tempDate.getDate(),
+        this.state.endTime.getHours(),
+        this.state.endTime.getMinutes(),
+        0,
+      ),
+    });
+    this.closeModal();
+  }
+
+  confirmTimeChange() {
+    if (this.state.startTimeModalVisible) {
+      const startTime = this.state.startTime;
+      startTime.setHours(this.state.setTimeHours);
+      startTime.setMinutes(this.state.setTimeMinutes);
+
+      this.setState({startTime});
+    } else if (this.state.endTimeModalVisible) {
+      const endTime = this.state.endTime;
+      endTime.setHours(this.state.setTimeHours);
+      endTime.setMinutes(this.state.setTimeMinutes);
+
+      this.setState({endTime});
+    }
+
+    this.closeModal();
+  }
+
+  openStartTimeModal() {
     this.setState({startTimeModalVisible: true});
   }
 
-  endTimePressed() {
+  openEndTimeModal() {
     this.setState({endTimeModalVisible: true});
   }
 
-  cancelPressed() {
+  closeModal() {
     this.setState({
       dateModalVisible: false,
       startTimeModalVisible: false,
       endTimeModalVisible: false,
     });
+  }
+
+  updateSetTimeHours(value) {
+    this.setState({
+      setTimeHours: InputUtils.numberRangeInput({min: 0, max: 23, value}),
+    });
+  }
+
+  updateSetTimeMinutes(value) {
+    this.setState({
+      setTimeMinutes: InputUtils.numberRangeInput({min: 0, max: 59, value}),
+    });
+  }
+
+  ampmPressed(ampm) {
+    this.setState({ampm});
+  }
+
+  addSecondsWorked() {
+    if (this.state.endTime > this.state.startTime) {
+      projectDB.createSecondsWorked({
+        realm: this.props.realm,
+        projectID: this.props.project.id,
+        dateIndex: DateUtils.getDateIndex({date: this.state.startTime}),
+        weekIndex: DateUtils.getWeekIndex({date: this.state.startTime}),
+        monthIndex: DateUtils.getMonthIndex({date: this.state.startTime}),
+        yearIndex: DateUtils.getYearIndex({date: this.state.startTime}),
+        startTime: this.state.startTime,
+        endTime: this.state.endTime,
+      });
+
+      Actions.pop();
+    } else {
+      console.log('fix me, add proper error checking for this');
+    }
   }
 
   render() {
@@ -69,6 +161,11 @@ class AddProjectHours extends Component {
       centerIconName: Icons.checkmark,
       actionDescription: 'Add Hours',
     };
+
+    const timeWorked = HoursUtils.convertSecondsToHrsMinsSecs({
+      totalSeconds: (this.state.endTime - this.state.startTime) / 1000,
+      doubleDigitMinutes: true,
+    });
 
     return (
       <View style={styles.container}>
@@ -92,20 +189,25 @@ class AddProjectHours extends Component {
                 format: Utils.dateFormat.monthDateYear,
               })}
               icon={Icons.calendar}
-              editPressed={this.datePressed}
+              editPressed={this.openDateModal}
             />
             <View style={styles.spacing} />
             <StartEndTimeButtons
               startTime={this.state.startTime}
               endTime={this.state.endTime}
-              startPressed={this.startTimePressed}
-              endPressed={this.endTimePressed}
+              startPressed={this.openStartTimeModal}
+              endPressed={this.openEndTimeModal}
             />
-            <Text style={styles.hoursWorked}>3 hrs 45 mins</Text>
+            <Text style={styles.hoursWorked}>
+              {timeWorked.hours} hrs {timeWorked.minutes} mins
+            </Text>
           </View>
         </ActionContainer>
         <View style={styles.button}>
-          <Button description="+ Add Hours" buttonPressed={false} />
+          <Button
+            description="+ Add Hours"
+            buttonPressed={this.addSecondsWorked}
+          />
         </View>
         <TimeSelector
           visible={
@@ -114,24 +216,25 @@ class AddProjectHours extends Component {
           setTimeDescription={
             this.state.startTimeModalVisible ? 'Set Start Time' : 'Set End Time'
           }
-          hours={8}
-          minutes={45}
-          updateHours={false}
-          updateMinutes={false}
-          amPressed
-          pmPressed
+          hours={this.state.setTimeHours}
+          minutes={this.state.setTimeMinutes}
+          updateHours={this.updateSetTimeHours}
+          updateMinutes={this.updateSetTimeMinutes}
+          amPressed={() => this.ampmPressed(States.am)}
+          pmPressed={() => this.ampmPressed(States.pm)}
           ampm={this.state.ampm}
-          okayPressed
-          cancelPressed={this.cancelPressed}
+          okayPressed={this.confirmTimeChange}
+          cancelPressed={this.closeModal}
         />
         <DateSelector
           date={DateUtils.convertDateToString({
-            date: this.state.date,
+            date: this.state.tempDate,
             format: Utils.dateFormat.yyyy_mm_dd,
           })}
-          calendarPressed={this.calendarPressed}
+          changeDate={this.changeDate}
           visible={this.state.dateModalVisible}
-          cancelPressed={this.cancelPressed}
+          closeModal={this.closeModal}
+          confirmDateChange={this.confirmDateChange}
         />
       </View>
     );

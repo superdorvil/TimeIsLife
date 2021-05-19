@@ -48,7 +48,7 @@ const TimeInput = ({
             <Text style={styles.time}>minutes</Text>
           </View>
         </View>
-        <View style={styles.ampmContainer}>
+        {/*<View style={styles.ampmContainer}>
           <View style={styles.ampmInnerContainer}>
             <TouchableOpacity
               style={styles.circleContainer}
@@ -73,7 +73,7 @@ const TimeInput = ({
             </TouchableOpacity>
             <Text style={styles.ampm}>AM</Text>
           </View>
-        </View>
+        </View>*/}
       </View>
     </View>
   );

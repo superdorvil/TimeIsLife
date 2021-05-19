@@ -5,9 +5,7 @@ import {Colors} from '_resources';
 const ConfirmationButtons = ({okayPressed, cancelPressed}) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        cancelPressed={cancelPressed}
-        style={styles.buttonContainer}>
+      <TouchableOpacity onPress={cancelPressed} style={styles.buttonContainer}>
         <Text style={styles.text}>Cancel</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={okayPressed} style={styles.buttonContainer}>

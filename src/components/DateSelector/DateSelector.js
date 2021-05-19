@@ -5,7 +5,13 @@ import {Calendar} from 'react-native-calendars';
 import {ConfirmationButtons} from '_components';
 import {Colors} from '_resources';
 
-const DateSelector = ({visible, date, calendarPressed, cancelPressed}) => {
+const DateSelector = ({
+  visible,
+  date,
+  changeDate,
+  confirmDateChange,
+  closeModal,
+}) => {
   const year = '2021';
   const formattedDate = 'Sun, Apr 25';
 
@@ -15,7 +21,7 @@ const DateSelector = ({visible, date, calendarPressed, cancelPressed}) => {
       isVisible={visible}
       backdropColor={Colors.black}
       backdropOpacity={0.5}
-      onBackdropPress={cancelPressed}>
+      onBackdropPress={closeModal}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.year}>{year}</Text>
@@ -27,7 +33,7 @@ const DateSelector = ({visible, date, calendarPressed, cancelPressed}) => {
           //maxDate={new Date()}
           hideExtraDays
           onDayPress={day => {
-            calendarPressed(day);
+            changeDate(day);
           }}
           monthFormat={'MMMM yyyy'}
           // renderArrow={(direction) => (<Arrow/>)}
@@ -66,7 +72,10 @@ const DateSelector = ({visible, date, calendarPressed, cancelPressed}) => {
             textDayHeaderFontSize: 16,
           }}
         />
-        <ConfirmationButtons />
+        <ConfirmationButtons
+          okayPressed={confirmDateChange}
+          cancelPressed={closeModal}
+        />
       </View>
     </Modal>
   );

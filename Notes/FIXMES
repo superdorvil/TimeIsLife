@@ -1,7 +1,6 @@
 Total Weekly Goal
 *****  Total Weekly Goal Load more button
 *****  Update the design of the view / oval of hours and percent
-update slider so the user sees the change in value
 
 Charts
   Get Daily Weekly Monthly Hours range
@@ -39,9 +38,6 @@ Hours Worked screen
 Edit Project
 *******  delete project with modal, and message you can alway restore in the Settings
     filter all data on projects that are not deleted, string builder filter???
-
-Add Project hours
-  choose, date and start/end times
 
 
 

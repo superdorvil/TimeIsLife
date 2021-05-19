@@ -5,7 +5,7 @@ import {DateUtils, HoursUtils} from '_utils';
 import {Utils} from '_constants';
 import {Colors} from '_resources';
 
-const HoursWorked = ({date, secondsWorkedList}) => {
+const HoursWorked = ({date, secondsWorkedList, editStartTime, editEndTime}) => {
   const today = new Date();
   let yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
@@ -37,8 +37,8 @@ const HoursWorked = ({date, secondsWorkedList}) => {
         <StartEndTimeButtons
           startTime={secondsWorked.startTime}
           endTime={secondsWorked.endTime}
-          startPressed
-          endPressed
+          startPressed={() => editStartTime(secondsWorked.id)}
+          endPressed={() => editEndTime(secondsWorked.id)}
         />
       </View>,
     );
