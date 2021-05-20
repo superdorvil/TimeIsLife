@@ -61,7 +61,7 @@ class ProjectDB {
   }) {
     let secondsWorked = realm
       .objects(Schemas.secondsWorked)
-      .sorted('startTime', true);
+      .sorted('startTime', false);
 
     if (projectID) {
       secondsWorked = secondsWorked.filtered('projectID == $0', projectID);
@@ -84,7 +84,7 @@ class ProjectDB {
 
     if (limit) {
       if (secondsWorked.length > limit) {
-        secondsWorked.filtered(
+        secondsWorked = secondsWorked.filtered(
           'dateIndex >= $0',
           secondsWorked[limit].dateIndex,
         );

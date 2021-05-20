@@ -92,13 +92,14 @@ class ProjectManager extends Component {
     this.state.secondsWorked.addListener(() => {
       const secondsWorked = projectDB.getSecondsWorked({
         realm: this.props.realm,
-        projectID: this.props.project.id,
+        projectID: this.state.project.id,
         limit: 35,
       });
       const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
       this.setState({
         secondsWorked,
         secondsWorkedDisplay,
+        listData: secondsWorkedDisplay,
       });
     });
   }
