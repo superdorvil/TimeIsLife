@@ -4,6 +4,7 @@ export Button from './Button';
 export ProjectChartsDataPicker from './ProjectChartsDataPicker';
 export ChartNavBar from './ChartNavBar';
 export ConfirmationButtons from './ConfirmationButtons';
+export ConfirmationModal from './ConfirmationModal';
 export DateSelector from './DateSelector';
 export Divider from './Divider';
 export EditContainer from './EditContainer';

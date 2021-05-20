@@ -1,8 +1,14 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import {ProjectClock, StartStopButton, BackArrow} from '_components';
+import {
+  ProjectClock,
+  StartStopButton,
+  BackArrow,
+  ConfirmationModal,
+} from '_components';
 import {Colors} from '_resources';
+import {Icons} from '_constants';
 import projectDB from '_data';
 import {DateUtils} from '_utils';
 
@@ -32,6 +38,7 @@ class ProjectTimer extends Component {
 
     this.timerPressed = this.timerPressed.bind(this);
     this.backArrowPressed = this.backArrowPressed.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +47,7 @@ class ProjectTimer extends Component {
         project: projectDB.getProjects({
           realm: this.props.realm,
           projectID: this.props.project.id,
+          confirmExitModalVisible: false,
         }),
       });
     });
@@ -54,8 +62,16 @@ class ProjectTimer extends Component {
     };
   }
 
+  closeModal() {
+    this.setState({confirmExitModalVisible: false});
+  }
+
   backArrowPressed() {
-    Actions.pop();
+    if (this.state.project.timerActive) {
+      this.setState({confirmExitModalVisible: true});
+    } else {
+      Actions.pop();
+    }
   }
 
   getSecondsWorked() {
@@ -99,6 +115,17 @@ class ProjectTimer extends Component {
         <StartStopButton
           stopMode={this.state.project.timerActive}
           timerPressed={this.timerPressed}
+        />
+        <ConfirmationModal
+          visible={this.state.confirmExitModalVisible}
+          header="Stop Timer???"
+          description="Press okay and the timer will record your time."
+          iconName={Icons.clock}
+          okayPressed={() => {
+            this.timerPressed();
+            Actions.pop();
+          }}
+          cancelPressed={this.closeModal}
         />
       </View>
     );

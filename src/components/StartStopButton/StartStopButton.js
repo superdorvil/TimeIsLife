@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    borderBottomWidth: 1,
+    borderColor: Colors.primary,
   },
   circle: {
     height: 80,

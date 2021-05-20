@@ -43,6 +43,7 @@ class ProjectList extends Component {
   }
 
   componentDidMount() {
+    let project;
     this.state.projects.addListener(() => {
       this.setState({
         projects: projectDB.getProjects({realm: this.props.realm}),
@@ -51,6 +52,19 @@ class ProjectList extends Component {
         }),
       });
     });
+
+    this.state.projects.forEach((p, i) => {
+      if (p.timerActive) {
+        project = p;
+      }
+    });
+
+    if (project) {
+      Actions.projectTimer({
+        realm: this.props.realm,
+        project,
+      });
+    }
   }
 
   componentWillUnmount() {

@@ -1,3 +1,7 @@
+Now - Refresh item fix each time you change screen change listeners
+Color schemes
+Charts data fix
+
 Total Weekly Goal
 *****  Total Weekly Goal Load more button
 *****  Update the design of the view / oval of hours and percent
@@ -23,22 +27,21 @@ Charts
 
 Settings
 **** Restore modal type stuff
+  Color Scheme - last
   Restore Project, - green color
   SubTask Mode - last
-  Color Scheme - last
 
-Timer screen
-  start stop timer corner cases
 
 Hours Worked screen
-  squish the content to have more space
-  edit start and end time button
 *****  load more button, only do like a week at a time
 
 Edit Project
 *******  delete project with modal, and message you can alway restore in the Settings
     filter all data on projects that are not deleted, string builder filter???
 
+Never use props for an item passed into another screen, example pass project in
+pass only id and grab the realm object. I think the prop stays static if a ream update happens
+while the state gets updated. Plus we grab the realm object anyways and pass into statemen
 
 
 
@@ -60,3 +63,15 @@ Timer screen new design
   focus app view with the oval start timer button and 4 buttons at borderBottomWidth
 
 ViewVisibleWrapper active to visible :(
+
+
+
+
+
+
+
+Stuff I probably won't do
+
+Time Selector, calendar and confirmation modals can be a single component with a child.
+The child detirmines the width????
+Probably not worth the rework effort
