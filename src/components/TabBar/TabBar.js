@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import TabBarIcon from './TabBarIcon';
 import {Icons} from '_constants';
 import {Colors} from '_resources';
@@ -12,7 +12,7 @@ const TabBar = ({
   settingsPressed,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={containerStyle()}>
       <TabBarIcon
         name={Icons.projects}
         selectedName={navigationState}
@@ -37,11 +37,11 @@ const TabBar = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flexDirection: 'row',
-    backgroundColor: Colors.secondary,
-  },
-});
+    backgroundColor: Colors.secondary[global.colorScheme],
+  };
+};
 
 export default TabBar;

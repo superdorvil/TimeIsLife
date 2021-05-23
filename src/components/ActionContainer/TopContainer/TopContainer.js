@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {ViewVisibleWrapper} from '_components';
 import WeeklyProgress from './WeeklyProgress';
 import ActionScreen from './ActionScreen';
@@ -21,7 +21,7 @@ const TopContainer = ({
   topRightButtonPressed,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={containerStyle()}>
       <ViewVisibleWrapper active={weeklyProgressActive}>
         <WeeklyProgress
           thisWeeksGoalSeconds={thisWeeksGoalSeconds}
@@ -47,11 +47,11 @@ const TopContainer = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     marginStart: 16,
     marginEnd: 16,
-  },
-});
+  };
+};
 
 export default TopContainer;

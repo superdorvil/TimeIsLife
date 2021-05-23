@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {HoursUtils} from '_utils';
 import {Colors} from '_resources';
 
@@ -17,37 +17,42 @@ const TotalHours = ({totalSecondsWorked}) => {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.totalHoursContainer}>
-        <Text style={styles.totalHours}>{totalHours} h</Text>
+    <View style={containerStyle()}>
+      <View style={totalHoursContainerStyle()}>
+        <Text style={totalHoursStyle()}>{totalHours} h</Text>
       </View>
-      <Text style={styles.totalHoursText}>total hrs</Text>
+      <Text style={totalHoursTextStyle()}>total hrs</Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginEnd: 16,
-  },
-  totalHours: {
-    color: Colors.primary,
+const containerStyle = () => {
+  return {marginEnd: 16};
+};
+
+const totalHoursStyle = () => {
+  return {
+    color: Colors.primary[global.colorScheme],
     fontWeight: 'bold',
     fontSize: 12,
-  },
-  totalHoursText: {
-    color: Colors.tertiary,
-  },
-  totalHoursContainer: {
+  };
+};
+
+const totalHoursTextStyle = () => {
+  return {color: Colors.tertiary[global.colorScheme]};
+};
+
+const totalHoursContainerStyle = () => {
+  return {
     width: 50,
     height: 50,
     borderRadius: 50,
-    borderColor: Colors.primary,
+    borderColor: Colors.primary[global.colorScheme],
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
-  },
-});
+  };
+};
 
 export default TotalHours;

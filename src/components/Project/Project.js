@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import TotalHours from './TotalHours';
 import ProjectData from './ProjectData';
 
@@ -11,7 +11,7 @@ const Project = ({
   thisWeeksSecondsGoal,
 }) => {
   return (
-    <TouchableOpacity onPress={projectPressed} style={styles.container}>
+    <TouchableOpacity onPress={projectPressed} style={containerStyle()}>
       <TotalHours totalSecondsWorked={totalSecondsWorked} />
       <ProjectData
         description={description}
@@ -22,10 +22,8 @@ const Project = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-  },
-});
+const containerStyle = () => {
+  return {flexDirection: 'row'};
+};
 
 export default Project;

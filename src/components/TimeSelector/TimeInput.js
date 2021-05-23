@@ -3,8 +3,7 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
-  StyleSheet,
+  // TouchableOpacity,
 } from 'react-native';
 import {Colors} from '_resources';
 
@@ -18,60 +17,61 @@ const TimeInput = ({
   ampm,
 }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.typeInTime}>Type in time</Text>
-      <View style={styles.innerContainer}>
-        <View style={styles.timeInputContainer}>
-          <View style={styles.timeInputInnerContainer}>
+    <View style={containerStyle()}>
+      <Text style={typeInTimeStyle()}>Type in time</Text>
+      <View style={innerContainerStyle()}>
+        <View style={timeInputContainerStyle()}>
+          <View style={timeInputInnerContainerStyle()}>
             <TextInput
               keyboardType="number-pad"
-              style={styles.input}
+              style={inputStyle()}
               multiline
               value={hours.toString()}
               autoCorrect={false}
               onChangeText={updateHours}
               placeholder="0"
             />
-            <Text style={styles.time}>hours</Text>
+            <Text style={timeStyle()}>hours</Text>
           </View>
-          <Text style={styles.colon}> : </Text>
-          <View style={styles.timeInputInnerContainer}>
+          <Text style={colonStyle()}> : </Text>
+          <View style={timeInputInnerContainerStyle()}>
             <TextInput
               keyboardType="number-pad"
-              style={styles.input}
+              style={inputStyle()}
               multiline
               value={minutes.toString()}
               autoCorrect={false}
               onChangeText={updateMinutes}
               placeholder="0"
             />
-            <Text style={styles.time}>minutes</Text>
+            <Text style={timeStyle()}>minutes</Text>
           </View>
         </View>
-        {/*<View style={styles.ampmContainer}>
-          <View style={styles.ampmInnerContainer}>
+        {/*
+          <View style={ampmContainerStyle()}>
+          <View style={ampmInnerContainerStyle()}>
             <TouchableOpacity
-              style={styles.circleContainer}
+              style={circleContainerStyle()}
               onPress={amPressed}>
               <View
                 style={
-                  ampm === 'am' ? styles.activeCircle : styles.inactiveCircle
+                  ampm === 'am' ? activeCircleStyle() : inactiveCircleStyle()
                 }
               />
             </TouchableOpacity>
-            <Text style={styles.ampm}>PM</Text>
+            <Text style={ampmStyle()}>PM</Text>
           </View>
-          <View style={styles.ampmInnerContainer}>
+          <View style={ampmInnerContainerStyle()}>
             <TouchableOpacity
-              style={styles.circleContainer}
+              style={circleContainerStyle()}
               onPress={pmPressed}>
               <View
                 style={
-                  ampm === 'pm' ? styles.activeCircle : styles.inactiveCircle
+                  ampm === 'pm' ? activeCircleStyle() : inactiveCircleStyle()
                 }
               />
             </TouchableOpacity>
-            <Text style={styles.ampm}>AM</Text>
+            <Text style={ampmStyle()}>AM</Text>
           </View>
         </View>*/}
       </View>
@@ -79,77 +79,109 @@ const TimeInput = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-  innerContainer: {
-    flexDirection: 'row',
-  },
-  typeInTime: {
-    color: Colors.secondary,
+const containerStyle = () => {
+  return {};
+};
+
+const innerContainerStyle = () => {
+  return {flexDirection: 'row'};
+};
+
+const typeInTimeStyle = () => {
+  return {
     fontWeight: 'bold',
     fontSize: 16,
     marginStart: 16,
     marginTop: 16,
-  },
-  colon: {
-    color: Colors.secondary,
+    color: Colors.secondary[global.colorScheme],
+  };
+};
+
+const timeInputContainerStyle = () => {
+  return {
+    flexDirection: 'row',
+    marginStart: 16,
+    marginEnd: 16,
+  };
+};
+
+const timeInputInnerContainerStyle = () => {
+  return {alignItems: 'flex-start'};
+};
+
+const colonStyle = () => {
+  return {
     fontSize: 24,
     alignSelf: 'center',
     marginStart: 6,
     marginEnd: 6,
-  },
-  input: {
+    color: Colors.secondary[global.colorScheme],
+  };
+};
+
+const inputStyle = () => {
+  return {
     fontSize: 20,
     width: 40,
     paddingStart: 0,
     paddingBottom: 0,
     marginBottom: 0,
-    borderBottomColor: Colors.secondary,
     borderBottomWidth: 1,
-  },
-  timeInputContainer: {
-    flexDirection: 'row',
-    marginStart: 16,
-    marginEnd: 16,
-  },
-  timeInputInnerContainer: {
-    alignItems: 'flex-start',
-  },
-  ampm: {
-    fontSize: 12,
-    color: Colors.secondary,
-  },
-  ampmContainer: {
+    borderBottomColor: Colors.secondary[global.colorScheme],
+  };
+};
+
+const timeStyle = () => {
+  return {color: Colors.secondary[global.colorScheme]};
+};
+
+/*const ampmContainerStyle = () => {
+  return {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginEnd: 16,
     flexDirection: 'row',
-  },
-  ampmInnerContainer: {
-    alignItems: 'center',
-  },
-  time: {
-    color: Colors.secondary,
-  },
-  circleContainer: {
+  };
+};
+
+const ampmInnerContainerStyle = () => {
+  return {alignItems: 'center'};
+};
+
+const ampmStyle = () => {
+  return {
+    fontSize: 12,
+    color: Colors.secondary[global.colorScheme],
+  };
+};
+
+const circleContainerStyle = () => {
+  return {
     borderWidth: 2,
     height: 32,
     width: 32,
     borderRadius: 30,
-    borderColor: Colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     marginStart: 8,
     marginEnd: 8,
-  },
-  activeCircle: {
-    backgroundColor: Colors.primary,
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const activeCircleStyle = () => {
+  return {
     margin: 2,
     height: 20,
     width: 20,
     borderRadius: 20,
-  },
-});
+    backgroundColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const inactiveCircleStyle = () => {
+  return {};
+};*/
 
 export default TimeInput;

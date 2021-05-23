@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet} from 'react-native';
+import {ScrollView} from 'react-native';
 import HoursStat from './HoursStat';
 
 const HoursStatistic = ({
@@ -16,7 +16,7 @@ const HoursStatistic = ({
   averageSaturdayHours,
 }) => {
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={containerStyle()}>
       <HoursStat statistic="Total Hours Worked:" hours={totalHours} />
       <HoursStat statistic="Average Daily Hours:" hours={averageDailyHours} />
       <HoursStat statistic="Average Weekly Hours:" hours={averageWeeklyHours} />
@@ -44,10 +44,8 @@ const HoursStatistic = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 16,
-  },
-});
+const containerStyle = () => {
+  return {paddingTop: 16};
+};
 
 export default HoursStatistic;

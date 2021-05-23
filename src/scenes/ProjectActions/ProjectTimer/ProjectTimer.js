@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {
   ProjectClock,
@@ -106,11 +106,11 @@ class ProjectTimer extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.backArrowContainer}>
+      <View style={containerStyle()}>
+        <View style={backArrowContainerStyle()}>
           <BackArrow backArrowPressed={this.backArrowPressed} />
         </View>
-        <Text style={styles.projectName}>{this.props.project.description}</Text>
+        <Text style={projectNameStyle()}>{this.props.project.description}</Text>
         <ProjectClock secondsWorked={this.state.secondsWorkedToday} />
         <StartStopButton
           stopMode={this.state.project.timerActive}
@@ -132,20 +132,24 @@ class ProjectTimer extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flex: 1,
-    backgroundColor: Colors.secondary,
-  },
-  projectName: {
+    backgroundColor: Colors.secondary[global.colorScheme],
+  };
+};
+
+const projectNameStyle = () => {
+  return {
     textAlign: 'center',
     fontSize: 32,
     paddingTop: 32,
-    color: Colors.primary,
-  },
-  backArrowContainer: {
-    alignSelf: 'baseline',
-  },
-});
+    color: Colors.primary[global.colorScheme],
+  };
+};
+
+const backArrowContainerStyle = () => {
+  return {alignSelf: 'baseline'};
+};
 
 export default ProjectTimer;

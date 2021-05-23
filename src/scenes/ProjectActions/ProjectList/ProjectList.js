@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import projectDB from '_data';
 import {DateUtils} from '_utils';
@@ -130,7 +130,7 @@ class ProjectList extends Component {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={containerStyle()}>
         <ActionContainer
           extraData={{
             realm: this.props.realm,
@@ -160,10 +160,8 @@ class ProjectList extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const containerStyle = () => {
+  return {flex: 1};
+};
 
 export default ProjectList;

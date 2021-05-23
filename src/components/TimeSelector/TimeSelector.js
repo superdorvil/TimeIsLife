@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View} from 'react-native';
 import Modal from 'react-native-modal';
 import {ConfirmationButtons} from '_components';
 import TimeInput from './TimeInput';
@@ -25,12 +25,12 @@ const TimeSelector = ({
     <Modal
       animationType="slide"
       isVisible={visible}
-      backdropColor={Colors.black}
+      backdropColor="#000000"
       backdropOpacity={0.5}
       onBackdropPress={cancelPressed}>
-      <View style={styles.container}>
+      <View style={containerStyle()}>
         <View>
-          <Text style={styles.setTimeDescription}>{setTimeDescription}</Text>
+          <Text style={setTimeDescriptionStyle()}>{setTimeDescription}</Text>
           <TimeInput
             hours={hours}
             minutes={minutes}
@@ -45,35 +45,41 @@ const TimeSelector = ({
           okayPressed={okayPressed}
           cancelPressed={cancelPressed}
         />
-        <Icon name={Icons.clock} size={24} style={styles.clock} />
+        <Icon name={Icons.clock} size={24} style={clockStyle()} />
       </View>
     </Modal>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     borderRadius: 6,
     width: '75%',
     alignSelf: 'center',
-    backgroundColor: Colors.tertiary,
     paddingBottom: 70,
-  },
-  setTimeDescription: {
-    color: Colors.secondary,
+    backgroundColor: Colors.tertiary[global.colorScheme],
+  };
+};
+
+const setTimeDescriptionStyle = () => {
+  return {
     fontSize: 24,
     fontWeight: 'bold',
     padding: 16,
-    backgroundColor: Colors.primary,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-  },
-  clock: {
-    color: Colors.primary,
+    color: Colors.secondary[global.colorScheme],
+    backgroundColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const clockStyle = () => {
+  return {
     position: 'absolute',
     bottom: 24,
     left: 24,
-  },
-});
+    color: Colors.primary[global.colorScheme],
+  };
+};
 
 export default TimeSelector;

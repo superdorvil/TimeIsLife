@@ -17,6 +17,18 @@ class ProjectDB {
     }
   }
 
+  getSettings({realm}) {
+    return realm.objects(Schemas.settings)[0];
+  }
+
+  updateColorScheme({realm, colorScheme}) {
+    const settings = this.getSettings({realm});
+
+    realm.write(() => {
+      settings.colorScheme = colorScheme;
+    });
+  }
+
   sumSecondsWorked({secondsWorked}) {
     let totalSecondsWorked = 0;
 

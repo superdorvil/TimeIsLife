@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {ViewVisibleWrapper} from '_components';
 import {Colors} from '_resources';
 import {DateUtils, HoursUtils} from '_utils';
@@ -18,53 +18,64 @@ const WeekdayHours = ({secondsWorked, weekday}) => {
   if (weekday === todayString) {
     todayActive = true;
   }
-  const textStyle = todayActive ? styles.todayText : styles.weekdayText;
-  const dividerStyle = todayActive
-    ? styles.todayDivider
-    : styles.weekdayDivider;
 
   return (
-    <View style={styles.container}>
-      <Text style={textStyle}>{hoursWorked} h</Text>
-      <View style={dividerStyle} />
-      <Text style={textStyle}>{weekday}</Text>
-      <ViewVisibleWrapper active={todayActive} style={styles.todayHighlight} />
+    <View style={containerStyle()}>
+      <Text style={textStyle(todayActive)}>{hoursWorked} h</Text>
+      <View style={dividerStyle(todayActive)} />
+      <Text style={textStyle(todayActive)}>{weekday}</Text>
+      <ViewVisibleWrapper active={todayActive} style={todayHighlightStyle()} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flex: 1,
     alignItems: 'center',
-  },
-  todayText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: Colors.primary,
-  },
-  weekdayText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: Colors.tertiary,
-  },
-  todayDivider: {
-    width: 1,
-    height: 12,
-    backgroundColor: Colors.primary,
-  },
-  weekdayDivider: {
-    width: 1,
-    height: 12,
-    backgroundColor: Colors.tertiary,
-  },
-  todayHighlight: {
-    backgroundColor: Colors.primary,
+  };
+};
+
+const textStyle = todayActive => {
+  if (todayActive) {
+    return {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: Colors.primary[global.colorScheme],
+    };
+  } else {
+    return {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: Colors.tertiary[global.colorScheme],
+    };
+  }
+};
+
+const dividerStyle = todayActive => {
+  if (todayActive) {
+    return {
+      width: 1,
+      height: 12,
+      backgroundColor: Colors.primary[global.colorScheme],
+    };
+  } else {
+    return {
+      width: 1,
+      height: 12,
+      backgroundColor: Colors.tertiary[global.colorScheme],
+    };
+  }
+};
+
+const todayHighlightStyle = () => {
+  return {
     width: 28,
     height: 1,
     position: 'absolute',
     bottom: -2,
-  },
-});
+    backgroundColor: Colors.primary[global.colorScheme],
+  };
+};
 
 export default WeekdayHours;

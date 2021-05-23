@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, FlatList} from 'react-native';
 import {Colors} from '_resources';
 import {ViewVisibleWrapper, Divider} from '_components';
 import ActionButton from './ActionButton';
@@ -12,7 +12,7 @@ class BottomContainer extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={containerStyle()}>
         <ActionNavBar
           actionNavBarActive={this.props.actionNavBarActive}
           taskNavButtonSelected={this.props.taskNavButtonSelected}
@@ -23,9 +23,9 @@ class BottomContainer extends Component {
           goalsNavButtonPressed={this.props.goalsNavButtonPressed}
         />
         {this.props.children ? (
-          <View style={styles.childrenContainer}>{this.props.children}</View>
+          <View style={childrenContainerStyle()}>{this.props.children}</View>
         ) : (
-          <View style={styles.innerContainer}>
+          <View style={innerContainerStyle()}>
             <ViewVisibleWrapper active={this.props.actionButtonActive}>
               <ActionButton
                 actionButtonDescription={this.props.actionButtonDescription}
@@ -34,7 +34,7 @@ class BottomContainer extends Component {
             </ViewVisibleWrapper>
             <ViewVisibleWrapper
               active={this.props.listDataActive}
-              style={styles.list}>
+              style={listStyle()}>
               <FlatList
                 data={this.props.listData}
                 renderItem={({item}) =>
@@ -50,7 +50,7 @@ class BottomContainer extends Component {
                   )
                 }
                 ItemSeparatorComponent={this.renderDivider}
-                contentContainerStyle={styles.listPadding}
+                contentContainerStyle={listPaddingStyle()}
               />
             </ViewVisibleWrapper>
           </View>
@@ -60,32 +60,39 @@ class BottomContainer extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flex: 1,
-    borderColor: Colors.primary,
     borderBottomWidth: 1,
-  },
-  innerContainer: {
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const innerContainerStyle = () => {
+  return {
     flex: 1,
     paddingTop: 12,
     paddingStart: 16,
     paddingEnd: 16,
     paddingBottom: 16,
-  },
-  childrenContainer: {
+  };
+};
+
+const childrenContainerStyle = () => {
+  return {
     flex: 1,
     paddingStart: 16,
     paddingEnd: 16,
     paddingBottom: 16,
-  },
-  list: {
-    flex: 1,
-  },
-  listPadding: {
-    paddingBottom: 16,
-  },
-  bottomChild: {},
-});
+  };
+};
+
+const listStyle = () => {
+  return {flex: 1};
+};
+
+const listPaddingStyle = () => {
+  return {paddingBottom: 16};
+};
 
 export default BottomContainer;

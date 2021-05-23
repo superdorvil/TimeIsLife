@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {Icons} from '_constants';
 import {
   ManageSettings,
@@ -30,13 +30,11 @@ const SceneSelector = ({scene, realm}) => {
       );
   }
 
-  return <View style={styles.container}>{selectedScene}</View>;
+  return <View style={containerStyle()}>{selectedScene}</View>;
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const containerStyle = () => {
+  return {flex: 1};
+};
 
 export default SceneSelector;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet, Dimensions} from 'react-native';
+import {View, ScrollView, Dimensions} from 'react-native';
 import {Colors} from '_resources';
 import {LineChart} from 'react-native-chart-kit';
 
@@ -21,7 +21,7 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
   //datasets.strokeWidth = 2;
 
   return (
-    <View style={styles.container}>
+    <View style={containerStyle()}>
       <ScrollView horizontal>
         <LineChart
           data={{labels, datasets}}
@@ -31,28 +31,28 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
           yAxisInterval={1} // optional, defaults to 1
           chartConfig={{
             fromZero: false,
-            backgroundGradientFrom: Colors.primary,
-            backgroundGradientTo: Colors.primary,
+            backgroundGradientFrom: Colors.primary[global.colorScheme],
+            backgroundGradientTo: Colors.primary[global.colorScheme],
             backgroundGradientFromOpacity: 0.5,
             backgroundGradientToOpacity: 0.5,
-            fillShadowGradient: Colors.tertiary,
+            fillShadowGradient: Colors.tertiary[global.colorScheme],
             fillShadowGradientOpacity: 0.5,
             decimalPlaces: 0,
-            //color: (opacity = 1) => Colors.secondary, // `rgba(0, 0, 0, ${opacity})`,
-            //labelColor: (opacity = 1) => Colors.tertiary, //`rgba(0, 0, 0, ${opacity})`,
-            color: (opacity = 1) => Colors.secondary, //`rgba(255, 255, 255, ${opacity})`,
+            //color: (opacity = 1) => Colors.secondary[global.colorScheme], // `rgba(0, 0, 0, ${opacity})`,
+            //labelColor: (opacity = 1) => Colors.tertiary[global.colorScheme], //`rgba(0, 0, 0, ${opacity})`,
+            color: (opacity = 1) => Colors.secondary[global.colorScheme], //`rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
             strokeWidth: 2,
             propsForDots: {
               r: '6',
               strokeWidth: '2',
-              stroke: Colors.primary,
+              stroke: Colors.primary[global.colorScheme],
             },
           }}
-          style={styles.chart}
+          style={chartStyle()}
         />
       </ScrollView>
-      <View style={styles.invisibleChart}>
+      <View style={invisibleChartStyle()}>
         <LineChart
           data={{labels: [], datasets}}
           width={65} // from react-native
@@ -64,15 +64,15 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
           withInnerLines={false}
           withOuterLines={false}
           chartConfig={{
-            backgroundGradientFrom: Colors.primary,
-            backgroundGradientTo: Colors.primary,
+            backgroundGradientFrom: Colors.primary[global.colorScheme],
+            backgroundGradientTo: Colors.primary[global.colorScheme],
             backgroundGradientFromOpacity: 0,
             backgroundGradientToOpacity: 0,
             fillShadowGradient: 'rgba(0, 0, 0, 0)',
             fillShadowGradientOpacity: 0.5,
             decimalPlaces: 0,
-            color: (opacity = 0) => Colors.secondary, //`rgba(0, 0, 0, ${opacity})`,
-            labelColor: (opacity = 0) => Colors.tertiary, //`rgba(0, 0, 0, ${opacity})`,
+            color: (opacity = 0) => Colors.secondary[global.colorScheme], //`rgba(0, 0, 0, ${opacity})`,
+            labelColor: (opacity = 0) => Colors.tertiary[global.colorScheme], //`rgba(0, 0, 0, ${opacity})`,
             strokeWidth: 1,
             propsForDots: {
               r: '0',
@@ -80,26 +80,23 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
               stroke: 'rgba(0, 0, 0, 0)',
             },
           }}
-          style={styles.chart}
+          style={chartStyle()}
         />
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-  chart: {},
-  dataType: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: Colors.white,
-    backgroundColor: Colors.secondary,
-  },
-  invisibleChart: {
-    position: 'absolute',
-  },
-});
+const containerStyle = () => {
+  return {};
+};
+
+const chartStyle = () => {
+  return {};
+};
+
+const invisibleChartStyle = () => {
+  return {position: 'absolute'};
+};
 
 export default HoursChart;

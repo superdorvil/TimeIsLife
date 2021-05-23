@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, Dimensions} from 'react-native';
 import Time from './Time';
 import {Colors} from '_resources';
 import {HoursUtils} from '_utils';
@@ -13,30 +13,33 @@ const ProjectClock = ({secondsWorked}) => {
   });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.circle}>
-        <View style={styles.timeContainer}>
+    <View style={containerStyle()}>
+      <View style={circleStyle()}>
+        <View style={timeContainerStyle()}>
           <Time time={timeWorked.hours} unit="h" />
-          <Text style={styles.colon}> : </Text>
+          <Text style={colonStyle()}> : </Text>
           <Time time={timeWorked.minutes} unit="m" />
-          <Text style={styles.colon}> : </Text>
+          <Text style={colonStyle()}> : </Text>
           <Time time={timeWorked.seconds} unit="s" />
         </View>
-        <Text style={styles.hoursToday}>Hours Today</Text>
+        <Text style={hoursTodayStyle()}>Hours Today</Text>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flex: 1,
     justifyContent: 'center',
     borderBottomWidth: 1,
-    borderColor: Colors.primary,
-  },
-  circle: {
-    borderColor: Colors.primary,
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const circleStyle = () => {
+  return {
+    borderColor: Colors.primary[global.colorScheme],
     borderWidth: 1,
     width: Dimensions.get('window').width * 0.75,
     height: Dimensions.get('window').width * 0.75,
@@ -44,19 +47,26 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  hoursToday: {
+  };
+};
+
+const hoursTodayStyle = () => {
+  return {
     fontSize: 16,
-    color: Colors.primary,
+    color: Colors.primary[global.colorScheme],
     paddingTop: 8,
-  },
-  timeContainer: {
-    flexDirection: 'row',
-  },
-  colon: {
+  };
+};
+
+const colonStyle = () => {
+  return {
     fontSize: 32,
-    color: Colors.primary,
-  },
-});
+    color: Colors.primary[global.colorScheme],
+  };
+};
+
+const timeContainerStyle = () => {
+  return {flexDirection: 'row'};
+};
 
 export default ProjectClock;

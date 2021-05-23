@@ -1,30 +1,36 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {Colors} from '_resources';
 
 const Time = ({time, unit}) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.time}>{time}</Text>
-      <Text style={styles.unit}>{unit}</Text>
+    <View style={containerStyle()}>
+      <Text style={timeStyle()}>{time}</Text>
+      <Text style={unitStyle()}>{unit}</Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flexDirection: 'row',
     alignItems: 'flex-end',
-  },
-  time: {
+  };
+};
+
+const timeStyle = () => {
+  return {
     fontSize: 40,
-    color: Colors.primary,
-  },
-  unit: {
+    color: Colors.primary[global.colorScheme],
+  };
+};
+
+const unitStyle = () => {
+  return {
     fontSize: 16,
-    color: Colors.primary,
+    color: Colors.primary[global.colorScheme],
     justifyContent: 'flex-end',
-  },
-});
+  };
+};
 
 export default Time;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {ViewVisibleWrapper, BackArrow} from '_components';
 import CenterIcon from './CenterIcon';
 import TopRightButton from './TopRightButton';
@@ -17,19 +17,19 @@ const ActionScreen = ({
   topRightButtonPressed,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={containerStyle()}>
       <ViewVisibleWrapper
         active={backArrowActive}
-        style={styles.backArrowContainer}>
+        style={backArrowContainerStyle()}>
         <BackArrow backArrowPressed={backArrowPressed} />
       </ViewVisibleWrapper>
       <CenterIcon centerIconName={centerIconName} />
-      <Text style={styles.actionDescription}>{actionDescription}</Text>
+      <Text style={actionDescriptionStyle()}>{actionDescription}</Text>
       <ViewVisibleWrapper
         active={subDescription || subDescription2}
-        style={styles.subDescriptionContainer}>
-        <Text style={styles.subDescription}>{subDescription}</Text>
-        <Text style={styles.subDescription2}>{subDescription2}</Text>
+        style={subDescriptionContainerStyle()}>
+        <Text style={subDescriptionStyle()}>{subDescription}</Text>
+        <Text style={subDescription2Style()}>{subDescription2}</Text>
       </ViewVisibleWrapper>
       <TopRightButton
         editButtonActive={editButtonActive}
@@ -40,30 +40,43 @@ const ActionScreen = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-  actionDescription: {
-    marginTop: 16,
-    color: Colors.primary,
-    fontSize: 24,
-    textAlign: 'center',
-  },
-  subDescription: {
-    color: Colors.tertiary,
-    fontSize: 12,
-  },
-  subDescription2: {
-    color: Colors.primary,
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  subDescriptionContainer: {
+const containerStyle = () => {
+  return {};
+};
+
+const subDescriptionContainerStyle = () => {
+  return {
     flexDirection: 'row',
     alignSelf: 'center',
-  },
-  backArrowContainer: {
-    alignSelf: 'baseline',
-  },
-});
+  };
+};
+
+const backArrowContainerStyle = () => {
+  return {alignSelf: 'baseline'};
+};
+
+const actionDescriptionStyle = () => {
+  return {
+    marginTop: 16,
+    fontSize: 24,
+    textAlign: 'center',
+    color: Colors.primary[global.colorScheme],
+  };
+};
+
+const subDescriptionStyle = () => {
+  return {
+    fontSize: 12,
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
+
+const subDescription2Style = () => {
+  return {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: Colors.primary[global.colorScheme],
+  };
+};
 
 export default ActionScreen;

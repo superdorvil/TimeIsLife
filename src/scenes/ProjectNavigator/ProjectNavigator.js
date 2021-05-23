@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {TabBar} from '_components';
 import {Icons} from '_constants';
 import SceneSelector from './SceneSelector';
@@ -25,7 +25,7 @@ class ProjectNavigator extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={containerStyle()}>
         <SceneSelector
           scene={this.state.navigationState}
           realm={this.props.realm}
@@ -42,10 +42,8 @@ class ProjectNavigator extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const containerStyle = () => {
+  return {flex: 1};
+};
 
 export default ProjectNavigator;

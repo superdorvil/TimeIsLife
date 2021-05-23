@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View} from 'react-native';
 import Modal from 'react-native-modal';
 import {ConfirmationButtons, ViewVisibleWrapper} from '_components';
 import {Icon} from '_components';
@@ -18,54 +18,63 @@ const ConfirmationModal = ({
     <Modal
       animationType="slide"
       isVisible={visible}
-      backdropColor={Colors.black}
+      backdropColor="#000000"
       backdropOpacity={0.5}
       onBackdropPress={cancelPressed}>
-      <View style={styles.container}>
-        <Text style={styles.header}>{header}</Text>
-        <Text style={styles.description}>{description}</Text>
+      <View style={containerStyle()}>
+        <Text style={headerStyle()}>{header}</Text>
+        <Text style={descriptionStyle()}>{description}</Text>
         <ConfirmationButtons
           okayPressed={okayPressed}
           cancelPressed={cancelPressed}
         />
         <ViewVisibleWrapper visible={iconName}>
-          <Icon name={iconName} size={24} style={styles.icon} />
+          <Icon name={iconName} size={24} style={iconStyle()} />
         </ViewVisibleWrapper>
       </View>
     </Modal>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     borderRadius: 6,
     width: '75%',
     alignSelf: 'center',
-    backgroundColor: Colors.tertiary,
+    backgroundColor: Colors.tertiary[global.colorScheme],
     paddingBottom: 70,
-  },
-  header: {
-    color: Colors.secondary,
+  };
+};
+
+const headerStyle = () => {
+  return {
+    color: Colors.secondary[global.colorScheme],
     fontSize: 24,
     fontWeight: 'bold',
     padding: 16,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.primary[global.colorScheme],
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
-  },
-  description: {
-    color: Colors.secondary,
+  };
+};
+
+const descriptionStyle = () => {
+  return {
+    color: Colors.secondary[global.colorScheme],
     fontSize: 20,
     marginStart: 16,
     marginEnd: 16,
     marginTop: 16,
-  },
-  icon: {
-    color: Colors.primary,
+  };
+};
+
+const iconStyle = () => {
+  return {
+    color: Colors.primary[global.colorScheme],
     position: 'absolute',
     bottom: 24,
     left: 24,
-  },
-});
+  };
+};
 
 export default ConfirmationModal;

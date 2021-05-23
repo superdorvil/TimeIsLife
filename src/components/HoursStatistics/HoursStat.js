@@ -1,15 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {Divider} from '_components';
 import {Colors} from '_resources';
 
 const HoursStat = ({statistic, hours}) => {
   return (
     <View>
-      <View style={styles.container}>
-        <Text style={styles.statistic}>{statistic}</Text>
-        <View style={styles.hoursContainer}>
-          <Text style={styles.hours}>{hours} h</Text>
+      <View style={containerStyle()}>
+        <Text style={statisticStyle()}>{statistic}</Text>
+        <View style={hoursContainerStyle()}>
+          <Text style={hoursStyle()}>{hours} h</Text>
         </View>
       </View>
       <Divider />
@@ -17,27 +17,36 @@ const HoursStat = ({statistic, hours}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flexDirection: 'row',
     marginStart: 32,
     marginEnd: 32,
     alignItems: 'center',
-  },
-  statistic: {
+  };
+};
+
+const statisticStyle = () => {
+  return {
     fontSize: 12,
-    color: Colors.tertiary,
+    color: Colors.tertiary[global.colorScheme],
     fontWeight: 'bold',
-  },
-  hours: {
+  };
+};
+
+const hoursStyle = () => {
+  return {
     fontSize: 20,
     fontWeight: 'bold',
-    color: Colors.primary,
-  },
-  hoursContainer: {
+    color: Colors.primary[global.colorScheme],
+  };
+};
+
+const hoursContainerStyle = () => {
+  return {
     flex: 1,
     alignItems: 'flex-end',
-  },
-});
+  };
+};
 
 export default HoursStat;

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {ActionContainer} from '_components';
 import {WeeklyGoal} from '_components';
 import {Icons} from '_constants';
@@ -81,7 +81,7 @@ class ManageWeeklyGoals extends Component {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={containerStyle()}>
         <ActionContainer
           extraData={{
             realm: this.props.realm,
@@ -109,12 +109,12 @@ class ManageWeeklyGoals extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flex: 1,
     paddingTop: 48,
-    backgroundColor: Colors.secondary,
-  },
-});
+    backgroundColor: Colors.secondary[global.colorScheme],
+  };
+};
 
 export default ManageWeeklyGoals;

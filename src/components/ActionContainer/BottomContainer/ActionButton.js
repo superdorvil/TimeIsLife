@@ -1,49 +1,57 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {Colors} from '_resources';
 import {Icons} from '_constants';
 import {Icon} from '_components';
 
 const ActionButton = ({actionButtonDescription, actionButtonPressed}) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.actionText}>{actionButtonDescription}</Text>
-      <View style={styles.outerButtonContainer}>
+    <View style={containerStyle()}>
+      <Text style={actionTextStyle()}>{actionButtonDescription}</Text>
+      <View style={outerButtonContainerStyle()}>
         <TouchableOpacity
-          style={styles.buttonContainer}
+          style={buttonContainerStyle()}
           onPress={actionButtonPressed}>
-          <Icon name={Icons.plus} size={16} style={styles.plus} />
+          <Icon name={Icons.plus} size={16} style={plusStyle()} />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-  },
-  outerButtonContainer: {
+const containerStyle = () => {
+  return {flexDirection: 'row'};
+};
+
+const outerButtonContainerStyle = () => {
+  return {
     flex: 1,
     alignItems: 'flex-end',
-  },
-  buttonContainer: {
-    backgroundColor: Colors.primary,
+  };
+};
+
+const buttonContainerStyle = () => {
+  return {
     height: 48,
     width: 48,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  plus: {
-    color: Colors.tertiary,
-  },
-  actionText: {
-    color: Colors.tertiary,
+    backgroundColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const plusStyle = () => {
+  return {color: Colors.tertiary[global.colorScheme]};
+};
+
+const actionTextStyle = () => {
+  return {
     fontWeight: 'bold',
     fontSize: 20,
     alignSelf: 'center',
-  },
-});
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
 
 export default ActionButton;

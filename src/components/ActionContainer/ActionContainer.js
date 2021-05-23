@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {Colors} from '_resources';
 import TopContainer from './TopContainer';
@@ -20,7 +20,7 @@ class ActionContainer extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={containerStyle()}>
         <TopContainer
           weeklyProgressActive={this.props.weeklyProgressActive}
           thisWeeksSecondsWorked={this.props.thisWeeksSecondsWorked}
@@ -73,11 +73,11 @@ class ActionContainer extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.secondary,
+const containerStyle = () => {
+  return {
     flex: 1,
-  },
-});
+    backgroundColor: Colors.secondary[global.colorScheme],
+  };
+};
 
 export default ActionContainer;

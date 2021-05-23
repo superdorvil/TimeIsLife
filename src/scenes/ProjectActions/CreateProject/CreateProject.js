@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import projectDB from '_data';
 import {ActionContainer} from '_components';
@@ -43,7 +43,7 @@ class CreateProject extends Component {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={containerStyle()}>
         <ActionContainer
           weeklyProgressActive={false}
           weeklyProgressData={false}
@@ -63,7 +63,7 @@ class CreateProject extends Component {
             placeholder="enter project name ..."
           />
         </ActionContainer>
-        <View style={styles.button}>
+        <View style={buttonStyle()}>
           <Button
             description="+ Add Project"
             buttonPressed={this.createProject}
@@ -74,15 +74,16 @@ class CreateProject extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  button: {
+const containerStyle = () => {
+  return {flex: 1};
+};
+
+const buttonStyle = () => {
+  return {
     position: 'absolute',
     left: 16,
     bottom: 32,
-  },
-});
+  };
+};
 
 export default CreateProject;

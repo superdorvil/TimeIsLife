@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import ProgressBar from 'react-native-progress/Bar';
 import {HoursUtils} from '_utils';
 import {Colors} from '_resources';
@@ -18,29 +18,29 @@ const HoursProgressBar = ({
     totalSeconds: goalSeconds,
   });
   const weeklyHours = weeklyHoursFontSizeBig ? (
-    <Text style={styles.weeklyHours16}>Weekly Hours</Text>
+    <Text style={weeklyHours16Style()}>Weekly Hours</Text>
   ) : (
-    <Text style={styles.weeklyHours12}>Weekly Hours</Text>
+    <Text style={weeklyHours12Style()}>Weekly Hours</Text>
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.weeklyHoursContainer}>
+    <View style={containerStyle()}>
+      <View style={weeklyHoursContainerStyle()}>
         {weeklyHours}
-        <View style={styles.hoursWorkedContainer}>
-          <Text style={styles.hoursWorked}>{hoursWorked} h</Text>
-          <Text style={styles.hoursGoal}>
+        <View style={hoursWorkedContainerStyle()}>
+          <Text style={hoursWorkedStyle()}>{hoursWorked} h</Text>
+          <Text style={hoursGoalStyle()}>
             {'  /  '}
             {hoursGoal} h
           </Text>
         </View>
       </View>
-      <View style={styles.progressBar}>
+      <View style={progressBarStyle()}>
         <ProgressBar
           animated
           progress={progress}
-          color={Colors.primary}
-          unfilledColor={Colors.tertiary}
+          color={Colors.primary[global.colorScheme]}
+          unfilledColor={Colors.tertiary[global.colorScheme]}
           borderWidth={1}
           height={6}
           width={null}
@@ -54,38 +54,55 @@ const HoursProgressBar = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-  weeklyHoursContainer: {
-    flexDirection: 'row',
-  },
-  hoursWorkedContainer: {
+const containerStyle = () => {
+  return {};
+};
+
+const weeklyHoursContainerStyle = () => {
+  return {flexDirection: 'row'};
+};
+
+const hoursWorkedContainerStyle = () => {
+  return {
     flexDirection: 'row',
     position: 'absolute',
     right: 0,
-  },
-  weeklyHours12: {
+  };
+};
+
+const weeklyHours12Style = () => {
+  return {
     fontSize: 12,
-    color: Colors.tertiary,
-  },
-  weeklyHours16: {
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
+
+const weeklyHours16Style = () => {
+  return {
     fontSize: 16,
-    color: Colors.tertiary,
-  },
-  hoursWorked: {
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
+
+const hoursWorkedStyle = () => {
+  return {
     fontSize: 16,
-    color: Colors.primary,
+    color: Colors.primary[global.colorScheme],
     alignSelf: 'flex-end',
     fontWeight: 'bold',
-  },
-  hoursGoal: {
+  };
+};
+
+const hoursGoalStyle = () => {
+  return {
     fontSize: 12,
-    color: Colors.tertiary,
+    color: Colors.tertiary[global.colorScheme],
     alignSelf: 'flex-end',
-  },
-  progressBar: {
-    paddingTop: 12,
-  },
-});
+  };
+};
+
+const progressBarStyle = () => {
+  return {paddingTop: 12};
+};
 
 export default HoursProgressBar;

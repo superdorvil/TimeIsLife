@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import ChartNavButton from './ChartNavButton';
 import {Colors} from '_resources';
 
@@ -12,8 +12,8 @@ const ChartNavBar = ({
   monthlyPressed,
 }) => {
   return (
-    <View style={styles.outerContainer}>
-      <View style={styles.container}>
+    <View style={outerContainerStyle()}>
+      <View style={containerStyle()}>
         <ChartNavButton
           description="Daily"
           selected={dailySelected}
@@ -34,16 +34,19 @@ const ChartNavBar = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flexDirection: 'row',
     borderRadius: 40,
     borderWidth: 1,
-    borderColor: Colors.primary,
     paddingEnd: 4,
     paddingStart: 4,
-  },
-  outerContainer: {
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const outerContainerStyle = () => {
+  return {
     marginTop: 8,
     marginBottom: 0,
     paddingStart: 16,
@@ -55,8 +58,8 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderStartWidth: 0,
     borderEndWidth: 0,
-    borderColor: Colors.primary,
-  },
-});
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
 
 export default ChartNavBar;

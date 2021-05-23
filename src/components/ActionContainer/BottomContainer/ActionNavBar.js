@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {ViewVisibleWrapper} from '_components';
 import {Colors} from '_resources';
 import ActionNavBarButton from './ActionNavBarButton';
@@ -14,8 +14,8 @@ const ActionNavBar = ({
   goalsNavButtonPressed,
 }) => {
   return (
-    <View style={styles.container}>
-      <ViewVisibleWrapper active={actionNavBarActive} style={styles.navBar}>
+    <View style={containerStyle()}>
+      <ViewVisibleWrapper active={actionNavBarActive} style={navBarStyle()}>
         <ActionNavBarButton
           selected={taskNavButtonSelected}
           description="Task"
@@ -32,36 +32,35 @@ const ActionNavBar = ({
           actionNavButtonPressed={goalsNavButtonPressed}
         />
       </ViewVisibleWrapper>
-      <View
-        style={actionNavBarActive ? styles.navBarDivider : styles.divider}
-      />
+      <View style={dividerStyle(actionNavBarActive)} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-  divider: {
-    borderColor: Colors.primary,
-    borderTopWidth: 1,
-    marginTop: 16,
-  },
-  navBarDivider: {
-    borderColor: Colors.primary,
-    borderTopWidth: 1,
-  },
-  navBar: {
+const dividerStyle = actionNavBarActive => {
+  if (actionNavBarActive) {
+    return {
+      borderTopWidth: 1,
+      borderColor: Colors.primary[global.colorScheme],
+    };
+  } else {
+    return {
+      borderTopWidth: 1,
+      marginTop: 16,
+      borderColor: Colors.primary[global.colorScheme],
+    };
+  }
+};
+
+const navBarStyle = () => {
+  return {
     flexDirection: 'row',
     paddingTop: 16,
-  },
-  selectedText: {
-    fontSize: 16,
-    color: Colors.primary,
-  },
-  text: {
-    fontSize: 16,
-    color: Colors.tertiary,
-  },
-});
+  };
+};
+
+const containerStyle = () => {
+  return {};
+};
 
 export default ActionNavBar;

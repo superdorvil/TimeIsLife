@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {
   ChartNavBar,
   HoursChart,
@@ -347,8 +347,8 @@ class ViewProjectCharts extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>All Project Hours</Text>
+      <View style={containerStyle()}>
+        <Text style={headerStyle()}>All Project Hours</Text>
         <ChartNavBar
           dailySelected={this.state.mode === States.daily}
           dailyPressed={() => this.chartNavBarPressed(States.daily)}
@@ -386,20 +386,23 @@ class ViewProjectCharts extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flex: 1,
-    backgroundColor: Colors.secondary,
     paddingTop: 16,
     paddingBottom: 16,
-    borderColor: Colors.primary,
     borderBottomWidth: 1,
-  },
-  header: {
+    backgroundColor: Colors.secondary[global.colorScheme],
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const headerStyle = () => {
+  return {
     fontSize: 24,
-    color: Colors.tertiary,
     alignSelf: 'center',
-  },
-});
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
 
 export default ViewProjectCharts;

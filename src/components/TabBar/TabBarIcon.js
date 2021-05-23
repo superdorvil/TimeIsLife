@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text} from 'react-native';
 import {Colors} from '_resources';
 import {Icon} from '_components';
 import SelectedTabBarIcon from './SelectedTabBarIcon';
@@ -10,27 +10,29 @@ const TabBarIcon = ({name, selectedName, onPress}) => {
   }
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Text style={styles.text}>{name}</Text>
-      <Icon name={name} size={22} style={styles.icon} />
+    <TouchableOpacity onPress={onPress} style={containerStyle()}>
+      <Text style={textStyle()}>{name}</Text>
+      <Icon name={name} size={22} style={iconStyle()} />
     </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
     paddingTop: 4,
     paddingBottom: 4,
-  },
-  icon: {
-    color: Colors.tertiary,
-  },
-  text: {
-    color: Colors.tertiary,
-  },
-});
+  };
+};
+
+const iconStyle = () => {
+  return {color: Colors.tertiary[global.colorScheme]};
+};
+
+const textStyle = () => {
+  return {color: Colors.tertiary[global.colorScheme]};
+};
 
 export default TabBarIcon;

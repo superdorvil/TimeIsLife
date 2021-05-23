@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import WeekdayHours from './WeekdayHours';
 
 const DailyHours = ({dailySecondsWorked}) => {
   return (
-    <View style={styles.container}>
+    <View style={containerStyle()}>
       <WeekdayHours
         secondsWorked={dailySecondsWorked.sun.secondsWorked}
         weekday={dailySecondsWorked.sun.weekday}
@@ -37,11 +37,11 @@ const DailyHours = ({dailySecondsWorked}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-});
+  };
+};
 
 export default DailyHours;

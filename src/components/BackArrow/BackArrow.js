@@ -1,28 +1,29 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {Icon} from '_components';
 import {Icons} from '_constants';
 import {Colors} from '_resources';
 
 const BackArrow = ({backArrowPressed}) => {
   return (
-    <TouchableOpacity onPress={backArrowPressed} style={styles.container}>
-      <Icon name={Icons.leftArrow} size={24} style={styles.arrow} />
+    <TouchableOpacity onPress={backArrowPressed} style={containerStyle()}>
+      <Icon name={Icons.leftArrow} size={24} style={arrowStyle()} />
     </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'baseline',
-  },
-  arrow: {
-    color: Colors.tertiary,
+const containerStyle = () => {
+  return {alignItems: 'baseline'};
+};
+
+const arrowStyle = () => {
+  return {
     paddingStart: 16,
     paddingEnd: 16,
     paddingTop: 16,
     paddingBottom: 16,
-  },
-});
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
 
 export default BackArrow;

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {StyleSheet} from 'react-native';
 import Realm from 'realm';
 import ProjectNavigator from './ProjectNavigator';
 import {ViewVisibleWrapper} from '_components';
@@ -18,6 +17,7 @@ class TimeIsLife extends Component {
 
     this.state = {
       realm: null,
+      updateColorScheme: 0,
     };
   }
 
@@ -30,19 +30,32 @@ class TimeIsLife extends Component {
         TaskSchema,
         WeeklyGoalSchema,
       ],
-      schemaVersion: 1,
+      schemaVersion: 0,
       migration: (oldRealm, newRealm) => {
         projectDB.runMigrations({oldRealm, newRealm});
       },
     }).then(realm => {
       projectDB.initSettings({realm});
+      const settings = projectDB.getSettings({realm});
 
-      this.setState({realm});
+      settings.addListener(() => {
+        const s = projectDB.getSettings({realm});
+
+        global.colorScheme = s.colorScheme;
+
+        this.setState({
+          settings: s,
+          updateColorScheme: this.state.updateColorScheme + 1,
+        });
+      });
+
+      this.setState({realm, settings});
     });
   }
 
   componentWillUnmount() {
     const {realm} = this.state;
+    this.state.settings.removeAllListeners();
 
     if (realm !== null && !realm.isClosed) {
       realm.close();
@@ -56,17 +69,18 @@ class TimeIsLife extends Component {
 
   render() {
     return (
-      <ViewVisibleWrapper active={this.state.realm} style={styles.container}>
-        <ProjectNavigator realm={this.state.realm} />
+      <ViewVisibleWrapper active={this.state.realm} style={containerStyle()}>
+        <ProjectNavigator
+          realm={this.state.realm}
+          updateColorScheme={this.state.updateColorScheme}
+        />
       </ViewVisibleWrapper>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const containerStyle = () => {
+  return {flex: 1};
+};
 
 export default TimeIsLife;

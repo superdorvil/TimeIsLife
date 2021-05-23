@@ -1,40 +1,46 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {Colors} from '_resources';
 
 const StartStopButton = ({stopMode, timerPressed}) => {
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.circle} onPress={timerPressed}>
-        <Text style={styles.text}>{stopMode ? 'Stop' : 'Start'}</Text>
-        <Text style={styles.text}>Timer</Text>
+    <View style={containerStyle()}>
+      <TouchableOpacity style={circleStyle()} onPress={timerPressed}>
+        <Text style={textStyle()}>{stopMode ? 'Stop' : 'Start'}</Text>
+        <Text style={textStyle()}>Timer</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.secondary,
+const containerStyle = () => {
+  return {
+    backgroundColor: Colors.secondary[global.colorScheme],
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
     borderBottomWidth: 1,
-    borderColor: Colors.primary,
-  },
-  circle: {
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const circleStyle = () => {
+  return {
     height: 80,
     width: 80,
     borderWidth: 2,
     borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: Colors.primary,
-  },
-  text: {
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const textStyle = () => {
+  return {
     fontSize: 16,
-    color: Colors.primary,
-  },
-});
+    color: Colors.primary[global.colorScheme],
+  };
+};
 
 export default StartStopButton;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import Modal from 'react-native-modal';
 import {Calendar} from 'react-native-calendars';
 import {ConfirmationButtons} from '_components';
@@ -19,13 +19,13 @@ const DateSelector = ({
     <Modal
       animationType="slide"
       isVisible={visible}
-      backdropColor={Colors.black}
+      backdropColor="#000000"
       backdropOpacity={0.5}
       onBackdropPress={closeModal}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.year}>{year}</Text>
-          <Text style={styles.formattedDate}>{formattedDate}</Text>
+      <View style={containerStyle()}>
+        <View style={headerStyle()}>
+          <Text style={yearStyle()}>{year}</Text>
+          <Text style={formattedDateStyle()}>{formattedDate}</Text>
         </View>
         <Calendar
           //current={new Date()}
@@ -37,29 +37,29 @@ const DateSelector = ({
           }}
           monthFormat={'MMMM yyyy'}
           // renderArrow={(direction) => (<Arrow/>)}
-          style={styles.calendarStyle}
+          style={calendarStyle()}
           markedDates={{
             [date]: {
               selected: true,
               disableTouchEvent: true,
-              selectedColor: Colors.primary,
+              selectedColor: Colors.primary[global.colorScheme],
             },
           }}
           theme={{
-            backgroundColor: Colors.tertiary,
-            calendarBackground: Colors.tertiary,
-            textSectionTitleColor: Colors.secondary, // Sun-Sat
-            //textSectionTitleDisabledColor: Colors.secondary,
+            backgroundColor: Colors.tertiary[global.colorScheme],
+            calendarBackground: Colors.tertiary[global.colorScheme],
+            textSectionTitleColor: Colors.secondary[global.colorScheme], // Sun-Sat
+            //textSectionTitleDisabledColor: Colors.secondary[global.colorScheme],
             //selectedDayBackgroundColor: 'red',
             //selectedDayTextColor: 'green',
-            todayTextColor: Colors.secondary,
-            dayTextColor: Colors.secondary,
+            todayTextColor: Colors.secondary[global.colorScheme],
+            dayTextColor: Colors.secondary[global.colorScheme],
             //textDisabledColor: '#d9e1e8',
             //dotColor: 'red',
             //selectedDotColor: 'red',
-            arrowColor: Colors.secondary,
+            arrowColor: Colors.secondary[global.colorScheme],
             //disabledArrowColor: '#d9e1e8',
-            monthTextColor: Colors.secondary,
+            monthTextColor: Colors.secondary[global.colorScheme],
             //indicatorColor: 'red',
             //textDayFontFamily: 'monospace',
             //textMonthFontFamily: 'monospace',
@@ -81,29 +81,41 @@ const DateSelector = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-  calendarStyle: {
+const containerStyle = () => {
+  return {};
+};
+
+const calendarStyle = () => {
+  return {
     height: 425,
     borderBottomEndRadius: 6,
     borderBottomStartRadius: 6,
-  },
-  year: {
+  };
+};
+
+const yearStyle = () => {
+  return {
     fontSize: 20,
-    color: Colors.secondary,
+    color: Colors.secondary[global.colorScheme],
     fontWeight: 'bold',
-  },
-  formattedDate: {
+  };
+};
+
+const formattedDateStyle = () => {
+  return {
     fontSize: 30,
     fontWeight: 'bold',
-    color: Colors.secondary,
-  },
-  header: {
-    backgroundColor: Colors.primary,
+    color: Colors.secondary[global.colorScheme],
+  };
+};
+
+const headerStyle = () => {
+  return {
+    backgroundColor: Colors.primary[global.colorScheme],
     padding: 16,
     borderTopStartRadius: 6,
     borderTopEndRadius: 6,
-  },
-});
+  };
+};
 
 export default DateSelector;

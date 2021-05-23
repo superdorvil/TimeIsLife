@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {Icon} from '_components';
 import {Icons} from '_constants';
 import {Colors} from '_resources';
@@ -10,55 +10,65 @@ const ProjectChartsDataPicker = ({
   decrementChartIndex,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={containerStyle()}>
       <TouchableOpacity
         onPress={incrementChartIndex}
-        style={styles.arrowLeftContainer}>
-        <Icon name={Icons.leftArrow} size={35} style={styles.arrow} />
+        style={arrowLeftContainerStyle()}>
+        <Icon name={Icons.leftArrow} size={35} style={arrowStyle()} />
       </TouchableOpacity>
-      <Text style={styles.dateInfo}>{dateInfo}</Text>
+      <Text style={dateInfoStyle()}>{dateInfo}</Text>
       <TouchableOpacity
         onPress={decrementChartIndex}
-        style={styles.arrowRightContainer}>
-        <Icon name={Icons.rightArrow} size={35} style={styles.arrow} />
+        style={arrowRightContainerStyle()}>
+        <Icon name={Icons.rightArrow} size={35} style={arrowStyle()} />
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     borderWidth: 1,
-    borderColor: Colors.primary,
+    borderColor: Colors.primary[global.colorScheme],
     flexDirection: 'row',
-  },
-  arrow: {
-    color: Colors.primary,
-  },
-  arrowLeftContainer: {
+  };
+};
+
+const arrowStyle = () => {
+  return {color: Colors.primary[global.colorScheme]};
+};
+
+const arrowLeftContainerStyle = () => {
+  return {
     paddingStart: 16,
     paddingEnd: 16,
     paddingTop: 4,
     paddingBottom: 4,
     borderEndWidth: 1,
-    borderColor: Colors.primary,
-  },
-  arrowRightContainer: {
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const arrowRightContainerStyle = () => {
+  return {
     paddingStart: 16,
     paddingEnd: 16,
     paddingTop: 4,
     paddingBottom: 4,
     borderStartWidth: 1,
-    borderColor: Colors.primary,
-  },
-  dateInfo: {
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const dateInfoStyle = () => {
+  return {
     fontSize: 12,
-    color: Colors.tertiary,
+    color: Colors.tertiary[global.colorScheme],
     flex: 1,
     textAlign: 'center',
     alignSelf: 'center',
     fontWeight: 'bold',
-  },
-});
+  };
+};
 
 export default ProjectChartsDataPicker;

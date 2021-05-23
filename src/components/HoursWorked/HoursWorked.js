@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {StartEndTimeButtons} from '_components';
 import {DateUtils, HoursUtils} from '_utils';
 import {Utils} from '_constants';
@@ -33,7 +33,7 @@ const HoursWorked = ({date, secondsWorkedList, editStartTime, editEndTime}) => {
 
   secondsWorkedList.forEach((secondsWorked, i) => {
     startEndTimeButtons.push(
-      <View style={styles.startEndTimeButtonsContainer} key={i}>
+      <View style={startEndTimeButtonsContainerStyle()} key={i}>
         <StartEndTimeButtons
           startTime={secondsWorked.startTime}
           endTime={secondsWorked.endTime}
@@ -51,42 +51,52 @@ const HoursWorked = ({date, secondsWorkedList, editStartTime, editEndTime}) => {
   });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.innerContainer}>
-        <Text style={styles.date}>
+    <View style={containerStyle()}>
+      <View style={innerContainerStyle()}>
+        <Text style={dateStyle()}>
           Total Hours {dayOfWeekText}
           {dateText}:
         </Text>
-        <Text style={styles.hours}>{totalHours} h</Text>
+        <Text style={hoursStyle()}>{totalHours} h</Text>
       </View>
       {startEndTimeButtons}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-  innerContainer: {
+const containerStyle = () => {
+  return {};
+};
+
+const innerContainerStyle = () => {
+  return {
     flexDirection: 'row',
     flex: 1,
     alignItems: 'center',
     paddingBottom: 8,
-  },
-  date: {
+  };
+};
+
+const dateStyle = () => {
+  return {
     fontSize: 16,
     fontWeight: 'bold',
-    color: Colors.tertiary,
-  },
-  hours: {
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
+
+const hoursStyle = () => {
+  return {
     fontSize: 20,
     fontWeight: 'bold',
-    color: Colors.primary,
+    color: Colors.primary[global.colorScheme],
     flex: 1,
     textAlign: 'right',
-  },
-  startEndTimeButtonsContainer: {
-    marginBottom: 8,
-  },
-});
+  };
+};
+
+const startEndTimeButtonsContainerStyle = () => {
+  return {marginBottom: 8};
+};
 
 export default HoursWorked;

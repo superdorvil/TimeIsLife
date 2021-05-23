@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {ActionContainer} from '_components';
 import {
@@ -168,7 +168,7 @@ class AddProjectHours extends Component {
     });
 
     return (
-      <View style={styles.container}>
+      <View style={containerStyle()}>
         <ActionContainer
           weeklyProgressActive={false}
           weeklyProgressData={false}
@@ -181,7 +181,7 @@ class AddProjectHours extends Component {
           listDataActive={false}
           listData={false}
           renderListItem={false}>
-          <View style={styles.innerContainer}>
+          <View style={innerContainerStyle()}>
             <EditTimeButton
               editDescription="Select Date"
               time={DateUtils.convertDateToString({
@@ -191,19 +191,19 @@ class AddProjectHours extends Component {
               icon={Icons.calendar}
               editPressed={this.openDateModal}
             />
-            <View style={styles.spacing} />
+            <View style={spacingStyle()} />
             <StartEndTimeButtons
               startTime={this.state.startTime}
               endTime={this.state.endTime}
               startPressed={this.openStartTimeModal}
               endPressed={this.openEndTimeModal}
             />
-            <Text style={styles.hoursWorked}>
+            <Text style={hoursWorkedStyle()}>
               {timeWorked.hours} hrs {timeWorked.minutes} mins
             </Text>
           </View>
         </ActionContainer>
-        <View style={styles.button}>
+        <View style={buttonStyle()}>
           <Button
             description="+ Add Hours"
             buttonPressed={this.addSecondsWorked}
@@ -241,29 +241,37 @@ class AddProjectHours extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  innerContainer: {
+const containerStyle = () => {
+  return {flex: 1};
+};
+
+const innerContainerStyle = () => {
+  return {
     flex: 1,
     marginTop: 16,
-  },
-  spacing: {
-    padding: 8,
-  },
-  button: {
+  };
+};
+
+const spacingStyle = () => {
+  return {padding: 8};
+};
+
+const buttonStyle = () => {
+  return {
     position: 'absolute',
     left: 16,
     bottom: 32,
-  },
-  hoursWorked: {
+  };
+};
+
+const hoursWorkedStyle = () => {
+  return {
     fontSize: 24,
     fontWeight: 'bold',
-    color: Colors.primary,
     textAlign: 'center',
     marginTop: 16,
-  },
-});
+    color: Colors.primary[global.colorScheme],
+  };
+};
 
 export default AddProjectHours;

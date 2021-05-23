@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {ActionContainer} from '_components';
 import projectDB from '_data';
@@ -45,7 +45,7 @@ class CreateTask extends Component {
     };
 
     return (
-      <View style={styles.container}>
+      <View style={containerStyle()}>
         <ActionContainer
           weeklyProgressActive={false}
           weeklyProgressData={false}
@@ -65,7 +65,7 @@ class CreateTask extends Component {
             placeholder="enter task name ..."
           />
         </ActionContainer>
-        <View style={styles.button}>
+        <View style={buttonStyle()}>
           <Button description="+ Add Task" buttonPressed={this.createTask} />
         </View>
       </View>
@@ -73,15 +73,16 @@ class CreateTask extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  button: {
+const containerStyle = () => {
+  return {flex: 1};
+};
+
+const buttonStyle = () => {
+  return {
     position: 'absolute',
     left: 16,
     bottom: 32,
-  },
-});
+  };
+};
 
 export default CreateTask;

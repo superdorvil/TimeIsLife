@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {HoursUtils} from '_utils';
 import {Colors} from '_resources';
@@ -23,30 +23,30 @@ const WeeklyGoal = ({
       : 0;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.innerContainer}>
-        <Text style={styles.text}>This Weeks Hours: </Text>
-        <Text style={styles.hours}>{thisWeeksHoursWorked} h</Text>
-        <View style={styles.alignEnd}>
-          <View style={styles.percentContainer}>
-            <Text style={styles.percent}>{progress} %</Text>
+    <View style={containerStyle()}>
+      <View style={innerContainerStyle()}>
+        <Text style={textStyle()}>This Weeks Hours: </Text>
+        <Text style={hoursStyle()}>{thisWeeksHoursWorked} h</Text>
+        <View style={alignEndStyle()}>
+          <View style={percentContainerStyle()}>
+            <Text style={percentStyle()}>{progress} %</Text>
           </View>
         </View>
       </View>
-      <View style={styles.innerContainer}>
-        <Text style={styles.text}>Goal for the week</Text>
-        <View style={styles.alignEnd}>
-          <Text style={styles.hours}>{thisWeeksHoursGoal} h</Text>
+      <View style={innerContainerStyle()}>
+        <Text style={textStyle()}>Goal for the week</Text>
+        <View style={alignEndStyle()}>
+          <Text style={hoursStyle()}>{thisWeeksHoursGoal} h</Text>
         </View>
       </View>
-      <View style={styles.sliderContainer}>
+      <View style={sliderContainerStyle()}>
         <Slider
-          style={styles.slider}
+          style={sliderStyle()}
           minimumValue={0}
           maximumValue={100}
           value={thisWeeksHoursGoal}
-          minimumTrackTintColor={Colors.secondary}
-          maximumTrackTintColor={Colors.secondary}
+          minimumTrackTintColor={Colors.secondary[global.colorScheme]}
+          maximumTrackTintColor={Colors.secondary[global.colorScheme]}
           onSlidingComplete={updateWeeklyGoal}
           onValueChange={updateWeeklyGoalSlider}
         />
@@ -55,52 +55,74 @@ const WeeklyGoal = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-  innerContainer: {
+const containerStyle = () => {
+  return {};
+};
+
+const innerContainerStyle = () => {
+  return {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  slider: {
-    flex: 1,
-  },
-  sliderContainer: {
+  };
+};
+
+const sliderStyle = () => {
+  return {flex: 1};
+};
+
+const sliderContainerStyle = () => {
+  return {
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: Colors.primary,
-    backgroundColor: Colors.tertiary,
     flex: 1,
     height: 20,
     marginTop: 8,
-  },
-  text: {
+    borderColor: Colors.primary[global.colorScheme],
+    backgroundColor: Colors.tertiary[global.colorScheme],
+  };
+};
+
+const textStyle = () => {
+  return {
     fontSize: 16,
-    color: Colors.tertiary,
     fontWeight: 'bold',
-  },
-  hours: {
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
+
+const hoursStyle = () => {
+  return {
     fontSize: 20,
     fontWeight: 'bold',
-    color: Colors.primary,
-  },
-  percentContainer: {
+    color: Colors.primary[global.colorScheme],
+  };
+};
+
+const percentContainerStyle = () => {
+  return {
     height: 50,
     width: 50,
     borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: Colors.primary,
-  },
-  percent: {
+    borderColor: Colors.primary[global.colorScheme],
+  };
+};
+
+const percentStyle = () => {
+  return {
     fontSize: 20,
     fontWeight: 'bold',
-    color: Colors.primary,
-  },
-  alignEnd: {
+    color: Colors.primary[global.colorScheme],
+  };
+};
+
+const alignEndStyle = () => {
+  return {
     flex: 1,
     alignItems: 'flex-end',
-  },
-});
+  };
+};
 
 export default WeeklyGoal;

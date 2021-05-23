@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text} from 'react-native';
 import {ViewVisibleWrapper} from '_components';
 import {Colors} from '_resources';
 
@@ -8,27 +8,26 @@ const TopRightButton = ({
   deleteButtonActive,
   topRightButtonPressed,
 }) => {
-  let topRightStyle;
   let topRightText;
   if (editButtonActive) {
-    topRightStyle = styles.edit;
     topRightText = 'Edit';
   } else if (deleteButtonActive) {
-    topRightStyle = styles.remove;
     topRightText = 'Delete';
   }
   return (
     <ViewVisibleWrapper
       active={editButtonActive || deleteButtonActive}
-      style={styles.container}
+      style={containerStyle()}
       onPress={topRightButtonPressed}>
-      <Text style={topRightStyle}>{topRightText}</Text>
+      <Text style={topRightStyle(editButtonActive, deleteButtonActive)}>
+        {topRightText}
+      </Text>
     </ViewVisibleWrapper>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
+const containerStyle = () => {
+  return {
     paddingStart: 16,
     paddingEnd: 16,
     paddingTop: 16,
@@ -36,17 +35,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-  },
-  edit: {
-    fontSize: 20,
-    color: Colors.primary,
-    fontWeight: 'bold',
-  },
-  remove: {
-    fontSize: 20,
-    color: Colors.remove,
-    fontWeight: 'bold',
-  },
-});
+  };
+};
+
+const topRightStyle = (editButtonActive, deleteButtonActive) => {
+  if (editButtonActive) {
+    return {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: Colors.primary[global.colorScheme],
+    };
+  }
+  if (deleteButtonActive) {
+    return {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: Colors.remove[global.colorScheme],
+    };
+  }
+};
 
 export default TopRightButton;

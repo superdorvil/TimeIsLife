@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
 import {HoursProgressBar} from '_components';
 import DailyHours from './DailyHours';
 import {Colors} from '_resources';
@@ -11,34 +11,38 @@ const WeeklyProgress = ({
   dailySecondsWorked,
 }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.timeIsLifeText}>Time Is Life</Text>
+    <View style={containerStyle()}>
+      <Text style={timeIsLifeTextStyle()}>Time Is Life</Text>
       <HoursProgressBar
         goalSeconds={thisWeeksGoalSeconds}
         secondsWorked={thisWeeksSecondsWorked}
         weeklyHoursFontSizeBig={weeklyHoursFontSizeBig}
       />
-      <Text style={styles.dailyHoursText}>Daily Hours</Text>
+      <Text style={dailyHoursTextStyle()}>Daily Hours</Text>
       <DailyHours dailySecondsWorked={dailySecondsWorked} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 16,
-  },
-  timeIsLifeText: {
+const containerStyle = () => {
+  return {marginTop: 16};
+};
+
+const timeIsLifeTextStyle = () => {
+  return {
     fontSize: 30,
-    color: Colors.tertiary,
     paddingBottom: 16,
-  },
-  dailyHoursText: {
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
+
+const dailyHoursTextStyle = () => {
+  return {
     fontSize: 16,
-    color: Colors.tertiary,
     textAlign: 'center',
     margin: 16,
-  },
-});
+    color: Colors.tertiary[global.colorScheme],
+  };
+};
 
 export default WeeklyProgress;
