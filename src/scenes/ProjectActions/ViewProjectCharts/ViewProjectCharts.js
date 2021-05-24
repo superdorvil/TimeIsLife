@@ -276,9 +276,12 @@ class ViewProjectCharts extends Component {
       case States.daily:
         for (let i = 0; i < 25; i++) {
           chartHours.push(
-            projectDB.getSecondsWorked({
-              realm: this.props.realm,
-              dateIndex: index - i,
+            HoursUtils.convertSecondsToHrs({
+              totalSeconds: projectDB.getSecondsWorked({
+                realm: this.props.realm,
+                dateIndex: index - i,
+              }),
+              decimalMinutes: true,
             }),
           );
           chartLabels.push(
@@ -294,9 +297,12 @@ class ViewProjectCharts extends Component {
       case States.weekly:
         for (let i = 0; i < 25; i++) {
           chartHours.push(
-            projectDB.getSecondsWorked({
-              realm: this.props.realm,
-              weekIndex: index - i,
+            HoursUtils.convertSecondsToHrs({
+              totalSeconds: projectDB.getSecondsWorked({
+                realm: this.props.realm,
+                weekIndex: index - i,
+              }),
+              decimalMinutes: true,
             }),
           );
           chartLabels.push(
@@ -325,9 +331,12 @@ class ViewProjectCharts extends Component {
           });
           monthIndex = DateUtils.getMonthIndex({date: firstOfMonth});
           chartHours.push(
-            projectDB.getSecondsWorked({
-              realm: this.props.realm,
-              monthIndex,
+            HoursUtils.convertSecondsToHrs({
+              totalSeconds: projectDB.getSecondsWorked({
+                realm: this.props.realm,
+                monthIndex,
+              }),
+              decimalMinutes: true,
             }),
           );
           chartLabels.push(
