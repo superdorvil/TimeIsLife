@@ -4,16 +4,27 @@ import Modal from 'react-native-modal';
 import {Calendar} from 'react-native-calendars';
 import {ConfirmationButtons} from '_components';
 import {Colors} from '_resources';
+import {DateUtils} from '_utils';
+import {Utils} from '_constants';
 
 const DateSelector = ({
   visible,
+  dateString,
   date,
   changeDate,
   confirmDateChange,
   closeModal,
 }) => {
-  const year = '2021';
-  const formattedDate = 'Sun, Apr 25';
+  const year = date.getFullYear();
+  const formattedDate =
+    DateUtils.convertDayToString({
+      date,
+      format: Utils.weekdayFormat.abbreviation,
+    }) +
+    ', ' +
+    DateUtils.convertMonthToString({date, abbreviate: true}) +
+    ' ' +
+    date.getDate();
 
   return (
     <Modal
@@ -39,7 +50,7 @@ const DateSelector = ({
           // renderArrow={(direction) => (<Arrow/>)}
           style={calendarStyle()}
           markedDates={{
-            [date]: {
+            [dateString]: {
               selected: true,
               disableTouchEvent: true,
               selectedColor: Colors.primary[global.colorScheme],

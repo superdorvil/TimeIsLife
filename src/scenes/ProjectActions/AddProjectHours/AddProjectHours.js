@@ -9,11 +9,10 @@ import {
   TimeSelector,
   DateSelector,
 } from '_components';
-import {DateUtils} from '_utils';
 import {Icons, Utils} from '_constants';
 import {Colors} from '_resources';
 import {States} from '_constants';
-import {HoursUtils, InputUtils} from '_utils';
+import {DateUtils, HoursUtils, InputUtils} from '_utils';
 import projectDB from '_data';
 
 class AddProjectHours extends Component {
@@ -227,10 +226,11 @@ class AddProjectHours extends Component {
           cancelPressed={this.closeModal}
         />
         <DateSelector
-          date={DateUtils.convertDateToString({
+          dateString={DateUtils.convertDateToString({
             date: this.state.tempDate,
             format: Utils.dateFormat.yyyy_mm_dd,
           })}
+          date={this.state.tempDate}
           changeDate={this.changeDate}
           visible={this.state.dateModalVisible}
           closeModal={this.closeModal}
