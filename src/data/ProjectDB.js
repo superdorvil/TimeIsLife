@@ -145,35 +145,50 @@ class ProjectDB {
     thisWeeksSecondsWorked.forEach((sw, i) => {
       switch (sw.dateIndex) {
         case sundayIndex:
-          dailySecondsWorked.sun =
-            dailySecondsWorked.sun.secondsWorked + sw.startTime - sw.endTime;
+          dailySecondsWorked.sun.secondsWorked =
+            dailySecondsWorked.sun.secondsWorked + (sw.endTime - sw.startTime);
           break;
         case sundayIndex + 1:
-          dailySecondsWorked.mon =
-            dailySecondsWorked.mon.secondsWorked + sw.startTime - sw.endTime;
+          dailySecondsWorked.mon.secondsWorked =
+            dailySecondsWorked.mon.secondsWorked + (sw.endTime - sw.startTime);
           break;
         case sundayIndex + 2:
-          dailySecondsWorked.tue =
-            dailySecondsWorked.tue.secondsWorked + sw.startTime - sw.endTime;
+          dailySecondsWorked.tue.secondsWorked =
+            dailySecondsWorked.tue.secondsWorked + (sw.endTime - sw.startTime);
           break;
         case sundayIndex + 3:
-          dailySecondsWorked.wed =
-            dailySecondsWorked.wed.secondsWorked + sw.startTime - sw.endTime;
+          dailySecondsWorked.wed.secondsWorked =
+            dailySecondsWorked.wed.secondsWorked + (sw.endTime - sw.startTime);
           break;
         case sundayIndex + 4:
-          dailySecondsWorked.thu =
-            dailySecondsWorked.thu.secondsWorked + sw.startTime - sw.endTime;
+          dailySecondsWorked.thu.secondsWorked =
+            dailySecondsWorked.thu.secondsWorked + (sw.endTime - sw.startTime);
           break;
         case sundayIndex + 5:
-          dailySecondsWorked.fri =
-            dailySecondsWorked.fri.secondsWorked + sw.startTime - sw.endTime;
+          dailySecondsWorked.fri.secondsWorked =
+            dailySecondsWorked.fri.secondsWorked + (sw.endTime - sw.startTime);
           break;
         case sundayIndex + 6:
-          dailySecondsWorked.sat =
-            dailySecondsWorked.sat.secondsWorked + sw.startTime - sw.endTime;
+          dailySecondsWorked.sat.secondsWorked =
+            dailySecondsWorked.sat.secondsWorked + (sw.endTime - sw.startTime);
           break;
         default:
       }
+
+      dailySecondsWorked.sun.secondsWorked =
+        dailySecondsWorked.sun.secondsWorked / 1000;
+      dailySecondsWorked.mon.secondsWorked =
+        dailySecondsWorked.mon.secondsWorked / 1000;
+      dailySecondsWorked.tue.secondsWorked =
+        dailySecondsWorked.tue.secondsWorked / 1000;
+      dailySecondsWorked.wed.secondsWorked =
+        dailySecondsWorked.wed.secondsWorked / 1000;
+      dailySecondsWorked.thu.secondsWorked =
+        dailySecondsWorked.thu.secondsWorked / 1000;
+      dailySecondsWorked.fri.secondsWorked =
+        dailySecondsWorked.fri.secondsWorked / 1000;
+      dailySecondsWorked.sat.secondsWorked =
+        dailySecondsWorked.sat.secondsWorked / 1000;
     });
 
     return dailySecondsWorked;

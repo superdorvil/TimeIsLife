@@ -18,6 +18,8 @@ class ProjectList extends Component {
     const sundayIndex = currentDateIndex - today.getDay();
     const dailySecondsWorked = projectDB.getDailySecondsWorked({
       realm: this.props.realm,
+      sundayIndex,
+      weekIndex: currentWeekIndex,
     });
     const thisWeeksSecondsWorked = projectDB.getSecondsWorked({
       realm: this.props.realm,
@@ -49,6 +51,8 @@ class ProjectList extends Component {
         projects: projectDB.getProjects({realm: this.props.realm}),
         dailySecondsWorked: projectDB.getDailySecondsWorked({
           realm: this.props.realm,
+          sundayIndex: this.state.sundayIndex,
+          weekIndex: this.state.currentWeekIndex,
         }),
       });
     });

@@ -162,11 +162,11 @@ export const convertDayToString = ({date, format}) => {
         case Utils.weekdayFormat.initial:
           return 'T';
         case Utils.weekdayFormat.abbreviation:
-          return 'Thur';
+          return 'Thu';
         case Utils.weekdayFormat.full:
           return 'Thursday';
         case Utils.weekdayFormat.abbreviation_capital:
-          return 'THUR';
+          return 'THU';
         case Utils.weekdayFormat.full_capital:
           return 'THURSDAY';
         default:
