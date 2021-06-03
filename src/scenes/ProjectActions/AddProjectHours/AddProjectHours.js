@@ -65,7 +65,7 @@ class AddProjectHours extends Component {
       date: this.state.tempDate,
       startTime: new Date(
         this.state.tempDate.getFullYear(),
-        this.state.tempDate.getMonth() + 1,
+        this.state.tempDate.getMonth(),
         this.state.tempDate.getDate(),
         this.state.startTime.getHours(),
         this.state.startTime.getMinutes(),
@@ -73,7 +73,7 @@ class AddProjectHours extends Component {
       ),
       endTime: new Date(
         this.state.tempDate.getFullYear(),
-        this.state.tempDate.getMonth() + 1,
+        this.state.tempDate.getMonth(),
         this.state.tempDate.getDate(),
         this.state.endTime.getHours(),
         this.state.endTime.getMinutes(),

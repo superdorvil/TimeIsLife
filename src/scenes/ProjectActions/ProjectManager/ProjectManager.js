@@ -17,7 +17,6 @@ import {HoursUtils, InputUtils} from '_utils';
 class ProjectManager extends Component {
   constructor(props) {
     super(props);
-
     const tasks = projectDB.getTasks({realm: this.props.realm});
     const secondsWorked = projectDB.getSecondsWorked({
       realm: this.props.realm,
@@ -295,6 +294,7 @@ class ProjectManager extends Component {
             updateWeeklyGoalSlider={value => {
               extraData.updateWeeklyGoalSlider(value, listData.index);
             }}
+            weekIndex={listData.weekIndex}
           />
         );
       default:

@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import Slider from '@react-native-community/slider';
-import {HoursUtils} from '_utils';
+import {HoursUtils, DateUtils} from '_utils';
+import {Utils} from '_constants';
 import {Colors} from '_resources';
 
 const WeeklyGoal = ({
@@ -9,6 +10,7 @@ const WeeklyGoal = ({
   thisWeeksSecondsGoal,
   updateWeeklyGoal,
   updateWeeklyGoalSlider,
+  weekIndex,
 }) => {
   const thisWeeksHoursWorked = HoursUtils.convertSecondsToHrs({
     totalSeconds: thisWeeksSecondsWorked,
@@ -21,11 +23,19 @@ const WeeklyGoal = ({
     thisWeeksHoursGoal > 0
       ? Math.round((thisWeeksSecondsWorked / thisWeeksSecondsGoal) * 100)
       : 0;
+  const sunday = DateUtils.convertDateToString({
+    date: DateUtils.getDateFromWeekIndex({weekIndex: weekIndex, weekday: 0}),
+    format: Utils.dateFormat.monDateYear,
+  });
+  const saturday = DateUtils.convertDateToString({
+    date: DateUtils.getDateFromWeekIndex({weekIndex, weekday: 6}),
+    format: Utils.dateFormat.monDateYear,
+  });
 
   return (
     <View style={containerStyle()}>
       <View style={innerContainerStyle()}>
-        <Text style={textStyle()}>This Weeks Hours: </Text>
+        <Text style={textStyle()}>{sunday + ' - ' + saturday + ': '}</Text>
         <Text style={hoursStyle()}>{thisWeeksHoursWorked} h</Text>
         <View style={alignEndStyle()}>
           <View style={percentContainerStyle()}>

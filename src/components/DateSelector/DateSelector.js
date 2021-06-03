@@ -41,7 +41,7 @@ const DateSelector = ({
         <Calendar
           //current={new Date()}
           //minDate={new Date()}
-          //maxDate={new Date()}
+          maxDate={new Date()}
           hideExtraDays
           onDayPress={day => {
             changeDate(day);

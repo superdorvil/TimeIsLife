@@ -379,19 +379,18 @@ export const getDateDiff = ({startDate, endDate}) => {
   return diffDays;
 };
 
-export const previousDate = ({diff, date}) => {
-  const prevDate = date.getDate() - diff;
-  return new Date(new Date().setDate(prevDate));
+export const getPreviousDate = ({diff, date}) => {
+  const previousDate = new Date(date);
+  previousDate.setDate(previousDate.getDate() - diff);
+
+  return previousDate;
 };
 
 export const getFutureDate = ({diff, date}) => {
-  const nextDate = date.getDate() + diff;
-  return new Date(new Date().setDate(nextDate));
-};
+  const futureDate = new Date(date);
+  futureDate.setDate(futureDate.getDate() + diff);
 
-export const getPastDate = ({diff, date}) => {
-  const nextDate = date.getDate() - diff;
-  return new Date(new Date().setDate(nextDate));
+  return futureDate;
 };
 
 export const getFirstDayOfMonth = ({date}) => {
@@ -485,8 +484,13 @@ export const getDateFromDateIndex = ({dateIndex}) => {
 };
 
 export const getDateFromWeekIndex = ({weekIndex, weekday = 0}) => {
-  const dateIndex = weekIndex * 7; // should be the sundayIndex
+  const dateIndex = (weekIndex - 1) * 7; // should be the sundayIndex, not sure why - 1 but it works
   let date = getDateFromDateIndex({dateIndex});
+
+  if (weekday < 0 || weekday > 6) {
+    return getFutureDate({diff: 0, date});
+    // error checking
+  }
 
   return getFutureDate({diff: weekday, date});
 };

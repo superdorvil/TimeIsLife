@@ -50,6 +50,7 @@ class ManageWeeklyGoals extends Component {
         updateWeeklyGoalSlider={value => {
           extraData.updateWeeklyGoalSlider(value, goalData.index);
         }}
+        weekIndex={goalData.weekIndex}
       />
     );
   }
