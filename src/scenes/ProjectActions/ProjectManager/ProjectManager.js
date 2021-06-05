@@ -28,6 +28,7 @@ class ProjectManager extends Component {
       realm: this.props.realm,
       projectID: this.props.project.id,
     });
+
     const weeklyGoalWeekIndexes = []; // 10 weeks
     for (let i = 0; i < 10; i++) {
       weeklyGoalWeekIndexes.push({
@@ -36,7 +37,7 @@ class ProjectManager extends Component {
         thisWeeksSecondsGoal: projectDB.getWeeklyGoals({
           realm: this.props.realm,
           weekIndex: this.props.currentWeekIndex - i,
-          projectId: this.props.project.id,
+          projectID: this.props.project.id,
         }),
       });
     }

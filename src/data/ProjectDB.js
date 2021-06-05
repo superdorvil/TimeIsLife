@@ -17,6 +17,46 @@ class ProjectDB {
     }
   }
 
+  updateProjectSecondsData({realm, projectID}) {
+    const projects = this.getProjects({realm});
+    const weekIndex = DateUtils.getWeekIndex({date: new Date()});
+    let updateProject = true;
+    if (projectID) {
+      updateProject = false;
+    }
+
+    realm.write(() => {
+      projects.forEach((project, i) => {
+        if (project.id === projectID) {
+          updateProject = true;
+        }
+
+        if (updateProject) {
+          project.totalSecondsWorked = this.getSecondsWorked({
+            realm,
+            projectID: project.id,
+          });
+
+          project.thisWeeksSecondsWorked = this.getSecondsWorked({
+            realm,
+            projectID: project.id,
+            weekIndex,
+          });
+
+          project.thisWeeksSecondsGoal = this.getWeeklyGoals({
+            realm,
+            projectID: project.id,
+            weekIndex,
+          });
+        }
+
+        if (project.id === projectID) {
+          updateProject = false;
+        }
+      });
+    });
+  }
+
   getSettings({realm}) {
     return realm.objects(Schemas.settings)[0];
   }
@@ -68,8 +108,6 @@ class ProjectDB {
     ascendingSort,
     returnList,
     limit,
-    // minimumWeekIndex,
-    // maximumWeekIndex,
   }) {
     let secondsWorked = realm
       .objects(Schemas.secondsWorked)
@@ -104,20 +142,6 @@ class ProjectDB {
 
       return secondsWorked; //as a list
     }
-
-    /*// return list with range
-    // try (data === parseInt(data, 10))
-    if (minimumWeekIndex !== undefined && maximumWeekIndex !== undefined) {
-      secondsWorked = secondsWorked
-        .filtered(
-          'weekIndex < $0 && weekIndex > $1',
-          minimumWeekIndex,
-          maximumWeekIndex,
-        )
-        .sorted('startTime');
-
-      return secondsWorked;
-    }*/
 
     if (returnList) {
       return secondsWorked;
@@ -195,32 +219,11 @@ class ProjectDB {
   }
 
   // If no projectID than get totalWeekly goals which has a default projectID of 0
-  getWeeklyGoals({
-    realm,
-    weekIndex,
-    projectID = 0,
-    // minimumWeekIndex,
-    // maximumWeekIndex,
-  }) {
+  getWeeklyGoals({realm, weekIndex, projectID = 0}) {
     let weeklyGoal = realm.objects(Schemas.weeklyGoal);
 
-    /*// return list with range
-    // try (data === parseInt(data, 10))
-    if (minimumWeekIndex !== undefined && maximumWeekIndex !== undefined) {
-      weeklyGoal = weeklyGoal
-        .filtered(
-          'projectID == $0 && weekIndex < $1 && weekIndex > $2',
-          projectID,
-          minimumWeekIndex,
-          maximumWeekIndex,
-        )
-        .sorted('weekIndex');
-
-      return weeklyGoal;
-    }*/
-
     weeklyGoal = weeklyGoal.filtered(
-      'projectID == $0 && weekIndex == $1',
+      'projectID == $0 AND weekIndex == $1',
       projectID,
       weekIndex,
     );
@@ -289,6 +292,10 @@ class ProjectDB {
       });
     });
 
+    if (projectID > 0) {
+      this.updateProjectSecondsData({realm, projectID});
+    }
+
     return weeklyGoal;
   }
 
@@ -302,8 +309,10 @@ class ProjectDB {
     startTime,
     endTime,
   }) {
+    let secondsWorked;
+
     realm.write(() => {
-      realm.create(Schemas.secondsWorked, {
+      secondsWorked = realm.create(Schemas.secondsWorked, {
         id: realm.objects(Schemas.secondsWorked).length + 1,
         projectID,
         dateIndex,
@@ -314,6 +323,10 @@ class ProjectDB {
         endTime,
       });
     });
+
+    this.updateProjectSecondsData({realm, projectID});
+
+    return secondsWorked;
   }
 
   editProject({realm, projectID, description}) {
@@ -335,7 +348,7 @@ class ProjectDB {
   updateWeeklyGoal({realm, projectID = 0, weekIndex, weeklyGoalSeconds}) {
     let weeklyGoal = realm
       .objects(Schemas.weeklyGoal)
-      .filtered('projectID == $0 && weekIndex == $1', projectID, weekIndex);
+      .filtered('projectID == $0 AND weekIndex == $1', projectID, weekIndex);
 
     if (weeklyGoal.length === 0) {
       weeklyGoal = this.createWeeklyGoal({
@@ -350,6 +363,10 @@ class ProjectDB {
           weeklyGoal[0].weeklyGoalSeconds = weeklyGoalSeconds;
         }
       });
+    }
+
+    if (projectID > 0) {
+      this.updateProjectSecondsData({realm, projectID});
     }
 
     return weeklyGoal;
@@ -380,6 +397,8 @@ class ProjectDB {
         secondsWorked.endTime = endTime;
       }
     });
+
+    this.updateProjectSecondsData({realm, projectID: secondsWorked.projectID});
   }
 
   topProjectPosition({realm, projectID}) {

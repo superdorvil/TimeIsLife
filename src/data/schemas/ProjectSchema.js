@@ -10,6 +10,9 @@ const ProjectSchema = {
     deleted: {type: 'bool', default: false},
     timerActive: {type: 'bool', default: false},
     timerStartTime: 'date?',
+    totalSecondsWorked: {type: 'int', default: 0},
+    thisWeeksSecondsWorked: {type: 'int', default: 0},
+    thisWeeksSecondsGoal: {type: 'int', default: 0},
   },
 };
 

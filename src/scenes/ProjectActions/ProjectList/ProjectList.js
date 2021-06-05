@@ -12,10 +12,14 @@ class ProjectList extends Component {
     super(props);
 
     const today = new Date();
-    const projects = projectDB.getProjects({realm: this.props.realm});
+
     const currentWeekIndex = DateUtils.getWeekIndex({date: today});
     const currentDateIndex = DateUtils.getDateIndex({date: today});
     const sundayIndex = currentDateIndex - today.getDay();
+
+    projectDB.updateProjectSecondsData({realm: this.props.realm});
+    const projects = projectDB.getProjects({realm: this.props.realm});
+
     const dailySecondsWorked = projectDB.getDailySecondsWorked({
       realm: this.props.realm,
       sundayIndex,
@@ -95,20 +99,9 @@ class ProjectList extends Component {
           })
         }
         description={project.description}
-        totalSecondsWorked={projectDB.getSecondsWorked({
-          realm: extraData.realm,
-          projectID: project.id,
-        })}
-        thisWeeksSecondsWorked={projectDB.getSecondsWorked({
-          realm: extraData.realm,
-          projectID: project.id,
-          weekIndex: extraData.currentWeekIndex,
-        })}
-        thisWeeksSecondsGoal={projectDB.getWeeklyGoals({
-          realm: extraData.realm,
-          projectID: project.id,
-          weekIndex: extraData.currentWeekIndex,
-        })}
+        totalSecondsWorked={project.totalSecondsWorked}
+        thisWeeksSecondsWorked={project.thisWeeksSecondsWorked}
+        thisWeeksSecondsGoal={project.thisWeeksSecondsGoal}
       />
     );
   }

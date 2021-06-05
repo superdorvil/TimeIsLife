@@ -18,9 +18,9 @@ const HoursProgressBar = ({
     totalSeconds: goalSeconds,
   });
   const weeklyHours = weeklyHoursFontSizeBig ? (
-    <Text style={weeklyHours16Style()}>Weekly Hours</Text>
+    <Text style={weeklyHours16Style()}>This Weeks Hours</Text>
   ) : (
-    <Text style={weeklyHours12Style()}>Weekly Hours</Text>
+    <Text style={weeklyHours12Style()}>This Weeks Hours</Text>
   );
 
   return (
