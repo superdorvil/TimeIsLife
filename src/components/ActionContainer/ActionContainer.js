@@ -39,6 +39,7 @@ class ActionContainer extends Component {
             this.props.actionScreenData.topRightButtonPressed
           }
         />
+        <View style={dividerStyle(this.props.topBottomContainerDivider)} />
         <BottomContainer
           extraData={this.props.extraData}
           actionButtonActive={this.props.actionButtonActive}
@@ -46,26 +47,7 @@ class ActionContainer extends Component {
           actionButtonDescription={this.props.actionButtonDescription}
           listData={this.props.listData}
           listDataActive={this.props.listDataActive}
-          renderListItem={this.props.renderListItem}
-          actionNavBarActive={this.props.actionNavBarActive}
-          taskNavButtonSelected={
-            this.props.actionNavBarData.taskNavButtonSelected
-          }
-          taskNavButtonPressed={
-            this.props.actionNavBarData.taskNavButtonPressed
-          }
-          timerNavButtonSelected={
-            this.props.actionNavBarData.timerNavButtonSelected
-          }
-          timerNavButtonPressed={
-            this.props.actionNavBarData.timerNavButtonPressed
-          }
-          goalsNavButtonSelected={
-            this.props.actionNavBarData.goalsNavButtonSelected
-          }
-          goalsNavButtonPressed={
-            this.props.actionNavBarData.goalsNavButtonPressed
-          }>
+          renderListItem={this.props.renderListItem}>
           {this.props.children}
         </BottomContainer>
       </View>
@@ -78,6 +60,19 @@ const containerStyle = () => {
     flex: 1,
     backgroundColor: Colors.secondary[global.colorScheme],
   };
+};
+
+const dividerStyle = topBottomContainerDivider => {
+  if (topBottomContainerDivider) {
+    return {
+      height: 1,
+      backgroundColor: Colors.primary[global.colorScheme],
+      marginTop: 16,
+      marginBottom: 16,
+    };
+  } else {
+    return {};
+  }
 };
 
 export default ActionContainer;

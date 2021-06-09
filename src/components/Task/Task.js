@@ -1,13 +1,19 @@
 import React from 'react';
-import {TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity, Text, View} from 'react-native';
+import {ViewVisibleWrapper} from '_components';
 import {Colors} from '_resources';
 import Completion from './Completion';
 
-const Task = ({description, completed, taskPressed}) => {
+const Task = ({description, completed, taskPressed, hoursWorked}) => {
   return (
     <TouchableOpacity style={containerStyle()} onPress={taskPressed}>
       <Completion completed={completed} />
-      <Text style={descriptionStyle(completed)}>{description}</Text>
+      <View>
+        <Text style={descriptionStyle(completed)}>{description}</Text>
+        <ViewVisibleWrapper active={hoursWorked > 0 ? true : false}>
+          <Text style={hoursWorkedStyle()}>{hoursWorked} hours worked</Text>
+        </ViewVisibleWrapper>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -34,6 +40,13 @@ const descriptionStyle = completed => {
       color: Colors.tertiary[global.colorScheme],
     };
   }
+};
+
+const hoursWorkedStyle = () => {
+  return {
+    fontSize: 12,
+    color: Colors.tertiary[global.colorScheme],
+  };
 };
 
 export default Task;

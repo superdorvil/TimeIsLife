@@ -29,12 +29,7 @@ const ProjectClock = ({secondsWorked}) => {
 };
 
 const containerStyle = () => {
-  return {
-    flex: 1,
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderColor: Colors.primary[global.colorScheme],
-  };
+  return {justifyContent: 'center'};
 };
 
 const circleStyle = () => {

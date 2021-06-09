@@ -1,13 +1,15 @@
 import React from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
 import {Colors} from '_resources';
+import {Icon} from '_components';
+import {Icons} from '_constants';
 
 const StartStopButton = ({stopMode, timerPressed}) => {
   return (
     <View style={containerStyle()}>
-      <TouchableOpacity style={circleStyle()} onPress={timerPressed}>
-        <Text style={textStyle()}>{stopMode ? 'Stop' : 'Start'}</Text>
-        <Text style={textStyle()}>Timer</Text>
+      <TouchableOpacity style={ovalStyle()} onPress={timerPressed}>
+        <Icon name={Icons.playButton} size={20} style={playButtonStyle()} />
+        <Text style={textStyle()}>{stopMode ? 'Stop' : 'Start'} Timer</Text>
       </TouchableOpacity>
     </View>
   );
@@ -15,19 +17,19 @@ const StartStopButton = ({stopMode, timerPressed}) => {
 
 const containerStyle = () => {
   return {
-    backgroundColor: Colors.secondary[global.colorScheme],
-    padding: 16,
-    alignItems: 'center',
     justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderColor: Colors.primary[global.colorScheme],
+    flex: 1,
   };
 };
 
-const circleStyle = () => {
+const ovalStyle = () => {
   return {
-    height: 80,
-    width: 80,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingStart: 20,
+    paddingEnd: 16,
     borderWidth: 2,
     borderRadius: 40,
     alignItems: 'center',
@@ -38,7 +40,14 @@ const circleStyle = () => {
 
 const textStyle = () => {
   return {
+    marginStart: 12,
     fontSize: 16,
+    color: Colors.primary[global.colorScheme],
+  };
+};
+
+const playButtonStyle = () => {
+  return {
     color: Colors.primary[global.colorScheme],
   };
 };

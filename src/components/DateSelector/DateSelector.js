@@ -2,19 +2,11 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import Modal from 'react-native-modal';
 import {Calendar} from 'react-native-calendars';
-import {ConfirmationButtons} from '_components';
 import {Colors} from '_resources';
 import {DateUtils} from '_utils';
 import {Utils} from '_constants';
 
-const DateSelector = ({
-  visible,
-  dateString,
-  date,
-  changeDate,
-  confirmDateChange,
-  closeModal,
-}) => {
+const DateSelector = ({visible, dateString, date, changeDate, closeModal}) => {
   const year = date.getFullYear();
   const formattedDate =
     DateUtils.convertDayToString({
@@ -82,10 +74,6 @@ const DateSelector = ({
             textMonthFontSize: 16,
             textDayHeaderFontSize: 16,
           }}
-        />
-        <ConfirmationButtons
-          okayPressed={confirmDateChange}
-          cancelPressed={closeModal}
         />
       </View>
     </Modal>

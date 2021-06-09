@@ -8,3 +8,4 @@ export const rightArrow = 'right_arrow';
 export const checkmark = 'checkmark';
 export const clock = 'clock';
 export const calendar = 'calendar';
+export const playButton = 'play_button';

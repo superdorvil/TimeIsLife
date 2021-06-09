@@ -3,7 +3,6 @@ import {View, FlatList} from 'react-native';
 import {Colors} from '_resources';
 import {ViewVisibleWrapper, Divider} from '_components';
 import ActionButton from './ActionButton';
-import ActionNavBar from './ActionNavBar';
 
 class BottomContainer extends Component {
   renderDivider() {
@@ -13,15 +12,6 @@ class BottomContainer extends Component {
   render() {
     return (
       <View style={containerStyle()}>
-        <ActionNavBar
-          actionNavBarActive={this.props.actionNavBarActive}
-          taskNavButtonSelected={this.props.taskNavButtonSelected}
-          taskNavButtonPressed={this.props.taskNavButtonPressed}
-          timerNavButtonSelected={this.props.timerNavButtonSelected}
-          timerNavButtonPressed={this.props.timerNavButtonPressed}
-          goalsNavButtonSelected={this.props.goalsNavButtonSelected}
-          goalsNavButtonPressed={this.props.goalsNavButtonPressed}
-        />
         {this.props.children ? (
           <View style={childrenContainerStyle()}>{this.props.children}</View>
         ) : (

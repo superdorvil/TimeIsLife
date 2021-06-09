@@ -1,11 +1,19 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {StartEndTimeButtons} from '_components';
+import EditSubTask from './EditSubTask';
 import {DateUtils, HoursUtils} from '_utils';
 import {Utils} from '_constants';
 import {Colors} from '_resources';
 
-const HoursWorked = ({date, secondsWorkedList, editStartTime, editEndTime}) => {
+const HoursWorked = ({
+  date,
+  secondsWorkedList,
+  editStartTime,
+  editEndTime,
+  subTask,
+  editSubTask,
+}) => {
   const today = new Date();
   let yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
@@ -18,11 +26,6 @@ const HoursWorked = ({date, secondsWorkedList, editStartTime, editEndTime}) => {
     dayOfWeekText = 'Yesterday';
     dateText = '';
   } else {
-    /*dayOfWeekText =
-      DateUtils.convertDayToString({
-        date,
-        format: Utils.weekdayFormat.full,
-      }) + ' ';*/
     dateText = DateUtils.convertDateToString({
       date,
       format: Utils.dateFormat.monthDateYear,
@@ -60,6 +63,7 @@ const HoursWorked = ({date, secondsWorkedList, editStartTime, editEndTime}) => {
         <Text style={hoursStyle()}>{totalHours} h</Text>
       </View>
       {startEndTimeButtons}
+      <EditSubTask />
     </View>
   );
 };

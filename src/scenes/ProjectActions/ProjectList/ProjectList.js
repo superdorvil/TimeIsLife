@@ -92,11 +92,7 @@ class ProjectList extends Component {
     return (
       <Project
         projectPressed={() =>
-          Actions.projectManager({
-            realm: extraData.realm,
-            project,
-            currentWeekIndex: extraData.currentWeekIndex,
-          })
+          Actions.projectTimer({realm: extraData.realm, project})
         }
         description={project.description}
         totalSecondsWorked={project.totalSecondsWorked}
@@ -151,6 +147,7 @@ class ProjectList extends Component {
           listData={this.state.projects}
           listDataActive={true}
           renderListItem={this.renderProject}
+          topBottomContainerDivider
         />
       </View>
     );

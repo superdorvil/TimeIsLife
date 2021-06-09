@@ -37,7 +37,6 @@ class AddProjectHours extends Component {
 
     this.changeDate = this.changeDate.bind(this);
     this.openDateModal = this.openDateModal.bind(this);
-    this.confirmDateChange = this.confirmDateChange.bind(this);
     this.confirmTimeChange = this.confirmTimeChange.bind(this);
     this.openStartTimeModal = this.openStartTimeModal.bind(this);
     this.openEndTimeModal = this.openEndTimeModal.bind(this);
@@ -51,47 +50,54 @@ class AddProjectHours extends Component {
   changeDate(dateObject) {
     //console.log(dateObject);
     // this.setState({date: new Date(dateObject.timestamp + 86400000)});
+    const startHours = this.state.startTime.getHours();
+    const startMinutes = this.state.startTime.getMinutes();
+    const endHours = this.state.endTime.getHours();
+    const endMinutes = this.state.endTime.getMinutes();
+
+    const date = new Date(
+      dateObject.year,
+      dateObject.month - 1,
+      dateObject.day,
+    );
+    const startTime = new Date(
+      dateObject.year,
+      dateObject.month - 1,
+      dateObject.day,
+    );
+    const endTime = new Date(
+      dateObject.year,
+      dateObject.month - 1,
+      dateObject.day,
+    );
+
+    startTime.setHours(startHours);
+    startTime.setMinutes(startMinutes);
+    endTime.setHours(endHours);
+    endTime.setMinutes(endMinutes);
+
     this.setState({
-      tempDate: new Date(dateObject.year, dateObject.month - 1, dateObject.day),
+      date,
+      startTime,
+      endTime,
     });
+
+    this.closeModal();
   }
 
   openDateModal() {
     this.setState({dateModalVisible: true, tempDate: this.state.date});
   }
 
-  confirmDateChange() {
-    this.setState({
-      date: this.state.tempDate,
-      startTime: new Date(
-        this.state.tempDate.getFullYear(),
-        this.state.tempDate.getMonth(),
-        this.state.tempDate.getDate(),
-        this.state.startTime.getHours(),
-        this.state.startTime.getMinutes(),
-        0,
-      ),
-      endTime: new Date(
-        this.state.tempDate.getFullYear(),
-        this.state.tempDate.getMonth(),
-        this.state.tempDate.getDate(),
-        this.state.endTime.getHours(),
-        this.state.endTime.getMinutes(),
-        0,
-      ),
-    });
-    this.closeModal();
-  }
-
   confirmTimeChange() {
     if (this.state.startTimeModalVisible) {
-      const startTime = this.state.startTime;
+      const startTime = new Date(this.state.date);
       startTime.setHours(this.state.setTimeHours);
       startTime.setMinutes(this.state.setTimeMinutes);
 
       this.setState({startTime});
     } else if (this.state.endTimeModalVisible) {
-      const endTime = this.state.endTime;
+      const endTime = new Date(this.state.date);
       endTime.setHours(this.state.setTimeHours);
       endTime.setMinutes(this.state.setTimeMinutes);
 
@@ -234,7 +240,6 @@ class AddProjectHours extends Component {
           changeDate={this.changeDate}
           visible={this.state.dateModalVisible}
           closeModal={this.closeModal}
-          confirmDateChange={this.confirmDateChange}
         />
       </View>
     );

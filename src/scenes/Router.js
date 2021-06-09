@@ -6,11 +6,13 @@ import {
   CreateProject,
   CreateTask,
   EditProject,
+  EditProjectHours,
   AddProjectHours,
   ManageSettings,
   ManageWeeklyGoals,
   ProjectList,
-  ProjectManager,
+  ProjectGoals,
+  ProjectSubTask,
   ProjectTimer,
   ViewProjectCharts,
 } from './ProjectActions';
@@ -50,9 +52,21 @@ const RouterComponent = () => (
         hideNavBar
       />
       <Scene
-        key="projectManager"
-        component={ProjectManager}
-        title="ProjectManager"
+        key="editProjectHours"
+        component={EditProjectHours}
+        title="EditProjectHours"
+        hideNavBar
+      />
+      <Scene
+        key="projectGoals"
+        component={ProjectGoals}
+        title="ProjectGoals"
+        hideNavBar
+      />
+      <Scene
+        key="projectSubTask"
+        component={ProjectSubTask}
+        title="ProjectSubTask"
         hideNavBar
       />
       <Scene

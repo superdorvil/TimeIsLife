@@ -160,6 +160,7 @@ class ProjectDB {
       fri: {secondsWorked: 0, weekday: 'FRI'},
       sat: {secondsWorked: 0, weekday: 'SAT'},
     };
+
     const thisWeeksSecondsWorked = this.getSecondsWorked({
       realm,
       weekIndex,
@@ -197,23 +198,24 @@ class ProjectDB {
             dailySecondsWorked.sat.secondsWorked + (sw.endTime - sw.startTime);
           break;
         default:
+        // error checking
       }
-
-      dailySecondsWorked.sun.secondsWorked =
-        dailySecondsWorked.sun.secondsWorked / 1000;
-      dailySecondsWorked.mon.secondsWorked =
-        dailySecondsWorked.mon.secondsWorked / 1000;
-      dailySecondsWorked.tue.secondsWorked =
-        dailySecondsWorked.tue.secondsWorked / 1000;
-      dailySecondsWorked.wed.secondsWorked =
-        dailySecondsWorked.wed.secondsWorked / 1000;
-      dailySecondsWorked.thu.secondsWorked =
-        dailySecondsWorked.thu.secondsWorked / 1000;
-      dailySecondsWorked.fri.secondsWorked =
-        dailySecondsWorked.fri.secondsWorked / 1000;
-      dailySecondsWorked.sat.secondsWorked =
-        dailySecondsWorked.sat.secondsWorked / 1000;
     });
+
+    dailySecondsWorked.sun.secondsWorked =
+      dailySecondsWorked.sun.secondsWorked / 1000;
+    dailySecondsWorked.mon.secondsWorked =
+      dailySecondsWorked.mon.secondsWorked / 1000;
+    dailySecondsWorked.tue.secondsWorked =
+      dailySecondsWorked.tue.secondsWorked / 1000;
+    dailySecondsWorked.wed.secondsWorked =
+      dailySecondsWorked.wed.secondsWorked / 1000;
+    dailySecondsWorked.thu.secondsWorked =
+      dailySecondsWorked.thu.secondsWorked / 1000;
+    dailySecondsWorked.fri.secondsWorked =
+      dailySecondsWorked.fri.secondsWorked / 1000;
+    dailySecondsWorked.sat.secondsWorked =
+      dailySecondsWorked.sat.secondsWorked / 1000;
 
     return dailySecondsWorked;
   }

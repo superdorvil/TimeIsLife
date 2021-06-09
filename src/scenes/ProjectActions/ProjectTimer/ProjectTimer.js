@@ -6,6 +6,8 @@ import {
   StartStopButton,
   BackArrow,
   ConfirmationModal,
+  ProjectTimerTabBar,
+  TopRightButton,
 } from '_components';
 import {Colors} from '_resources';
 import {Icons} from '_constants';
@@ -39,6 +41,8 @@ class ProjectTimer extends Component {
     this.timerPressed = this.timerPressed.bind(this);
     this.backArrowPressed = this.backArrowPressed.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.tabBarPressed = this.tabBarPressed.bind(this);
+    this.editPressed = this.editPressed.bind(this);
   }
 
   componentDidMount() {
@@ -82,6 +86,13 @@ class ProjectTimer extends Component {
     this.setState({secondsWorkedToday});
   }
 
+  editPressed() {
+    Actions.editProject({
+      realm: this.props.realm,
+      project: this.props.project,
+    });
+  }
+
   timerPressed() {
     if (this.state.project.timerActive) {
       projectDB.stopTimer({
@@ -104,6 +115,31 @@ class ProjectTimer extends Component {
     }
   }
 
+  tabBarPressed(tabBar) {
+    switch (tabBar) {
+      case Icons.checkmark:
+        Actions.projectSubTask({
+          realm: this.props.realm,
+          project: this.state.project,
+        });
+        break;
+      case Icons.clock:
+        Actions.editProjectHours({
+          realm: this.props.realm,
+          project: this.state.project,
+        });
+        break;
+      case Icons.goals:
+        Actions.projectGoals({
+          realm: this.props.realm,
+          project: this.state.project,
+        });
+        break;
+      default:
+      // fixme: error checking
+    }
+  }
+
   render() {
     return (
       <View style={containerStyle()}>
@@ -111,11 +147,13 @@ class ProjectTimer extends Component {
           <BackArrow backArrowPressed={this.backArrowPressed} />
         </View>
         <Text style={projectNameStyle()}>{this.props.project.description}</Text>
-        <ProjectClock secondsWorked={this.state.secondsWorkedToday} />
-        <StartStopButton
-          stopMode={this.state.project.timerActive}
-          timerPressed={this.timerPressed}
-        />
+        <View style={timerContainerStyle()}>
+          <ProjectClock secondsWorked={this.state.secondsWorkedToday} />
+          <StartStopButton
+            stopMode={this.state.project.timerActive}
+            timerPressed={this.timerPressed}
+          />
+        </View>
         <ConfirmationModal
           visible={this.state.confirmExitModalVisible}
           header="Stop Timer???"
@@ -126,6 +164,15 @@ class ProjectTimer extends Component {
             Actions.pop();
           }}
           cancelPressed={this.closeModal}
+        />
+        <ProjectTimerTabBar
+          subTaskPressed={() => this.tabBarPressed(Icons.checkmark)}
+          hoursWorkedPressed={() => this.tabBarPressed(Icons.clock)}
+          goalsPressed={() => this.tabBarPressed(Icons.goals)}
+        />
+        <TopRightButton
+          editButtonActive={true}
+          topRightButtonPressed={this.editPressed}
         />
       </View>
     );
@@ -139,12 +186,20 @@ const containerStyle = () => {
   };
 };
 
+const timerContainerStyle = () => {
+  return {
+    paddingTop: 24,
+    flex: 1,
+  };
+};
+
 const projectNameStyle = () => {
   return {
     textAlign: 'center',
-    fontSize: 32,
-    paddingTop: 32,
+    fontSize: 24,
     color: Colors.primary[global.colorScheme],
+    marginStart: 32,
+    marginEnd: 32,
   };
 };
 
