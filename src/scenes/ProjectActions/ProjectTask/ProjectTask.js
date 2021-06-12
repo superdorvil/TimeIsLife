@@ -4,8 +4,9 @@ import {Actions} from 'react-native-router-flux';
 import {ActionContainer, Task} from '_components';
 import projectDB from '_data';
 import {Icons} from '_constants';
+import {HoursUtils} from '_utils';
 
-class ProjectSubTask extends Component {
+class ProjectTask extends Component {
   constructor(props) {
     super(props);
     const tasks = projectDB.getTasks({realm: this.props.realm});
@@ -54,8 +55,16 @@ class ProjectSubTask extends Component {
   }
 
   renderTask(listData, extraData) {
+    const hoursWorked = projectDB.getSecondsWorked({
+      realm: extraData.realm,
+      taskID: listData.id,
+    });
     return (
       <Task
+        hoursWorked={HoursUtils.convertSecondsToHrs({
+          totalSeconds: hoursWorked,
+          decimalMinutes: true,
+        })}
         description={listData.description}
         completed={listData.completed}
         taskPressed={() => {
@@ -88,7 +97,7 @@ class ProjectSubTask extends Component {
           actionScreenData={actionScreenData}
           actionButtonActive={true}
           actionButtonPressed={this.addPressed}
-          actionButtonDescription="Your SubTask"
+          actionButtonDescription="Your Task"
           listData={this.state.tasks}
           listDataActive={true}
           renderListItem={this.renderTask}
@@ -103,4 +112,4 @@ const containerStyle = () => {
   return {flex: 1};
 };
 
-export default ProjectSubTask;
+export default ProjectTask;

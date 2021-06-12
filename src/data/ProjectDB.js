@@ -80,9 +80,13 @@ class ProjectDB {
     return totalSecondsWorked;
   }
 
-  getTasks({realm, taskID}) {
+  getTasks({realm, taskID, projectID}) {
     if (taskID) {
       return realm.objectForPrimaryKey(Schemas.task, taskID);
+    }
+
+    if (projectID) {
+      return realm.objects(Schemas.task).filtered('projectID == $0', projectID);
     }
 
     return realm.objects(Schemas.task);
@@ -100,6 +104,7 @@ class ProjectDB {
     realm,
     projectID,
     taskID,
+    secondsWorkedID,
     dateIndex,
     weekIndex,
     monthIndex,
@@ -130,6 +135,15 @@ class ProjectDB {
     }
     if (yearIndex) {
       secondsWorked = secondsWorked.filtered('yearIndex == $0', yearIndex);
+    }
+
+    if (secondsWorkedID) {
+      secondsWorked = realm.objectForPrimaryKey(
+        Schemas.secondsWorked,
+        secondsWorkedID,
+      );
+
+      return secondsWorked;
     }
 
     if (limit) {
@@ -450,6 +464,22 @@ class ProjectDB {
     realm.write(() => {
       task.position = this.getTopPosition(realm.objects(Schemas.task));
       task.completed = !task.completed;
+    });
+  }
+
+  setSecondsWorkedTask({realm, secondsWorkedID, taskID}) {
+    const secondsWorked = this.getSecondsWorked({realm, secondsWorkedID});
+
+    realm.write(() => {
+      if (secondsWorked.taskID === 0) {
+        secondsWorked.taskID = taskID;
+      } else {
+        if (secondsWorked.taskID === taskID) {
+          secondsWorked.taskID = 0;
+        } else {
+          secondsWorked.taskID = taskID;
+        }
+      }
     });
   }
 

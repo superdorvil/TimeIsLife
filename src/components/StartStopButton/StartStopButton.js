@@ -30,11 +30,10 @@ const ovalStyle = () => {
     paddingBottom: 12,
     paddingStart: 20,
     paddingEnd: 16,
-    borderWidth: 2,
     borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: Colors.primary[global.colorScheme],
+    backgroundColor: Colors.primary[global.colorScheme],
   };
 };
 
@@ -42,13 +41,14 @@ const textStyle = () => {
   return {
     marginStart: 12,
     fontSize: 16,
-    color: Colors.primary[global.colorScheme],
+    fontWeight: 'bold',
+    color: Colors.secondary[global.colorScheme],
   };
 };
 
 const playButtonStyle = () => {
   return {
-    color: Colors.primary[global.colorScheme],
+    color: Colors.secondary[global.colorScheme],
   };
 };
 

@@ -95,3 +95,5 @@ Probably not worth the rework effort
 Styles file for each folder
 
 I hate the way I handle colors using the global variable, yucky :( lol
+
+getHours worked function that is a getsecondsworked wrapper

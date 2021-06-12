@@ -12,7 +12,7 @@ const ProjectTimerTabBar = ({
   return (
     <View style={containerStyle()}>
       <TabBarIcon
-        description="SubTask"
+        description="Task"
         iconName={Icons.checkmark}
         onPress={subTaskPressed}
       />

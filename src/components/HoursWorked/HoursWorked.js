@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import {StartEndTimeButtons} from '_components';
-import EditSubTask from './EditSubTask';
+import EditTask from './EditTask';
 import {DateUtils, HoursUtils} from '_utils';
 import {Utils} from '_constants';
 import {Colors} from '_resources';
@@ -11,8 +11,8 @@ const HoursWorked = ({
   secondsWorkedList,
   editStartTime,
   editEndTime,
-  subTask,
-  editSubTask,
+  task,
+  editTask,
 }) => {
   const today = new Date();
   let yesterday = new Date();
@@ -43,6 +43,7 @@ const HoursWorked = ({
           startPressed={() => editStartTime(secondsWorked.id)}
           endPressed={() => editEndTime(secondsWorked.id)}
         />
+        <EditTask task={task} taskPressed={() => editTask(secondsWorked.id)} />
       </View>,
     );
     totalSeconds =
@@ -63,7 +64,6 @@ const HoursWorked = ({
         <Text style={hoursStyle()}>{totalHours} h</Text>
       </View>
       {startEndTimeButtons}
-      <EditSubTask />
     </View>
   );
 };

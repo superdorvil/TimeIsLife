@@ -86,7 +86,7 @@ const containerStyle = () => {
 
 const calendarStyle = () => {
   return {
-    height: 425,
+    height: 375,
     borderBottomEndRadius: 6,
     borderBottomStartRadius: 6,
   };

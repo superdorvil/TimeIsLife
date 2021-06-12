@@ -7,7 +7,7 @@ import ManageSettings from './ManageSettings';
 import ManageWeeklyGoals from './ManageWeeklyGoals';
 import ProjectList from './ProjectList';
 import ProjectGoals from './ProjectGoals';
-import ProjectSubTask from './ProjectSubTask';
+import ProjectTask from './ProjectTask';
 import ProjectTimer from './ProjectTimer';
 import ViewProjectCharts from './ViewProjectCharts';
 
@@ -21,7 +21,7 @@ export {
   ManageWeeklyGoals,
   ProjectList,
   ProjectGoals,
-  ProjectSubTask,
+  ProjectTask,
   ProjectTimer,
   ViewProjectCharts,
 };

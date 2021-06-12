@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import {View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import {ActionContainer, HoursWorked, TimeSelector} from '_components';
+import {
+  ActionContainer,
+  HoursWorked,
+  TimeSelector,
+  SelectTaskModal,
+} from '_components';
 import projectDB from '_data';
 import {Icons, States} from '_constants';
 import {InputUtils} from '_utils';
@@ -19,23 +24,31 @@ class EditProjectHours extends Component {
       realm: this.props.realm,
       projectID: this.props.project.id,
     });
+    const tasks = projectDB.getTasks({
+      realm: this.props.realm,
+      projectID: this.props.project.id,
+    });
 
     this.state = {
       project,
       secondsWorked,
       secondsWorkedDisplay,
+      tasks,
       startTimeModalVisible: false,
       endTimeModalVisible: false,
+      editTaskModalVisible: false,
       setTimeHours: 0,
       setTimeMinutes: 0,
       ampm: States.am,
       secondsWorkedID: 0,
     };
 
+    this.taskPressed = this.taskPressed.bind(this);
     this.addPressed = this.addPressed.bind(this);
     this.ampmPressed = this.ampmPressed.bind(this);
     this.openStartTimeModal = this.openStartTimeModal.bind(this);
     this.openEndTimeModal = this.openEndTimeModal.bind(this);
+    this.openEditTaskModal = this.openEditTaskModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.updateSetTimeHours = this.updateSetTimeHours.bind(this);
     this.updateSetTimeMinutes = this.updateSetTimeMinutes.bind(this);
@@ -64,11 +77,20 @@ class EditProjectHours extends Component {
         listData: secondsWorkedDisplay,
       });
     });
+    this.state.tasks.addListener(() => {
+      this.setState({
+        task: projectDB.getTasks({
+          realm: this.props.realm,
+          projectID: this.state.project.id,
+        }),
+      });
+    });
   }
 
   componentWillUnmount() {
     this.state.secondsWorked.removeAllListeners();
     this.state.project.removeAllListeners();
+    this.state.tasks.removeAllListeners();
 
     // Nulls State removing memory leak error state update on unmounted comp
     this.setState = (state, callback) => {
@@ -84,10 +106,15 @@ class EditProjectHours extends Component {
     this.setState({endTimeModalVisible: true, secondsWorkedID});
   }
 
+  openEditTaskModal(secondsWorkedID) {
+    this.setState({editTaskModalVisible: true, secondsWorkedID});
+  }
+
   closeModal() {
     this.setState({
       startTimeModalVisible: false,
       endTimeModalVisible: false,
+      editTaskModalVisible: false,
     });
   }
 
@@ -123,6 +150,7 @@ class EditProjectHours extends Component {
     const secondsWorkedDisplay = [];
     let swHelper = [];
     let currentDateIndex = 0;
+    let taskExist = false;
 
     if (secondsWorked.length > 0) {
       currentDateIndex = secondsWorked[0].dateIndex;
@@ -138,11 +166,20 @@ class EditProjectHours extends Component {
           currentDateIndex = secondsWorked[i].dateIndex;
         }
 
+        if (secondsWorked[i].taskID) {
+          taskExist = true;
+        }
+
         swHelper.push({
           id: secondsWorked[i].id,
           startTime: secondsWorked[i].startTime,
           endTime: secondsWorked[i].endTime,
+          /*task: taskExist
+            ? projectDB.getTasks({taskID: secondsWorked[i].taskID})
+            : null,*/
+          task: null,
         });
+        taskExist = false;
 
         // last element
         if (i === secondsWorked.length - 1) {
@@ -164,6 +201,14 @@ class EditProjectHours extends Component {
     });
   }
 
+  taskPressed(realm, taskID, secondsWorkedID) {
+    projectDB.setSecondsWorkedTask({
+      realm,
+      taskID,
+      secondsWorkedID,
+    });
+  }
+
   renderHoursWorked(listData, extraData) {
     return (
       <HoursWorked
@@ -174,6 +219,9 @@ class EditProjectHours extends Component {
         }
         editEndTime={secondsWorkedID =>
           extraData.openEndTimeModal(secondsWorkedID)
+        }
+        editTask={secondsWorkedID =>
+          extraData.openEditTaskModal(secondsWorkedID)
         }
       />
     );
@@ -194,6 +242,7 @@ class EditProjectHours extends Component {
             project: this.state.project,
             openStartTimeModal: this.openStartTimeModal,
             openEndTimeModal: this.openEndTimeModal,
+            openEditTaskModal: this.openEditTaskModal,
           }}
           weeklyProgressActive={false}
           weeklyProgressData={false}
@@ -223,6 +272,14 @@ class EditProjectHours extends Component {
           ampm={this.state.ampm}
           okayPressed={this.updateSecondsWorked}
           cancelPressed={this.closeModal}
+        />
+        <SelectTaskModal
+          realm={this.props.realm}
+          tasks={this.state.tasks}
+          secondsWorkedID={this.state.secondsWorkedID}
+          visible={this.state.editTaskModalVisible}
+          closeModal={this.closeModal}
+          taskPressed={this.taskPressed}
         />
       </View>
     );

@@ -21,6 +21,7 @@ export ProjectTimerTabBar from './ProjectTimerTabBar';
 export SettingsItem from './SettingsItem';
 export StartStopButton from './StartStopButton';
 export StartEndTimeButtons from './StartEndTimeButtons';
+export SelectTaskModal from './SelectTaskModal';
 export TabBar from './TabBar';
 export Task from './Task';
 export TimeSelector from './TimeSelector';

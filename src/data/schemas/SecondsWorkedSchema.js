@@ -5,7 +5,7 @@ const SecondsWorkedSchema = {
   name: Schemas.secondsWorked,
   properties: {
     id: 'int',
-    taskID: 'int?',
+    taskID: {type: 'int', default: 0},
     projectID: 'int',
     dateIndex: 'int',
     weekIndex: 'int',

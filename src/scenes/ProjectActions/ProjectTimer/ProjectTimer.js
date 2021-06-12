@@ -118,7 +118,7 @@ class ProjectTimer extends Component {
   tabBarPressed(tabBar) {
     switch (tabBar) {
       case Icons.checkmark:
-        Actions.projectSubTask({
+        Actions.projectTask({
           realm: this.props.realm,
           project: this.state.project,
         });

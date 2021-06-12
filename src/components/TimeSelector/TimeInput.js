@@ -128,6 +128,7 @@ const inputStyle = () => {
     marginBottom: 0,
     borderBottomWidth: 1,
     borderBottomColor: Colors.secondary[global.colorScheme],
+    color: Colors.secondary[global.colorScheme],
   };
 };
 

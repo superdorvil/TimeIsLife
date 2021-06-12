@@ -22,7 +22,7 @@ const arrowStyle = () => {
     paddingEnd: 16,
     paddingTop: 16,
     paddingBottom: 16,
-    color: Colors.tertiary[global.colorScheme],
+    color: Colors.primary[global.colorScheme],
   };
 };
 
