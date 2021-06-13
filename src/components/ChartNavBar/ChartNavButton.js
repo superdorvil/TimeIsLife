@@ -44,6 +44,7 @@ const descriptionStyle = selected => {
       fontSize: 12,
       fontWeight: 'bold',
       backgroundColor: Colors.primary[global.colorScheme],
+      color: Colors.secondary[global.colorScheme],
     };
   } else {
     return {
@@ -51,6 +52,7 @@ const descriptionStyle = selected => {
       fontWeight: 'bold',
       borderRadius: 20,
       backgroundColor: Colors.secondary[global.colorScheme],
+      color: Colors.primary[global.colorScheme],
     };
   }
 };

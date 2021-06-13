@@ -158,7 +158,7 @@ class ProjectDB {
     }
 
     if (returnList) {
-      return secondsWorked;
+      return secondsWorked.sorted('startTime', false);
     }
 
     return this.sumSecondsWorked({secondsWorked});

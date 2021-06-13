@@ -70,12 +70,13 @@ class ViewProjectCharts extends Component {
         });
         break;
       case States.monthly:
-        let futureMonth;
+        let futureMonth = new Date(this.state.monthlyDataIndex);
         for (let i = 0; i < 25; i++) {
           futureMonth = DateUtils.getFirstDayOfNextMonth({
-            date: this.state.monthlyDataIndex,
+            date: futureMonth,
           });
         }
+
         this.setState({
           monthlyDataIndex: futureMonth,
           chartData: this.getChartData(States.monthly, futureMonth),
@@ -107,10 +108,10 @@ class ViewProjectCharts extends Component {
         });
         break;
       case States.monthly:
-        let pastMonth;
+        let pastMonth = new Date(this.state.monthlyDataIndex);
         for (let i = 0; i < 25; i++) {
           pastMonth = DateUtils.getFirstDayOfPreviousMonth({
-            date: this.state.monthlyDataIndex,
+            date: pastMonth,
           });
         }
         this.setState({
@@ -131,10 +132,7 @@ class ViewProjectCharts extends Component {
         this.setState({
           mode: States.daily,
           chartDataDescription: 'Daily Hours Worked',
-          chartData: this.getChartData(
-            States.daily,
-            this.state.weeklyDataIndex,
-          ),
+          chartData: this.getChartData(States.daily, this.state.dailyDataIndex),
         });
         break;
       case States.weekly:
@@ -188,10 +186,12 @@ class ViewProjectCharts extends Component {
       const currentDateIndex = DateUtils.getDateIndex({date: today});
       const currentWeekIndex = DateUtils.getWeekIndex({date: today});
       const currentMonthIndex = DateUtils.getMonthIndex({date: today});
-      const daysUsingApp = initialSecondsWorked.dateIndex - currentDateIndex;
-      const weeksUsingApp = initialSecondsWorked.weekIndex - currentWeekIndex;
+      const daysUsingApp =
+        currentDateIndex - initialSecondsWorked.dateIndex + 1;
+      const weeksUsingApp =
+        currentWeekIndex - initialSecondsWorked.weekIndex + 1;
       const monthsUsingApp =
-        initialSecondsWorked.monthIndex - currentMonthIndex;
+        currentMonthIndex - initialSecondsWorked.monthIndex + 1;
 
       totalHours = HoursUtils.convertSecondsToHrs({
         totalSeconds: projectDB.getSecondsWorked({realm: this.props.realm}),
@@ -239,19 +239,54 @@ class ViewProjectCharts extends Component {
       });
 
       averageSundayHours =
-        weeksUsingApp > 0 ? averageSundayHours / 1000 / weeksUsingApp : 0;
-      averageSundayHours =
-        weeksUsingApp > 0 ? averageSundayHours / 1000 / weeksUsingApp : 0;
-      averageSundayHours =
-        weeksUsingApp > 0 ? averageSundayHours / 1000 / weeksUsingApp : 0;
-      averageSundayHours =
-        weeksUsingApp > 0 ? averageSundayHours / 1000 / weeksUsingApp : 0;
-      averageSundayHours =
-        weeksUsingApp > 0 ? averageSundayHours / 1000 / weeksUsingApp : 0;
-      averageSundayHours =
-        weeksUsingApp > 0 ? averageSundayHours / 1000 / weeksUsingApp : 0;
-      averageSundayHours =
-        weeksUsingApp > 0 ? averageSundayHours / 1000 / weeksUsingApp : 0;
+        weeksUsingApp > 0
+          ? HoursUtils.convertSecondsToHrs({
+              totalSeconds: averageSundayHours / 1000 / weeksUsingApp,
+              decimalMinutes: true,
+            })
+          : 0;
+      averageMondayHours =
+        weeksUsingApp > 0
+          ? HoursUtils.convertSecondsToHrs({
+              totalSeconds: averageMondayHours / 1000 / weeksUsingApp,
+              decimalMinutes: true,
+            })
+          : 0;
+      averageTuesdayHours =
+        weeksUsingApp > 0
+          ? HoursUtils.convertSecondsToHrs({
+              totalSeconds: averageTuesdayHours / 1000 / weeksUsingApp,
+              decimalMinutes: true,
+            })
+          : 0;
+      averageWednesdayHours =
+        weeksUsingApp > 0
+          ? HoursUtils.convertSecondsToHrs({
+              totalSeconds: averageWednesdayHours / 1000 / weeksUsingApp,
+              decimalMinutes: true,
+            })
+          : 0;
+      averageThursdayHours =
+        weeksUsingApp > 0
+          ? HoursUtils.convertSecondsToHrs({
+              totalSeconds: averageThursdayHours / 1000 / weeksUsingApp,
+              decimalMinutes: true,
+            })
+          : 0;
+      averageFridayHours =
+        weeksUsingApp > 0
+          ? HoursUtils.convertSecondsToHrs({
+              totalSeconds: averageFridayHours / 1000 / weeksUsingApp,
+              decimalMinutes: true,
+            })
+          : 0;
+      averageSaturdayHours =
+        weeksUsingApp > 0
+          ? HoursUtils.convertSecondsToHrs({
+              totalSeconds: averageSaturdayHours / 1000 / weeksUsingApp,
+              decimalMinutes: true,
+            })
+          : 0;
     }
 
     this.setState({
@@ -272,6 +307,7 @@ class ViewProjectCharts extends Component {
   getChartData(mode, index) {
     const chartHours = [];
     const chartLabels = [];
+
     switch (mode) {
       case States.daily:
         for (let i = 0; i < 25; i++) {
@@ -323,13 +359,10 @@ class ViewProjectCharts extends Component {
         }
         break;
       case States.monthly:
-        let firstOfMonth = index;
-        let monthIndex;
+        let firstOfMonth = new Date(index);
+        let monthIndex = DateUtils.getMonthIndex({date: firstOfMonth});
+
         for (let i = 0; i < 25; i++) {
-          firstOfMonth = DateUtils.getFirstDayOfPreviousMonth({
-            date: firstOfMonth,
-          });
-          monthIndex = DateUtils.getMonthIndex({date: firstOfMonth});
           chartHours.push(
             HoursUtils.convertSecondsToHrs({
               totalSeconds: projectDB.getSecondsWorked({
@@ -345,6 +378,10 @@ class ViewProjectCharts extends Component {
               format: Utils.dateFormat.monthYear,
             }),
           );
+          firstOfMonth = DateUtils.getFirstDayOfPreviousMonth({
+            date: firstOfMonth,
+          });
+          monthIndex = DateUtils.getMonthIndex({date: firstOfMonth});
         }
         break;
       default:
