@@ -1,22 +1,7 @@
-//update equations on hours statistics
-/*
-update daily chart data, just which data gets loaded , 2 months off
-  arrows fucked up
-*/
-/*
-update monthly chart data, just the index is off by 1
- the arrows index moves by 1 point, not 25
-*/
-/*subtask*/
-Charts data fix
-Add subtask in the edit time and hours hoursworked list
-task view update with all hoursworked, attatch the list
 Python script conversion
 
 Not needed for running for getting me to debug and use
   load more buttons for goals page, hours worked, project goals
-
-
 
 debouncing buttons
 

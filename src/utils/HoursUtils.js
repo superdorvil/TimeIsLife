@@ -27,7 +27,7 @@ export const convertSecondsToHrs = ({totalSeconds, decimalMinutes}) => {
 
   if (decimalMinutes) {
     hours = hours + minutes / 60;
-    hours = +hours.toFixed(1);
+    hours = +hours.toFixed(1); // + converts to a number
   }
 
   return hours;

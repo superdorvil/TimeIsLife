@@ -446,7 +446,7 @@ export const getDateIndex = ({date}) => {
 };
 
 export const getWeekIndex = ({date}) => {
-  const initialWeekDate = new Date(Utils.initialSundayString);
+  const initialWeekDate = new Date(Utils.initialDateString);
   const dateDiff = getDateDiff({
     startDate: initialWeekDate,
     endDate: date,
@@ -464,8 +464,7 @@ export const getMonthIndex = ({date}) => {
 };
 
 export const getYearIndex = ({date}) => {
-  // 2019 is the initial year we use for the indexing
-  return date.getFullYear() - Utils.initialYear; // My bday year :D
+  return date.getFullYear() - Utils.initialYear;
 };
 
 export const getFirstMonthOfYearIndex = ({date}) => {
@@ -484,7 +483,7 @@ export const getDateFromDateIndex = ({dateIndex}) => {
 };
 
 export const getDateFromWeekIndex = ({weekIndex, weekday = 0}) => {
-  const dateIndex = (weekIndex - 1) * 7; // should be the sundayIndex, not sure why - 1 but it works
+  const dateIndex = weekIndex * 7;
   let date = getDateFromDateIndex({dateIndex});
 
   if (weekday < 0 || weekday > 6) {

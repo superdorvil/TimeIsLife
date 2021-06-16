@@ -35,6 +35,7 @@ class TimeIsLife extends Component {
         projectDB.runMigrations({oldRealm, newRealm});
       },
     }).then(realm => {
+      // projectDB.timeMasteryToTimeIsLife({realm});
       projectDB.initSettings({realm});
       const settings = projectDB.getSettings({realm});
 

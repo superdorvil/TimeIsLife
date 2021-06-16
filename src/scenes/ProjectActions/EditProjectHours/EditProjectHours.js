@@ -150,7 +150,6 @@ class EditProjectHours extends Component {
     const secondsWorkedDisplay = [];
     let swHelper = [];
     let currentDateIndex = 0;
-    let taskExist = false;
 
     if (secondsWorked.length > 0) {
       currentDateIndex = secondsWorked[0].dateIndex;
@@ -166,20 +165,18 @@ class EditProjectHours extends Component {
           currentDateIndex = secondsWorked[i].dateIndex;
         }
 
-        if (secondsWorked[i].taskID) {
-          taskExist = true;
-        }
-
         swHelper.push({
           id: secondsWorked[i].id,
           startTime: secondsWorked[i].startTime,
           endTime: secondsWorked[i].endTime,
-          /*task: taskExist
-            ? projectDB.getTasks({taskID: secondsWorked[i].taskID})
-            : null,*/
-          task: null,
+          task:
+            secondsWorked[i].taskID > 0
+              ? projectDB.getTasks({
+                  realm: this.props.realm,
+                  taskID: secondsWorked[i].taskID,
+                }).description
+              : null,
         });
-        taskExist = false;
 
         // last element
         if (i === secondsWorked.length - 1) {

@@ -1,8 +1,42 @@
 import {DateUtils} from '_utils';
 import {Schemas} from '_constants';
+import {tmProjects, subTasks, subTaskHours} from './TimeMasteryData';
 // import * as ProjectMigrations from './ProjectMigrations';
 
 class ProjectDB {
+  timeMasteryToTimeIsLife({realm}) {
+    tmProjects.forEach((project, i) => {
+      this.createProject({realm, description: project.description});
+    });
+    subTasks.forEach((subTask, i) => {
+      this.createTask({
+        realm,
+        projectID: subTask.projectID,
+        description: subTask.description,
+      });
+    });
+    subTaskHours.forEach((stHours, i) => {
+      const startTime = new Date(new Date(stHours.date).getTime() + 1);
+      const endTime = new Date(
+        startTime.getTime() + stHours.secondsWorked * 1000,
+      );
+
+      const secondsWorked = this.createSecondsWorked({
+        realm,
+        projectID: stHours.projectID,
+        dateIndex: DateUtils.getDateIndex({date: startTime}),
+        weekIndex: DateUtils.getWeekIndex({date: startTime}),
+        monthIndex: DateUtils.getMonthIndex({date: startTime}),
+        yearIndex: DateUtils.getYearIndex({date: startTime}),
+        startTime,
+        endTime,
+      });
+      realm.write(() => {
+        secondsWorked.taskID = stHours.taskID;
+      });
+    });
+  }
+
   runMigrations({oldRealm, newRealm}) {
     /*if (oldRealm.schemaVersion < 1) {
       // ProjectMigrations.realmUpdate1({oldRealm, newRealm});
@@ -20,6 +54,7 @@ class ProjectDB {
   updateProjectSecondsData({realm, projectID}) {
     const projects = this.getProjects({realm});
     const weekIndex = DateUtils.getWeekIndex({date: new Date()});
+
     let updateProject = true;
     if (projectID) {
       updateProject = false;

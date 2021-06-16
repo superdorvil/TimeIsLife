@@ -26,8 +26,7 @@ export const weekdayFormat = {
 // These are for the date indexes
 //the initial index is zero
 // the initial index is represented by my birthday
-export const initialDateString = '11/9/1994';
-export const initialSundayString = '11/3/1994';
+export const initialDateString = '11/3/2019';
 export const initialMonth = 10; // Nov is the 11th month and indexed as ten
-export const initialYear = 1994;
+export const initialYear = 2019;
 export const initialDate = 9;

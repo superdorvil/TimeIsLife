@@ -198,10 +198,12 @@ class ViewProjectCharts extends Component {
         decimalMinutes: true,
       });
 
-      averageDailyHours = daysUsingApp > 0 ? totalHours / daysUsingApp : 0;
-      averageWeeklyHours = weeksUsingApp > 0 ? totalHours / weeksUsingApp : 0;
+      averageDailyHours =
+        daysUsingApp > 0 ? (totalHours / daysUsingApp).toFixed(1) : 0;
+      averageWeeklyHours =
+        weeksUsingApp > 0 ? (totalHours / weeksUsingApp).toFixed(1) : 0;
       averageMonthlyHours =
-        monthsUsingApp > 0 ? totalHours / monthsUsingApp : 0;
+        monthsUsingApp > 0 ? (totalHours / monthsUsingApp).toFixed(1) : 0;
 
       secondsWorked.forEach((sw, i) => {
         switch (sw.startTime.getDay()) {

@@ -9,7 +9,10 @@ import {HoursUtils} from '_utils';
 class ProjectTask extends Component {
   constructor(props) {
     super(props);
-    const tasks = projectDB.getTasks({realm: this.props.realm});
+    const tasks = projectDB.getTasks({
+      realm: this.props.realm,
+      projectID: this.props.project.id,
+    });
     const project = projectDB.getProjects({
       realm: this.props.realm,
       projectID: this.props.project.id,
@@ -33,7 +36,12 @@ class ProjectTask extends Component {
       });
     });
     this.state.tasks.addListener(() => {
-      this.setState({tasks: projectDB.getTasks({realm: this.props.realm})});
+      this.setState({
+        task: projectDB.getProjects({
+          realm: this.props.realm,
+          projectID: this.props.project.id,
+        }),
+      });
     });
   }
 

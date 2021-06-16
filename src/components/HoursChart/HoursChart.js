@@ -29,8 +29,8 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
           height={180}
           yAxisSuffix={yAxisSuffix}
           yAxisInterval={1} // optional, defaults to 1
+          fromZero={true}
           chartConfig={{
-            fromZero: false,
             backgroundGradientFrom: Colors.primary[global.colorScheme],
             backgroundGradientTo: Colors.primary[global.colorScheme],
             backgroundGradientFromOpacity: 0.5,
@@ -41,7 +41,7 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
             //color: (opacity = 1) => Colors.secondary[global.colorScheme], // `rgba(0, 0, 0, ${opacity})`,
             //labelColor: (opacity = 1) => Colors.tertiary[global.colorScheme], //`rgba(0, 0, 0, ${opacity})`,
             color: (opacity = 1) => Colors.secondary[global.colorScheme], //`rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             strokeWidth: 2,
             propsForDots: {
               r: '6',
@@ -63,6 +63,7 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
           withShadow={false}
           withInnerLines={false}
           withOuterLines={false}
+          fromZero={true}
           chartConfig={{
             backgroundGradientFrom: Colors.primary[global.colorScheme],
             backgroundGradientTo: Colors.primary[global.colorScheme],
@@ -71,7 +72,7 @@ const HoursChart = ({labels, hours, dataWidth, yAxisSuffix}) => {
             fillShadowGradient: 'rgba(0, 0, 0, 0)',
             fillShadowGradientOpacity: 0.5,
             decimalPlaces: 0,
-            color: (opacity = 0) => Colors.secondary[global.colorScheme], //`rgba(0, 0, 0, ${opacity})`,
+            color: (opacity = 0) => `rgba(0, 0, 0, ${opacity})`,
             labelColor: (opacity = 0) => Colors.tertiary[global.colorScheme], //`rgba(0, 0, 0, ${opacity})`,
             strokeWidth: 1,
             propsForDots: {

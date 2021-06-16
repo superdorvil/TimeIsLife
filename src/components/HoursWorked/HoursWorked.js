@@ -14,6 +14,10 @@ const HoursWorked = ({
   task,
   editTask,
 }) => {
+  const dateIndex = DateUtils.getDateIndex({date});
+  const weekIndex = DateUtils.getWeekIndex({date});
+  const monthIndex = DateUtils.getMonthIndex({date});
+  const yearIndex = DateUtils.getYearIndex({date});
   const today = new Date();
   let yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
@@ -43,7 +47,10 @@ const HoursWorked = ({
           startPressed={() => editStartTime(secondsWorked.id)}
           endPressed={() => editEndTime(secondsWorked.id)}
         />
-        <EditTask task={task} taskPressed={() => editTask(secondsWorked.id)} />
+        <EditTask
+          task={secondsWorked.task}
+          taskPressed={() => editTask(secondsWorked.id)}
+        />
       </View>,
     );
     totalSeconds =
@@ -64,6 +71,9 @@ const HoursWorked = ({
         <Text style={hoursStyle()}>{totalHours} h</Text>
       </View>
       {startEndTimeButtons}
+      <Text style={dateStyle()}>
+        {date.getDay()} {date.getDate()} {dateIndex} {weekIndex} {monthIndex} {yearIndex}
+      </Text>
     </View>
   );
 };
