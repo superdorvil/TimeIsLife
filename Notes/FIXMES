@@ -1,75 +1,46 @@
-Python script conversion
+Proper code clean up(general clean too), especially realm crashing with invalidated object
 
-Not needed for running for getting me to debug and use
-  load more buttons for goals page, hours worked, project goals
+Load more weekly goals, project goals, hours worked
+
+Weekly Goal oval and hours and percent
+
+add task button in the scrollview
+
+default a subtask on the timer screen
+
+subtask 3/4 height limit
+
+Delete project in the edit page
+
+Restore project by crossing them out in the main page an putting them on the bottom
+  tap to Restore
+
+Hours worked redesign
+  start end time am pm format and eliminate seconds
+  delete hours Worked - add deleted true false boolean
+  no subtask to add
+  oscillating colors for each hours worked for visual effect???? Maybe just the divider
+
+People friendlyfi and motivations and shit
+
+Settings screen
+  rm subtask mode
+
+Future shit
+  strava network like idea
+  logistics - adam, tuni, ideas
+
+
+
+
+
+
+
+
 
 debouncing buttons
 
-Total Weekly Goal
-*****  Total Weekly Goal Load more button
-*****  Update the design of the view / oval of hours and percent
-
-Charts
-  Get Daily Weekly Monthly Hours range
-    arrow button ups range dependent on monthIndex
-  Stats
-    total sum all hours no filter
-    Avg Daily, weekly Monthly
-      grab first secondsWorked[0] sorted dateIndex, weekIndex, monthIndex,
-      subtract from current index and divide, daily weekly, monthyl
-    Avg weekday
-      const WeekdayHours = {Sun-Sat}
-      case statement if startTime.getDay is day of week, add it
-      Use getDailySecondsWorked that alreay exist, just add weekIndex if statement
-      divide via the number of weeks from avg weeklyGoal
-    Chart data being displayed string
-      Add year index
-      Monthly shows a year of data 2020 - year index
-      Daily Shows a month at a time
-      Weekly shows 3 months at a time January - March 2020
-
-Settings
-**** Restore modal type stuff
-  Restore Project, - green color
-  SubTask Mode - last
-
-Hours Worked screen
-*****  load more button, only do like a week at a time
-
-Edit Project
-*******  delete project with modal, and message you can alway restore in the Settings
-    filter all data on projects that are not deleted, string builder filter???
-
-Never use props for an item passed into another screen, example pass project in
-pass only id and grab the realm object. I think the prop stays static if a ream update happens
-while the state gets updated. Plus we grab the realm object anyways and pass into statemen
-
-
-
-
-
-
-******  Project Task update the design of the view
-
-Remove Action Screen data and just put in data without action screen
-
-People friendlyFi the app
-
-Timer screen new design
-  link to people grinding
-  block sites
-  motivate
-  connect
-  help
-  focus app view with the oval start timer button and 4 buttons at borderBottomWidth
-
 ViewVisibleWrapper active to visible :(
-
-
-
-
-
-
 
 Stuff I probably won't do
 
