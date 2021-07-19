@@ -1,10 +1,14 @@
+Add Hours / Edit Hours with the start time start date, end time end date - fix bug
+
+Reordering of the projects automatically
+
 Proper code clean up(general clean too), especially realm crashing with invalidated object
 
 Load more weekly goals, project goals, hours worked
 
 Weekly Goal oval and hours and percent
 
-add task button in the scrollview
+add task button in the scrollview of hours worked add subtask pressed
 
 default a subtask on the timer screen
 
@@ -14,6 +18,8 @@ Delete project in the edit page
 
 Restore project by crossing them out in the main page an putting them on the bottom
   tap to Restore
+
+select subtask to select task text on modal
 
 Hours worked redesign
   start end time am pm format and eliminate seconds
@@ -30,7 +36,7 @@ Future shit
   strava network like idea
   logistics - adam, tuni, ideas
 
-
+Sorting projects and task witj goals complete and deleted
 
 
 

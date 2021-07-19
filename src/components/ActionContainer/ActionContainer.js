@@ -39,7 +39,7 @@ class ActionContainer extends Component {
             this.props.actionScreenData.topRightButtonPressed
           }
         />
-        <View style={dividerStyle(this.props.topBottomContainerDivider)} />
+        <View style={dividerStyle()} />
         <BottomContainer
           extraData={this.props.extraData}
           actionButtonActive={this.props.actionButtonActive}
@@ -63,16 +63,11 @@ const containerStyle = () => {
 };
 
 const dividerStyle = topBottomContainerDivider => {
-  if (topBottomContainerDivider) {
-    return {
-      height: 1,
-      backgroundColor: Colors.primary[global.colorScheme],
-      marginTop: 16,
-      marginBottom: 16,
-    };
-  } else {
-    return {};
-  }
+  return {
+    height: 1,
+    backgroundColor: Colors.primary[global.colorScheme],
+    marginTop: 16,
+  };
 };
 
 export default ActionContainer;
