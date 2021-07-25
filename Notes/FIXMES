@@ -1,5 +1,3 @@
-Add Hours / Edit Hours with the start time start date, end time end date - fix bug
-
 Reordering of the projects automatically
 
 Proper code clean up(general clean too), especially realm crashing with invalidated object
@@ -12,14 +10,10 @@ add task button in the scrollview of hours worked add subtask pressed
 
 default a subtask on the timer screen
 
-subtask 3/4 height limit
-
 Delete project in the edit page
 
 Restore project by crossing them out in the main page an putting them on the bottom
   tap to Restore
-
-select subtask to select task text on modal
 
 Hours worked redesign
   start end time am pm format and eliminate seconds
@@ -29,8 +23,7 @@ Hours worked redesign
 
 People friendlyfi and motivations and shit
 
-Settings screen
-  rm subtask mode
+Sub Task mode on settings screen??? - Default to simple view and have subtask mode tutorial
 
 Future shit
   strava network like idea

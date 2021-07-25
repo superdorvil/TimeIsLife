@@ -41,7 +41,7 @@ const SelectTaskModal = ({
       backdropOpacity={0.5}
       onBackdropPress={closeModal}>
       <View style={containerStyle()}>
-        <Text style={headerStyle()}>{'Select SubTask ' + secondsWorkedID}</Text>
+        <Text style={headerStyle()}>{'Select Task '}</Text>
         <ScrollView>{taskList}</ScrollView>
       </View>
     </Modal>
@@ -52,6 +52,7 @@ const containerStyle = () => {
   return {
     paddingBottom: 16,
     borderRadius: 16,
+    maxHeight: '75%',
     backgroundColor: Colors.tertiary[global.colorScheme],
   };
 };
