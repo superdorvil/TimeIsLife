@@ -44,7 +44,7 @@ const editDescriptionStyle = () => {
     fontSize: 12,
     color: Colors.tertiary[global.colorScheme],
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 4,
   };
 };
 

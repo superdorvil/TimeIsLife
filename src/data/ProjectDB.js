@@ -428,6 +428,7 @@ class ProjectDB {
     secondsWorkedID,
     hours,
     minutes,
+    date,
     updateStartTime,
   }) {
     const secondsWorked = realm.objectForPrimaryKey(
@@ -438,14 +439,28 @@ class ProjectDB {
     const endTime = secondsWorked.endTime;
 
     realm.write(() => {
-      if (updateStartTime) {
-        startTime.setHours(hours);
-        startTime.setMinutes(minutes);
-        secondsWorked.startTime = startTime;
+      if (date) {
+        if (updateStartTime) {
+          startTime.setDate(date.getDate());
+          startTime.setMonth(date.getMonth());
+          startTime.setFullYear(date.getFullYear());
+          secondsWorked.startTime = startTime;
+        } else {
+          endTime.setDate(date.getDate());
+          endTime.setMonth(date.getMonth());
+          endTime.setFullYear(date.getFullYear());
+          secondsWorked.endTime = endTime;
+        }
       } else {
-        endTime.setHours(hours);
-        endTime.setMinutes(minutes);
-        secondsWorked.endTime = endTime;
+        if (updateStartTime) {
+          startTime.setHours(hours);
+          startTime.setMinutes(minutes);
+          secondsWorked.startTime = startTime;
+        } else {
+          endTime.setHours(hours);
+          endTime.setMinutes(minutes);
+          secondsWorked.endTime = endTime;
+        }
       }
     });
 

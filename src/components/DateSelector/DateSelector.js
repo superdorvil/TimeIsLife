@@ -6,7 +6,7 @@ import {Colors} from '_resources';
 import {DateUtils} from '_utils';
 import {Utils} from '_constants';
 
-const DateSelector = ({visible, dateString, date, changeDate, closeModal}) => {
+const DateSelector = ({visible, dateString, date, updateDate, closeModal}) => {
   const year = date.getFullYear();
   const formattedDate =
     DateUtils.convertDayToString({
@@ -36,7 +36,7 @@ const DateSelector = ({visible, dateString, date, changeDate, closeModal}) => {
           maxDate={new Date()}
           hideExtraDays
           onDayPress={day => {
-            changeDate(day);
+            updateDate(day);
           }}
           monthFormat={'MMMM yyyy'}
           // renderArrow={(direction) => (<Arrow/>)}

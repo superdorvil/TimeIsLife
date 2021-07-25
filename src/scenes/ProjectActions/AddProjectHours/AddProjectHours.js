@@ -2,13 +2,7 @@ import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {ActionContainer} from '_components';
-import {
-  Button,
-  EditTimeButton,
-  StartEndTimeButtons,
-  TimeSelector,
-  DateSelector,
-} from '_components';
+import {Button, EditHours, TimeSelector, DateSelector} from '_components';
 import {Icons, Utils} from '_constants';
 import {Colors} from '_resources';
 import {States} from '_constants';
@@ -23,20 +17,25 @@ class AddProjectHours extends Component {
     currentDate.setSeconds(0);
 
     this.state = {
-      date: new Date(currentDate),
-      tempDate: new Date(currentDate),
+      startDate: new Date(currentDate),
+      tempStartDate: new Date(currentDate),
+      endDate: new Date(currentDate),
+      tempEndDate: new Date(currentDate),
       startTime: new Date(currentDate),
       endTime: new Date(currentDate),
       setTimeHours: 0,
       setTimeMinutes: 0,
-      dateModalVisible: false,
+      startDateModalVisible: false,
+      endDateModalVisible: false,
       startTimeModalVisible: false,
       endTimeModalVisible: false,
       ampm: States.am,
     };
 
-    this.changeDate = this.changeDate.bind(this);
-    this.openDateModal = this.openDateModal.bind(this);
+    this.updateStartDate = this.updateStartDate.bind(this);
+    this.updateEndDate = this.updateEndDate.bind(this);
+    this.openStartDateModal = this.openStartDateModal.bind(this);
+    this.openEndDateModal = this.openEndDateModal.bind(this);
     this.confirmTimeChange = this.confirmTimeChange.bind(this);
     this.openStartTimeModal = this.openStartTimeModal.bind(this);
     this.openEndTimeModal = this.openEndTimeModal.bind(this);
@@ -47,13 +46,9 @@ class AddProjectHours extends Component {
     this.addSecondsWorked = this.addSecondsWorked.bind(this);
   }
 
-  changeDate(dateObject) {
-    //console.log(dateObject);
-    // this.setState({date: new Date(dateObject.timestamp + 86400000)});
+  updateStartDate(dateObject) {
     const startHours = this.state.startTime.getHours();
     const startMinutes = this.state.startTime.getMinutes();
-    const endHours = this.state.endTime.getHours();
-    const endMinutes = this.state.endTime.getMinutes();
 
     const date = new Date(
       dateObject.year,
@@ -65,39 +60,58 @@ class AddProjectHours extends Component {
       dateObject.month - 1,
       dateObject.day,
     );
+
+    startTime.setHours(startHours);
+    startTime.setMinutes(startMinutes);
+
+    this.setState({startDate: date, startTime});
+
+    this.closeModal();
+  }
+
+  updateEndDate(dateObject) {
+    const endHours = this.state.endTime.getHours();
+    const endMinutes = this.state.endTime.getMinutes();
+
+    const date = new Date(
+      dateObject.year,
+      dateObject.month - 1,
+      dateObject.day,
+    );
     const endTime = new Date(
       dateObject.year,
       dateObject.month - 1,
       dateObject.day,
     );
 
-    startTime.setHours(startHours);
-    startTime.setMinutes(startMinutes);
     endTime.setHours(endHours);
     endTime.setMinutes(endMinutes);
 
-    this.setState({
-      date,
-      startTime,
-      endTime,
-    });
+    this.setState({endDate: date, endTime});
 
     this.closeModal();
   }
 
-  openDateModal() {
-    this.setState({dateModalVisible: true, tempDate: this.state.date});
+  openStartDateModal() {
+    this.setState({
+      startDateModalVisible: true,
+      tempStartDate: this.state.startDate,
+    });
+  }
+
+  openEndDateModal() {
+    this.setState({endDateModalVisible: true, tempEndDate: this.state.endDate});
   }
 
   confirmTimeChange() {
     if (this.state.startTimeModalVisible) {
-      const startTime = new Date(this.state.date);
+      const startTime = new Date(this.state.startDate);
       startTime.setHours(this.state.setTimeHours);
       startTime.setMinutes(this.state.setTimeMinutes);
 
       this.setState({startTime});
     } else if (this.state.endTimeModalVisible) {
-      const endTime = new Date(this.state.date);
+      const endTime = new Date(this.state.endDate);
       endTime.setHours(this.state.setTimeHours);
       endTime.setMinutes(this.state.setTimeMinutes);
 
@@ -117,7 +131,8 @@ class AddProjectHours extends Component {
 
   closeModal() {
     this.setState({
-      dateModalVisible: false,
+      startDateModalVisible: false,
+      endDateModalVisible: false,
       startTimeModalVisible: false,
       endTimeModalVisible: false,
     });
@@ -187,21 +202,15 @@ class AddProjectHours extends Component {
           listData={false}
           renderListItem={false}>
           <View style={innerContainerStyle()}>
-            <EditTimeButton
-              editDescription="Select Date"
-              time={DateUtils.convertDateToString({
-                date: this.state.date,
-                format: Utils.dateFormat.monthDateYear,
-              })}
-              icon={Icons.calendar}
-              editPressed={this.openDateModal}
-            />
-            <View style={spacingStyle()} />
-            <StartEndTimeButtons
+            <EditHours
               startTime={this.state.startTime}
+              startDate={this.state.startTime}
               endTime={this.state.endTime}
-              startPressed={this.openStartTimeModal}
-              endPressed={this.openEndTimeModal}
+              endDate={this.state.endTime}
+              startTimePressed={this.openStartTimeModal}
+              startDatePressed={this.openStartDateModal}
+              endTimePressed={this.openEndTimeModal}
+              endDatePressed={this.openEndDateModal}
             />
             <Text style={hoursWorkedStyle()}>
               {timeWorked.hours} hrs {timeWorked.minutes} mins
@@ -233,12 +242,22 @@ class AddProjectHours extends Component {
         />
         <DateSelector
           dateString={DateUtils.convertDateToString({
-            date: this.state.tempDate,
+            date: this.state.tempStartDate,
             format: Utils.dateFormat.yyyy_mm_dd,
           })}
-          date={this.state.tempDate}
-          changeDate={this.changeDate}
-          visible={this.state.dateModalVisible}
+          date={this.state.tempStartDate}
+          updateDate={this.updateStartDate}
+          visible={this.state.startDateModalVisible}
+          closeModal={this.closeModal}
+        />
+        <DateSelector
+          dateString={DateUtils.convertDateToString({
+            date: this.state.tempEndDate,
+            format: Utils.dateFormat.yyyy_mm_dd,
+          })}
+          date={this.state.tempEndDate}
+          updateDate={this.updateEndDate}
+          visible={this.state.endDateModalVisible}
           closeModal={this.closeModal}
         />
       </View>
@@ -255,10 +274,6 @@ const innerContainerStyle = () => {
     flex: 1,
     marginTop: 16,
   };
-};
-
-const spacingStyle = () => {
-  return {padding: 8};
 };
 
 const buttonStyle = () => {

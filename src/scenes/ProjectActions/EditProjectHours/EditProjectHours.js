@@ -6,10 +6,11 @@ import {
   HoursWorked,
   TimeSelector,
   SelectTaskModal,
+  DateSelector,
 } from '_components';
 import projectDB from '_data';
-import {Icons, States} from '_constants';
-import {InputUtils} from '_utils';
+import {Icons, States, Utils} from '_constants';
+import {InputUtils, DateUtils} from '_utils';
 
 class EditProjectHours extends Component {
   constructor(props) {
@@ -39,6 +40,9 @@ class EditProjectHours extends Component {
       editTaskModalVisible: false,
       setTimeHours: 0,
       setTimeMinutes: 0,
+      startDate: new Date(),
+      endDate: new Date(),
+      tempDate: new Date(),
       ampm: States.am,
       secondsWorkedID: 0,
     };
@@ -48,10 +52,13 @@ class EditProjectHours extends Component {
     this.ampmPressed = this.ampmPressed.bind(this);
     this.openStartTimeModal = this.openStartTimeModal.bind(this);
     this.openEndTimeModal = this.openEndTimeModal.bind(this);
+    this.openStartDateModal = this.openStartDateModal.bind(this);
+    this.openEndDateModal = this.openEndDateModal.bind(this);
     this.openEditTaskModal = this.openEditTaskModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.updateSetTimeHours = this.updateSetTimeHours.bind(this);
     this.updateSetTimeMinutes = this.updateSetTimeMinutes.bind(this);
+    this.updateDateWorked = this.updateDateWorked.bind(this);
     this.updateSecondsWorked = this.updateSecondsWorked.bind(this);
   }
 
@@ -106,6 +113,32 @@ class EditProjectHours extends Component {
     this.setState({endTimeModalVisible: true, secondsWorkedID});
   }
 
+  openStartDateModal(secondsWorkedID) {
+    const tempDate = new Date(
+      projectDB
+        .getSecondsWorked({realm: this.props.realm, secondsWorkedID})
+        .startTime.getTime(),
+    );
+
+    this.setState({startDateModalVisible: true, secondsWorkedID, tempDate});
+  }
+
+  /*new Date(
+    dateObject.year,
+    dateObject.month - 1,
+    dateObject.day,
+  );
+  var copiedDate = new Date(date.getTime());*/
+  openEndDateModal(secondsWorkedID) {
+    const tempDate = new Date(
+      projectDB
+        .getSecondsWorked({realm: this.props.realm, secondsWorkedID})
+        .endTime.getTime(),
+    );
+
+    this.setState({endDateModalVisible: true, secondsWorkedID, tempDate});
+  }
+
   openEditTaskModal(secondsWorkedID) {
     this.setState({editTaskModalVisible: true, secondsWorkedID});
   }
@@ -114,6 +147,8 @@ class EditProjectHours extends Component {
     this.setState({
       startTimeModalVisible: false,
       endTimeModalVisible: false,
+      startDateModalVisible: false,
+      endDateModalVisible: false,
       editTaskModalVisible: false,
     });
   }
@@ -141,6 +176,23 @@ class EditProjectHours extends Component {
       hours: this.state.setTimeHours,
       minutes: this.state.setTimeMinutes,
       updateStartTime: this.state.startTimeModalVisible,
+    });
+
+    this.closeModal();
+  }
+
+  updateDateWorked(dateObject) {
+    const date = new Date(
+      dateObject.year,
+      dateObject.month - 1,
+      dateObject.day,
+    );
+
+    projectDB.updateSecondsWorked({
+      realm: this.props.realm,
+      secondsWorkedID: this.state.secondsWorkedID,
+      date,
+      updateStartTime: this.state.startDateModalVisible,
     });
 
     this.closeModal();
@@ -217,6 +269,12 @@ class EditProjectHours extends Component {
         editEndTime={secondsWorkedID =>
           extraData.openEndTimeModal(secondsWorkedID)
         }
+        editStartDate={secondsWorkedID =>
+          extraData.openStartDateModal(secondsWorkedID)
+        }
+        editEndDate={secondsWorkedID =>
+          extraData.openEndDateModal(secondsWorkedID)
+        }
         editTask={secondsWorkedID =>
           extraData.openEditTaskModal(secondsWorkedID)
         }
@@ -239,6 +297,8 @@ class EditProjectHours extends Component {
             project: this.state.project,
             openStartTimeModal: this.openStartTimeModal,
             openEndTimeModal: this.openEndTimeModal,
+            openStartDateModal: this.openStartDateModal,
+            openEndDateModal: this.openEndDateModal,
             openEditTaskModal: this.openEditTaskModal,
           }}
           weeklyProgressActive={false}
@@ -277,6 +337,26 @@ class EditProjectHours extends Component {
           visible={this.state.editTaskModalVisible}
           closeModal={this.closeModal}
           taskPressed={this.taskPressed}
+        />
+        <DateSelector
+          dateString={DateUtils.convertDateToString({
+            date: this.state.tempDate,
+            format: Utils.dateFormat.yyyy_mm_dd,
+          })}
+          date={this.state.tempDate}
+          updateDate={this.updateDateWorked}
+          visible={this.state.startDateModalVisible}
+          closeModal={this.closeModal}
+        />
+        <DateSelector
+          dateString={DateUtils.convertDateToString({
+            date: this.state.tempDate,
+            format: Utils.dateFormat.yyyy_mm_dd,
+          })}
+          date={this.state.tempDate}
+          updateDate={this.updateDateWorked}
+          visible={this.state.endDateModalVisible}
+          closeModal={this.closeModal}
         />
       </View>
     );

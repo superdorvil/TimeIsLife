@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import {StartEndTimeButtons} from '_components';
+import {EditHours} from '_components';
 import EditTask from './EditTask';
 import {DateUtils, HoursUtils} from '_utils';
 import {Utils} from '_constants';
@@ -10,7 +10,9 @@ const HoursWorked = ({
   date,
   secondsWorkedList,
   editStartTime,
+  editStartDate,
   editEndTime,
+  editEndDate,
   task,
   editTask,
 }) => {
@@ -37,11 +39,15 @@ const HoursWorked = ({
   secondsWorkedList.forEach((secondsWorked, i) => {
     startEndTimeButtons.push(
       <View style={startEndTimeButtonsContainerStyle()} key={i}>
-        <StartEndTimeButtons
+        <EditHours
           startTime={secondsWorked.startTime}
+          startDate={secondsWorked.startTime}
           endTime={secondsWorked.endTime}
-          startPressed={() => editStartTime(secondsWorked.id)}
-          endPressed={() => editEndTime(secondsWorked.id)}
+          endDate={secondsWorked.endTime}
+          startTimePressed={() => editStartTime(secondsWorked.id)}
+          startDatePressed={() => editStartDate(secondsWorked.id)}
+          endTimePressed={() => editEndTime(secondsWorked.id)}
+          endDatePressed={() => editEndDate(secondsWorked.id)}
         />
         <EditTask
           task={secondsWorked.task}
