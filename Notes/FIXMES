@@ -1,10 +1,13 @@
-Proper code clean up(general clean too), especially realm crashing with invalidated object
-
 Load more weekly goals, project goals, hours worked
 
-add task button in the scrollview of hours worked add subtask pressed
+Proper code clean up (general clean too), especially realm crashing with invalidated object
 
-default a subtask on the timer screen
+Iphonify
+
+
+
+
+Sub Task mode?
 
 Hours worked redesign
   start end time am pm format and eliminate seconds
@@ -12,7 +15,7 @@ Hours worked redesign
   no subtask to add
   oscillating colors for each hours worked for visual effect???? Maybe just the divider
 
-Sub Task mode on settings screen??? - Default to simple view and have subtask mode tutorial
+default a subtask on the timer screen
 
 People friendlyfi and motivations and shit
 

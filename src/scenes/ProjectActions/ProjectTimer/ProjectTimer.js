@@ -22,7 +22,7 @@ class ProjectTimer extends Component {
       realm: this.props.realm,
       projectID: this.props.project.id,
     });
-    const previousSecondsWorked = projectDB.getSecondsWorked({
+    const secondsWorkedToday = projectDB.getSecondsWorked({
       realm: this.props.realm,
       projectID: this.props.project.id,
       dateIndex: DateUtils.getDateIndex({date: new Date()}),
@@ -33,8 +33,7 @@ class ProjectTimer extends Component {
 
     this.state = {
       project,
-      previousSecondsWorked,
-      secondsWorkedToday: previousSecondsWorked,
+      secondsWorkedToday,
       secondsWorkedTimer,
     };
 
@@ -80,7 +79,11 @@ class ProjectTimer extends Component {
 
   getSecondsWorked() {
     const secondsWorkedToday =
-      this.state.previousSecondsWorked +
+      projectDB.getSecondsWorked({
+        realm: this.props.realm,
+        projectID: this.props.project.id,
+        dateIndex: DateUtils.getDateIndex({date: new Date()}),
+      }) +
       (new Date() - this.state.project.timerStartTime) / 1000;
 
     this.setState({secondsWorkedToday});
