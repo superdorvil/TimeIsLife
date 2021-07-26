@@ -16,6 +16,7 @@ class EditProject extends Component {
     };
 
     this.editProject = this.editProject.bind(this);
+    this.deleteProject = this.deleteProject.bind(this);
     this.updateDescription = this.updateDescription.bind(this);
   }
 
@@ -31,6 +32,15 @@ class EditProject extends Component {
     }
   }
 
+  deleteProject() {
+    projectDB.deleteProject({
+      realm: this.props.realm,
+      projectID: this.props.project.id,
+    });
+
+    Actions.pop();
+  }
+
   updateDescription(description) {
     this.setState({description});
   }
@@ -43,6 +53,7 @@ class EditProject extends Component {
       centerIconName: Icons.checkmark,
       actionDescription: 'Edit Project',
       subDescription: 'Time is Life',
+      topRightButtonPressed: this.deleteProject,
     };
 
     return (

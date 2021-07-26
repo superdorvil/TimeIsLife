@@ -115,24 +115,45 @@ class ProjectDB {
     return totalSecondsWorked;
   }
 
-  getTasks({realm, taskID, projectID}) {
+  getTasks({realm, taskID, projectID, notSorted}) {
     if (taskID) {
       return realm.objectForPrimaryKey(Schemas.task, taskID);
     }
 
     if (projectID) {
-      return realm.objects(Schemas.task).filtered('projectID == $0', projectID);
+      if (notSorted) {
+        return realm
+          .objects(Schemas.task)
+          .filtered('projectID == $0', projectID);
+      }
+
+      return realm
+        .objects(Schemas.task)
+        .filtered('projectID == $0', projectID)
+        .sorted('completed', false);
     }
 
-    return realm.objects(Schemas.task);
+    if (notSorted) {
+      return realm.objects(Schemas.task);
+    }
+
+    return realm.objects(Schemas.task).sorted('completed', false);
   }
 
-  getProjects({realm, projectID}) {
+  getProjects({realm, projectID, notSorted}) {
     if (projectID) {
       return realm.objectForPrimaryKey(Schemas.project, projectID);
     }
 
-    return realm.objects(Schemas.project);
+    if (notSorted) {
+      return realm.objects(Schemas.project);
+    }
+
+    return realm
+      .objects(Schemas.project)
+      .sorted('position', true)
+      .sorted('thisWeeksSecondsGoal', true)
+      .sorted('deleted', false);
   }
 
   getSecondsWorked({
@@ -471,7 +492,7 @@ class ProjectDB {
     const project = realm.objectForPrimaryKey(Schemas.project, projectID);
 
     realm.write(() => {
-      project.position = this.getTopPosition(realm.objects(Schemas.projects));
+      project.position = this.getTopPosition(realm.objects(Schemas.project));
     });
   }
 
@@ -536,17 +557,29 @@ class ProjectDB {
   deleteWeeklyGoal({realm, projectID, weekIndex}) {}
 
   // deleted boolean
-  deleteProject({realm, projectID}) {}
+  deleteProject({realm, projectID}) {
+    const project = this.getProjects({realm, projectID});
+
+    realm.write(() => {
+      project.deleted = true;
+    });
+  }
 
   // deleted boolean
-  restoreProject({realm, projectID}) {}
+  restoreProject({realm, projectID}) {
+    const project = this.getProjects({realm, projectID});
+
+    realm.write(() => {
+      project.deleted = false;
+    });
+  }
 
   getTopPosition(objects) {
     let position = 0;
 
     objects.forEach((o, i) => {
       if (o.position >= position) {
-        position = position + 1;
+        position = o.position + 1;
       }
     });
 

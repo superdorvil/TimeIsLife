@@ -19,7 +19,6 @@ class ProjectList extends Component {
 
     projectDB.updateProjectSecondsData({realm: this.props.realm});
     const projects = projectDB.getProjects({realm: this.props.realm});
-
     const dailySecondsWorked = projectDB.getDailySecondsWorked({
       realm: this.props.realm,
       sundayIndex,
@@ -46,6 +45,7 @@ class ProjectList extends Component {
     };
 
     this.createProject = this.createProject.bind(this);
+    this.selectProject = this.selectProject.bind(this);
   }
 
   componentDidMount() {
@@ -88,12 +88,21 @@ class ProjectList extends Component {
     Actions.createProject({realm: this.props.realm});
   }
 
+  selectProject(realm, project) {
+    if (project.deleted) {
+      projectDB.restoreProject({realm, projectID: project.id});
+    }
+
+    projectDB.topProjectPosition({realm, projectID: project.id});
+
+    Actions.projectTimer({realm, project});
+  }
+
   renderProject(project, extraData) {
     return (
       <Project
-        projectPressed={() =>
-          Actions.projectTimer({realm: extraData.realm, project})
-        }
+        projectPressed={() => extraData.selectProject(extraData.realm, project)}
+        deleted={project.deleted}
         description={project.description}
         totalSecondsWorked={project.totalSecondsWorked}
         thisWeeksSecondsWorked={project.thisWeeksSecondsWorked}
@@ -128,6 +137,7 @@ class ProjectList extends Component {
           extraData={{
             realm: this.props.realm,
             currentWeekIndex: this.state.currentWeekIndex,
+            selectProject: this.selectProject,
           }}
           weeklyProgressActive
           thisWeeksGoalSeconds={this.state.thisWeeksGoalSeconds}
