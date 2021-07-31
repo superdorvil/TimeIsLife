@@ -1,7 +1,6 @@
 export ActionContainer from './ActionContainer';
 export BackArrow from './BackArrow';
 export Button from './Button';
-export ProjectChartsDataPicker from './ProjectChartsDataPicker';
 export ChartNavBar from './ChartNavBar';
 export ColorSchemeModal from './ColorSchemeModal';
 export ConfirmationButtons from './ConfirmationButtons';
@@ -15,6 +14,7 @@ export HoursProgressBar from './HoursProgressBar';
 export HoursStatistics from './HoursStatistics';
 export Icon from './Icon';
 export Project from './Project';
+export ProjectChartsDataPicker from './ProjectChartsDataPicker';
 export ProjectClock from './ProjectClock';
 export ProjectInput from './ProjectInput';
 export ProjectTimerTabBar from './ProjectTimerTabBar';

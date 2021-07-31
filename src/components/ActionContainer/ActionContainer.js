@@ -47,7 +47,11 @@ class ActionContainer extends Component {
           actionButtonDescription={this.props.actionButtonDescription}
           listData={this.props.listData}
           listDataActive={this.props.listDataActive}
-          renderListItem={this.props.renderListItem}>
+          renderListItem={this.props.renderListItem}
+          loadPreviousPressed={this.props.loadPreviousPressed}
+          loadPreviousActive={this.props.loadPreviousActive}
+          loadMorePressed={this.props.loadMorePressed}
+          loadMoreActive={this.props.loadMoreActive}>
           {this.props.children}
         </BottomContainer>
       </View>

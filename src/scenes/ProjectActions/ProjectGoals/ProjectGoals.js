@@ -24,11 +24,15 @@ class ProjectGoals extends Component {
     }
 
     this.state = {
+      currentSet: 0,
+      loadMoreActive: true,
       weeklyGoalWeekIndexes,
     };
 
     this.updateWeeklyGoal = this.updateWeeklyGoal.bind(this);
     this.updateWeeklyGoalSlider = this.updateWeeklyGoalSlider.bind(this);
+    this.loadMorePressed = this.loadMorePressed.bind(this);
+    this.loadPreviousPressed = this.loadPreviousPressed.bind(this);
   }
 
   componentDidMount() {}
@@ -37,6 +41,40 @@ class ProjectGoals extends Component {
 
   editProject() {
     Actions.editProject({realm: this.props.realm, project: this.props.project});
+  }
+
+  loadMorePressed() {
+    const currentSet = this.state.currentSet - 1;
+
+    this.loadWeeklyGoalIndexes(currentSet);
+  }
+
+  loadPreviousPressed() {
+    const currentSet = this.state.currentSet + 1;
+    if (currentSet > 0) {
+      return;
+    }
+
+    this.loadWeeklyGoalIndexes(currentSet);
+  }
+
+  loadWeeklyGoalIndexes(currentSet) {
+    const currentWeekIndex =
+      DateUtils.getWeekIndex({date: new Date()}) + currentSet * 10;
+    const weeklyGoalWeekIndexes = []; // 10 weeks
+
+    for (let i = 0; i < 10; i++) {
+      weeklyGoalWeekIndexes.push({
+        index: i,
+        weekIndex: currentWeekIndex - i,
+        thisWeeksSecondsGoal: projectDB.getWeeklyGoals({
+          realm: this.props.realm,
+          weekIndex: currentWeekIndex - i,
+        }),
+      });
+    }
+
+    this.setState({currentSet, weeklyGoalWeekIndexes});
   }
 
   renderGoal(listData, extraData) {
@@ -108,6 +146,10 @@ class ProjectGoals extends Component {
           listData={this.state.weeklyGoalWeekIndexes}
           listDataActive={true}
           renderListItem={this.renderGoal}
+          loadPreviousPressed={this.loadPreviousPressed}
+          loadPreviousActive={this.state.currentSet !== 0}
+          loadMorePressed={this.loadMorePressed}
+          loadMoreActive={this.state.loadMoreActive}
           topBottomContainerDivider
         />
       </View>

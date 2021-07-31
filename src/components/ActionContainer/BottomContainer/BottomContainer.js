@@ -3,6 +3,7 @@ import {View, FlatList} from 'react-native';
 import {Colors} from '_resources';
 import {ViewVisibleWrapper, Divider} from '_components';
 import ActionButton from './ActionButton';
+import LoadMoreButton from './LoadMoreButton';
 
 class BottomContainer extends Component {
   renderDivider() {
@@ -32,12 +33,18 @@ class BottomContainer extends Component {
                 }
                 keyExtractor={(item, index) => index.toString()}
                 ListHeaderComponent={
-                  this.props.actionButtonActive &&
-                  this.props.listData.length > 0 ? (
-                    this.renderDivider
-                  ) : (
-                    <View />
-                  )
+                  <LoadMoreButton
+                    loadMorePressed={this.props.loadPreviousPressed}
+                    previous={true}
+                    active={this.props.loadPreviousActive}
+                  />
+                }
+                ListFooterComponent={
+                  <LoadMoreButton
+                    loadMorePressed={this.props.loadMorePressed}
+                    previous={false}
+                    active={this.props.loadMoreActive}
+                  />
                 }
                 ItemSeparatorComponent={this.renderDivider}
                 contentContainerStyle={listPaddingStyle()}

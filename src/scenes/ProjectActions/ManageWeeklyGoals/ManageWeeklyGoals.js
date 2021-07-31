@@ -25,11 +25,15 @@ class ManageWeeklyGoals extends Component {
     }
 
     this.state = {
+      currentSet: 0,
+      loadMoreActive: true,
       weeklyGoalWeekIndexes,
     };
 
     this.updateWeeklyGoal = this.updateWeeklyGoal.bind(this);
     this.updateWeeklyGoalSlider = this.updateWeeklyGoalSlider.bind(this);
+    this.loadMorePressed = this.loadMorePressed.bind(this);
+    this.loadPreviousPressed = this.loadPreviousPressed.bind(this);
   }
 
   renderGoal(goalData, extraData) {
@@ -72,6 +76,40 @@ class ManageWeeklyGoals extends Component {
     this.setState({weeklyGoalWeekIndexes});
   }
 
+  loadMorePressed() {
+    const currentSet = this.state.currentSet - 1;
+
+    this.loadWeeklyGoalIndexes(currentSet);
+  }
+
+  loadPreviousPressed() {
+    const currentSet = this.state.currentSet + 1;
+    if (currentSet > 0) {
+      return;
+    }
+
+    this.loadWeeklyGoalIndexes(currentSet);
+  }
+
+  loadWeeklyGoalIndexes(currentSet) {
+    const currentWeekIndex =
+      DateUtils.getWeekIndex({date: new Date()}) + currentSet * 10;
+    const weeklyGoalWeekIndexes = []; // 10 weeks
+
+    for (let i = 0; i < 10; i++) {
+      weeklyGoalWeekIndexes.push({
+        index: i,
+        weekIndex: currentWeekIndex - i,
+        thisWeeksSecondsGoal: projectDB.getWeeklyGoals({
+          realm: this.props.realm,
+          weekIndex: currentWeekIndex - i,
+        }),
+      });
+    }
+
+    this.setState({currentSet, weeklyGoalWeekIndexes});
+  }
+
   render() {
     const actionScreenData = {
       backArrowActive: false,
@@ -104,6 +142,10 @@ class ManageWeeklyGoals extends Component {
           listData={this.state.weeklyGoalWeekIndexes}
           listDataActive={true}
           renderListItem={this.renderGoal}
+          loadPreviousPressed={this.loadPreviousPressed}
+          loadPreviousActive={this.state.currentSet !== 0}
+          loadMorePressed={this.loadMorePressed}
+          loadMoreActive={this.state.loadMoreActive}
         />
       </View>
     );
