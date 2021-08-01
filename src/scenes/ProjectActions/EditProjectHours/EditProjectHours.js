@@ -15,10 +15,10 @@ import {InputUtils, DateUtils} from '_utils';
 class EditProjectHours extends Component {
   constructor(props) {
     super(props);
-    const secondsWorked = projectDB.getSecondsWorked({
+    const {secondsWorked, nextSetExist} = projectDB.getSecondsWorkedSet({
       realm: this.props.realm,
       projectID: this.props.project.id,
-      limit: 35,
+      currentSet: 0,
     });
     const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
     const project = projectDB.getProjects({
@@ -45,6 +45,8 @@ class EditProjectHours extends Component {
       tempDate: new Date(),
       ampm: States.am,
       secondsWorkedID: 0,
+      currentSet: 0,
+      nextSetExist,
     };
 
     this.taskPressed = this.taskPressed.bind(this);
@@ -60,6 +62,8 @@ class EditProjectHours extends Component {
     this.updateSetTimeMinutes = this.updateSetTimeMinutes.bind(this);
     this.updateDateWorked = this.updateDateWorked.bind(this);
     this.updateSecondsWorked = this.updateSecondsWorked.bind(this);
+    this.loadMorePressed = this.loadMorePressed.bind(this);
+    this.loadPreviousPressed = this.loadPreviousPressed.bind(this);
   }
 
   componentDidMount() {
@@ -72,16 +76,17 @@ class EditProjectHours extends Component {
       });
     });
     this.state.secondsWorked.addListener(() => {
-      const secondsWorked = projectDB.getSecondsWorked({
+      const {secondsWorked, nextSetExist} = projectDB.getSecondsWorkedSet({
         realm: this.props.realm,
         projectID: this.state.project.id,
-        limit: 35,
+        currentSet: this.state.currentSet,
       });
       const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
       this.setState({
         secondsWorked,
         secondsWorkedDisplay,
         listData: secondsWorkedDisplay,
+        nextSetExist,
       });
     });
     this.state.tasks.addListener(() => {
@@ -258,6 +263,37 @@ class EditProjectHours extends Component {
     });
   }
 
+  loadMorePressed() {
+    const currentSet = this.state.currentSet - 1;
+
+    this.loadSecondsWorked(currentSet);
+  }
+
+  loadPreviousPressed() {
+    const currentSet = this.state.currentSet + 1;
+    if (currentSet > 0) {
+      return;
+    }
+
+    this.loadSecondsWorked(currentSet);
+  }
+
+  loadSecondsWorked(currentSet) {
+    const {secondsWorked, nextSetExist} = projectDB.getSecondsWorkedSet({
+      realm: this.props.realm,
+      projectID: this.state.project.id,
+      currentSet,
+    });
+    const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
+    this.setState({
+      currentSet,
+      secondsWorked,
+      secondsWorkedDisplay,
+      listData: secondsWorkedDisplay,
+      nextSetExist,
+    });
+  }
+
   renderHoursWorked(listData, extraData) {
     return (
       <HoursWorked
@@ -311,6 +347,10 @@ class EditProjectHours extends Component {
           listData={this.state.secondsWorkedDisplay}
           listDataActive={true}
           renderListItem={this.renderHoursWorked}
+          loadPreviousPressed={this.loadPreviousPressed}
+          loadPreviousActive={this.state.currentSet < 0}
+          loadMorePressed={this.loadMorePressed}
+          loadMoreActive={this.state.nextSetExist}
           topBottomContainerDivider
         />
         <TimeSelector
