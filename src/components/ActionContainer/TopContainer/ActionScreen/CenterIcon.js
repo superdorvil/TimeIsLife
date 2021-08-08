@@ -21,7 +21,10 @@ const centerIcon = ({centerIconName}) => {
 };
 
 const centerContainerStyle = () => {
-  return {alignSelf: 'center'};
+  return {
+    alignSelf: 'center',
+    marginTop: 16,
+  };
 };
 
 const goalContainerStyle = () => {

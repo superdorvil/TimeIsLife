@@ -33,8 +33,12 @@ class ActionContainer extends Component {
           actionDescription={this.props.actionScreenData.actionDescription}
           subDescription={this.props.actionScreenData.subDescription}
           subDescription2={this.props.actionScreenData.subDescription2}
-          editButtonActive={this.props.actionScreenData.editButtonActive}
-          deleteButtonActive={this.props.actionScreenData.deleteButtonActive}
+          topRightButtonActive={
+            this.props.actionScreenData.topRightButtonActive
+          }
+          topRightButtonDescription={
+            this.props.actionScreenData.topRightButtonDescription
+          }
           topRightButtonPressed={
             this.props.actionScreenData.topRightButtonPressed
           }

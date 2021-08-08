@@ -13,45 +13,42 @@ class BottomContainer extends Component {
   render() {
     return (
       <View style={containerStyle()}>
-        {this.props.children ? (
-          <View style={childrenContainerStyle()}>{this.props.children}</View>
-        ) : (
-          <View style={innerContainerStyle()}>
-            <ViewVisibleWrapper active={this.props.actionButtonActive}>
-              <ActionButton
-                actionButtonDescription={this.props.actionButtonDescription}
-                actionButtonPressed={this.props.actionButtonPressed}
-              />
-            </ViewVisibleWrapper>
-            <ViewVisibleWrapper
-              active={this.props.listDataActive}
-              style={listStyle()}>
-              <FlatList
-                data={this.props.listData}
-                renderItem={({item}) =>
-                  this.props.renderListItem(item, this.props.extraData)
-                }
-                keyExtractor={(item, index) => index.toString()}
-                ListHeaderComponent={
-                  <LoadMoreButton
-                    loadMorePressed={this.props.loadPreviousPressed}
-                    previous={true}
-                    active={this.props.loadPreviousActive}
-                  />
-                }
-                ListFooterComponent={
-                  <LoadMoreButton
-                    loadMorePressed={this.props.loadMorePressed}
-                    previous={false}
-                    active={this.props.loadMoreActive}
-                  />
-                }
-                ItemSeparatorComponent={this.renderDivider}
-                contentContainerStyle={listPaddingStyle()}
-              />
-            </ViewVisibleWrapper>
-          </View>
-        )}
+        <View style={childrenContainerStyle()}>{this.props.children}</View>
+        <View style={innerContainerStyle()}>
+          <ViewVisibleWrapper active={this.props.actionButtonActive}>
+            <ActionButton
+              actionButtonDescription={this.props.actionButtonDescription}
+              actionButtonPressed={this.props.actionButtonPressed}
+            />
+          </ViewVisibleWrapper>
+          <ViewVisibleWrapper
+            active={this.props.listDataActive}
+            style={listStyle()}>
+            <FlatList
+              data={this.props.listData}
+              renderItem={({item}) =>
+                this.props.renderListItem(item, this.props.extraData)
+              }
+              keyExtractor={(item, index) => index.toString()}
+              ListHeaderComponent={
+                <LoadMoreButton
+                  loadMorePressed={this.props.loadPreviousPressed}
+                  previous={true}
+                  active={this.props.loadPreviousActive}
+                />
+              }
+              ListFooterComponent={
+                <LoadMoreButton
+                  loadMorePressed={this.props.loadMorePressed}
+                  previous={false}
+                  active={this.props.loadMoreActive}
+                />
+              }
+              ItemSeparatorComponent={this.renderDivider}
+              contentContainerStyle={listPaddingStyle()}
+            />
+          </ViewVisibleWrapper>
+        </View>
       </View>
     );
   }
@@ -76,12 +73,7 @@ const innerContainerStyle = () => {
 };
 
 const childrenContainerStyle = () => {
-  return {
-    flex: 1,
-    paddingStart: 16,
-    paddingEnd: 16,
-    paddingBottom: 16,
-  };
+  return {};
 };
 
 const listStyle = () => {

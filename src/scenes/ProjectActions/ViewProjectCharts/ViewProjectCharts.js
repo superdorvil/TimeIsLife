@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {
   ChartNavBar,
   HoursChart,
-  ProjectChartsDataPicker,
+  ArrowIncrementer,
   HoursStatistics,
 } from '_components';
 import {Colors} from '_resources';
@@ -411,10 +411,10 @@ class ViewProjectCharts extends Component {
           dataWidth={100}
           yAxisSuffix=" hrs"
         />
-        <ProjectChartsDataPicker
+        <ArrowIncrementer
           dateInfo={this.state.chartDataDescription}
-          incrementChartIndex={this.incrementChartIndex}
-          decrementChartIndex={this.decrementChartIndex}
+          incrementIndex={this.incrementChartIndex}
+          decrementIndex={this.decrementChartIndex}
         />
         <HoursStatistics
           totalHours={this.state.totalHours}

@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {
   ActionContainer,
+  ArrowIncrementer,
   HoursWorked,
   TimeSelector,
   SelectTaskModal,
@@ -15,10 +16,12 @@ import {InputUtils, DateUtils} from '_utils';
 class EditProjectHours extends Component {
   constructor(props) {
     super(props);
-    const {secondsWorked, nextSetExist} = projectDB.getSecondsWorkedSet({
+    const weekIndex = DateUtils.getWeekIndex({date: new Date()});
+    const secondsWorked = projectDB.getSecondsWorked({
       realm: this.props.realm,
       projectID: this.props.project.id,
-      currentSet: 0,
+      weekIndex,
+      returnList: true,
     });
     const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
     const project = projectDB.getProjects({
@@ -45,8 +48,8 @@ class EditProjectHours extends Component {
       tempDate: new Date(),
       ampm: States.am,
       secondsWorkedID: 0,
-      currentSet: 0,
-      nextSetExist,
+      weekIndex,
+      currentWeeksDescription: 'This Weeks Hours',
     };
 
     this.taskPressed = this.taskPressed.bind(this);
@@ -62,8 +65,8 @@ class EditProjectHours extends Component {
     this.updateSetTimeMinutes = this.updateSetTimeMinutes.bind(this);
     this.updateDateWorked = this.updateDateWorked.bind(this);
     this.updateSecondsWorked = this.updateSecondsWorked.bind(this);
-    this.loadMorePressed = this.loadMorePressed.bind(this);
-    this.loadPreviousPressed = this.loadPreviousPressed.bind(this);
+    this.loadNextWeeksSeconds = this.loadNextWeeksSeconds.bind(this);
+    this.loadPreviousWeeksSeconds = this.loadPreviousWeeksSeconds.bind(this);
   }
 
   componentDidMount() {
@@ -76,17 +79,17 @@ class EditProjectHours extends Component {
       });
     });
     this.state.secondsWorked.addListener(() => {
-      const {secondsWorked, nextSetExist} = projectDB.getSecondsWorkedSet({
+      const secondsWorked = projectDB.getSecondsWorked({
         realm: this.props.realm,
         projectID: this.state.project.id,
-        currentSet: this.state.currentSet,
+        weekIndex: this.state.weekIndex,
+        returnList: true,
       });
       const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
       this.setState({
         secondsWorked,
         secondsWorkedDisplay,
         listData: secondsWorkedDisplay,
-        nextSetExist,
       });
     });
     this.state.tasks.addListener(() => {
@@ -263,35 +266,67 @@ class EditProjectHours extends Component {
     });
   }
 
-  loadMorePressed() {
-    const currentSet = this.state.currentSet - 1;
+  loadNextWeeksSeconds() {
+    const weekIndex = this.state.weekIndex - 1;
 
-    this.loadSecondsWorked(currentSet);
+    this.loadSecondsWorked(weekIndex);
   }
 
-  loadPreviousPressed() {
-    const currentSet = this.state.currentSet + 1;
-    if (currentSet > 0) {
-      return;
-    }
+  loadPreviousWeeksSeconds() {
+    const weekIndex = this.state.weekIndex + 1;
 
-    this.loadSecondsWorked(currentSet);
+    this.loadSecondsWorked(weekIndex);
   }
 
-  loadSecondsWorked(currentSet) {
-    const {secondsWorked, nextSetExist} = projectDB.getSecondsWorkedSet({
+  loadSecondsWorked(weekIndex) {
+    const secondsWorked = projectDB.getSecondsWorked({
       realm: this.props.realm,
       projectID: this.state.project.id,
-      currentSet,
+      weekIndex,
+      returnList: true,
     });
     const secondsWorkedDisplay = this.formatSecondsWorked(secondsWorked);
     this.setState({
-      currentSet,
+      weekIndex,
       secondsWorked,
       secondsWorkedDisplay,
       listData: secondsWorkedDisplay,
-      nextSetExist,
+      currentWeeksDescription: this.getCurrentWeekDescription(weekIndex),
     });
+  }
+
+  getCurrentWeekDescription(weekIndex) {
+    let description = '';
+    const currentWeekIndex = DateUtils.getWeekIndex({date: new Date()});
+
+    switch (weekIndex) {
+      case currentWeekIndex:
+        description = 'This Weeks Hours';
+        break;
+      case currentWeekIndex + 1:
+        description = 'Next Weeks Hours';
+        break;
+      case currentWeekIndex - 1:
+        description = 'Last Weeks Hours';
+        break;
+      default:
+        description =
+          DateUtils.convertDateToString({
+            date: {
+              d1: DateUtils.getDateFromWeekIndex({
+                weekIndex,
+                weekday: 0,
+              }),
+              d2: DateUtils.getDateFromWeekIndex({
+                weekIndex,
+                weekday: 6,
+              }),
+            },
+            format: Utils.dateFormat.monDate_monDate,
+          }) + '   Hours';
+    }
+
+    return description;
   }
 
   renderHoursWorked(listData, extraData) {
@@ -323,6 +358,9 @@ class EditProjectHours extends Component {
       backArrowActive: true,
       centerIconName: Icons.clock,
       actionDescription: this.state.project.description,
+      topRightButtonActive: true,
+      topRightButtonDescription: '+ add hours',
+      topRightButtonPressed: this.addPressed,
     };
 
     return (
@@ -341,18 +379,16 @@ class EditProjectHours extends Component {
           weeklyProgressData={false}
           actionScreenActive={true}
           actionScreenData={actionScreenData}
-          actionButtonActive={true}
-          actionButtonPressed={this.addPressed}
-          actionButtonDescription="Hours Worked"
           listData={this.state.secondsWorkedDisplay}
           listDataActive={true}
           renderListItem={this.renderHoursWorked}
-          loadPreviousPressed={this.loadPreviousPressed}
-          loadPreviousActive={this.state.currentSet < 0}
-          loadMorePressed={this.loadMorePressed}
-          loadMoreActive={this.state.nextSetExist}
-          topBottomContainerDivider
-        />
+          topBottomContainerDivider>
+          <ArrowIncrementer
+            dateInfo={this.state.currentWeeksDescription}
+            incrementIndex={this.loadNextWeeksSeconds}
+            decrementIndex={this.loadPreviousWeeksSeconds}
+          />
+        </ActionContainer>
         <TimeSelector
           visible={
             this.state.startTimeModalVisible || this.state.endTimeModalVisible

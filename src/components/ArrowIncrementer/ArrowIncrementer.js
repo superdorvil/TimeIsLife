@@ -4,21 +4,17 @@ import {Icon} from '_components';
 import {Icons} from '_constants';
 import {Colors} from '_resources';
 
-const ProjectChartsDataPicker = ({
-  dateInfo,
-  incrementChartIndex,
-  decrementChartIndex,
-}) => {
+const ArrowIncrementer = ({dateInfo, incrementIndex, decrementIndex}) => {
   return (
     <View style={containerStyle()}>
       <TouchableOpacity
-        onPress={incrementChartIndex}
+        onPress={incrementIndex}
         style={arrowLeftContainerStyle()}>
         <Icon name={Icons.leftArrow} size={35} style={arrowStyle()} />
       </TouchableOpacity>
       <Text style={dateInfoStyle()}>{dateInfo}</Text>
       <TouchableOpacity
-        onPress={decrementChartIndex}
+        onPress={decrementIndex}
         style={arrowRightContainerStyle()}>
         <Icon name={Icons.rightArrow} size={35} style={arrowStyle()} />
       </TouchableOpacity>
@@ -71,4 +67,4 @@ const dateInfoStyle = () => {
   };
 };
 
-export default ProjectChartsDataPicker;
+export default ArrowIncrementer;

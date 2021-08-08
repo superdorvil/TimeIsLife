@@ -11,8 +11,8 @@ const ActionScreen = ({
   actionDescription,
   subDescription,
   subDescription2,
-  editButtonActive,
-  deleteButtonActive,
+  topRightButtonActive,
+  topRightButtonDescription,
   topRightButtonPressed,
 }) => {
   return (
@@ -22,6 +22,13 @@ const ActionScreen = ({
         style={backArrowContainerStyle()}>
         <BackArrow backArrowPressed={backArrowPressed} />
       </ViewVisibleWrapper>
+      <View style={topRightButtonStyle()}>
+        <TopRightButton
+          topRightButtonActive={topRightButtonActive}
+          topRightButtonDescription={topRightButtonDescription}
+          topRightButtonPressed={topRightButtonPressed}
+        />
+      </View>
       <CenterIcon centerIconName={centerIconName} />
       <Text style={actionDescriptionStyle()}>{actionDescription}</Text>
       <ViewVisibleWrapper
@@ -30,11 +37,6 @@ const ActionScreen = ({
         <Text style={subDescriptionStyle()}>{subDescription}</Text>
         <Text style={subDescription2Style()}>{subDescription2}</Text>
       </ViewVisibleWrapper>
-      <TopRightButton
-        editButtonActive={editButtonActive}
-        deleteButtonActive={deleteButtonActive}
-        topRightButtonPressed={topRightButtonPressed}
-      />
     </View>
   );
 };
@@ -75,6 +77,17 @@ const subDescription2Style = () => {
     fontSize: 12,
     fontWeight: 'bold',
     color: Colors.primary[global.colorScheme],
+  };
+};
+
+const topRightButtonStyle = () => {
+  return {
+    paddingEnd: 8,
+    paddingTop: 16,
+    paddingBottom: 16,
+    position: 'absolute',
+    top: 0,
+    right: 0,
   };
 };
 

@@ -16,8 +16,8 @@ const TopContainer = ({
   actionDescription,
   subDescription,
   subDescription2,
-  editButtonActive,
-  deleteButtonActive,
+  topRightButtonActive,
+  topRightButtonDescription,
   topRightButtonPressed,
 }) => {
   return (
@@ -38,8 +38,9 @@ const TopContainer = ({
           actionDescription={actionDescription}
           subDescription={subDescription}
           subDescription2={subDescription2}
-          editButtonActive={editButtonActive}
-          deleteButtonActive={deleteButtonActive}
+          topRightButtonActive={topRightButtonActive}
+          topRightButtonDescription={topRightButtonDescription}
+          //={deleteButtonActive}
           topRightButtonPressed={topRightButtonPressed}
         />
       </ViewVisibleWrapper>

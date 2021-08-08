@@ -4,55 +4,35 @@ import {ViewVisibleWrapper} from '_components';
 import {Colors} from '_resources';
 
 const TopRightButton = ({
-  editButtonActive,
-  deleteButtonActive,
+  topRightButtonActive,
+  topRightButtonDescription,
   topRightButtonPressed,
 }) => {
-  let topRightText;
-  if (editButtonActive) {
-    topRightText = 'Edit';
-  } else if (deleteButtonActive) {
-    topRightText = 'Delete';
-  }
   return (
     <ViewVisibleWrapper
-      active={editButtonActive || deleteButtonActive}
+      active={topRightButtonActive}
       style={containerStyle()}
       onPress={topRightButtonPressed}>
-      <Text style={topRightStyle(editButtonActive, deleteButtonActive)}>
-        {topRightText}
-      </Text>
+      <Text style={topRightStyle()}>{topRightButtonDescription}</Text>
     </ViewVisibleWrapper>
   );
 };
 
 const containerStyle = () => {
   return {
-    paddingStart: 16,
-    paddingEnd: 16,
-    paddingTop: 16,
-    paddingBottom: 16,
-    position: 'absolute',
-    top: 0,
-    right: 0,
+    alignSelf: 'baseline',
   };
 };
 
-const topRightStyle = (editButtonActive, deleteButtonActive) => {
-  if (editButtonActive) {
-    return {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: Colors.primary[global.colorScheme],
-    };
-  }
-  if (deleteButtonActive) {
-    return {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: Colors.remove[global.colorScheme],
-    };
-  }
+const topRightStyle = topRightDeleteModeActive => {
+  return {
+    fontSize: 20,
+    color: Colors.primary[global.colorScheme],
+    borderColor: Colors.primary[global.colorScheme],
+    borderWidth: 1,
+    padding: 6,
+    borderRadius: 8,
+  };
 };
 
 export default TopRightButton;

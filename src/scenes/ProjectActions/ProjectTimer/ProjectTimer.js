@@ -149,6 +149,13 @@ class ProjectTimer extends Component {
         <View style={backArrowContainerStyle()}>
           <BackArrow backArrowPressed={this.backArrowPressed} />
         </View>
+        <View style={topRightButtonStyle()}>
+          <TopRightButton
+            topRightButtonActive={true}
+            topRightButtonDescription="Edit Project"
+            topRightButtonPressed={this.editPressed}
+          />
+        </View>
         <Text style={projectNameStyle()}>{this.props.project.description}</Text>
         <View style={timerContainerStyle()}>
           <ProjectClock secondsWorked={this.state.secondsWorkedToday} />
@@ -172,10 +179,6 @@ class ProjectTimer extends Component {
           subTaskPressed={() => this.tabBarPressed(Icons.checkmark)}
           hoursWorkedPressed={() => this.tabBarPressed(Icons.clock)}
           goalsPressed={() => this.tabBarPressed(Icons.goals)}
-        />
-        <TopRightButton
-          editButtonActive={true}
-          topRightButtonPressed={this.editPressed}
         />
       </View>
     );
@@ -203,11 +206,23 @@ const projectNameStyle = () => {
     color: Colors.primary[global.colorScheme],
     marginStart: 32,
     marginEnd: 32,
+    marginTop: 24,
   };
 };
 
 const backArrowContainerStyle = () => {
   return {alignSelf: 'baseline'};
+};
+
+const topRightButtonStyle = () => {
+  return {
+    paddingEnd: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  };
 };
 
 export default ProjectTimer;

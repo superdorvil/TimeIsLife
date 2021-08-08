@@ -53,6 +53,8 @@ class EditProject extends Component {
       centerIconName: Icons.checkmark,
       actionDescription: 'Edit Project',
       subDescription: 'Time is Life',
+      topRightButtonActive: true,
+      topRightButtonDescription: 'Delete Project',
       topRightButtonPressed: this.deleteProject,
     };
 

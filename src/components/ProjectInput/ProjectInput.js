@@ -23,7 +23,7 @@ const ProjectInput = ({header, value, onChangeText, placeholder}) => {
 };
 
 const containerStyle = () => {
-  return {marginTop: 16};
+  return {margin: 16};
 };
 
 const headerStyle = () => {

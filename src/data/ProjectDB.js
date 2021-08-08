@@ -208,26 +208,6 @@ class ProjectDB {
     return this.sumSecondsWorked({secondsWorked});
   }
 
-  getSecondsWorkedSet({realm, projectID, limit, currentSet}) {
-    let secondsWorked = this.getSecondsWorked({
-      realm,
-      projectID,
-      weekIndex: DateUtils.getWeekIndex({date: new Date()}) + currentSet,
-      returnList: true,
-    });
-
-    let previousWeeksSecondsWorked = this.getSecondsWorked({
-      realm,
-      projectID,
-      weekIndex: DateUtils.getWeekIndex({date: new Date()}) + currentSet - 1,
-      returnList: true,
-    });
-
-    const nextSetExist = previousWeeksSecondsWorked.length > 0 ? true : false;
-
-    return {secondsWorked, nextSetExist};
-  }
-
   getDailySecondsWorked({realm, sundayIndex, weekIndex}) {
     const dailySecondsWorked = {
       sun: {secondsWorked: 0, weekday: 'SUN'},
