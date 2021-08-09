@@ -454,6 +454,10 @@ class ProjectDB {
           startTime.setMonth(date.getMonth());
           startTime.setFullYear(date.getFullYear());
           secondsWorked.startTime = startTime;
+          secondsWorked.dateIndex = DateUtils.getDateIndex({date});
+          secondsWorked.weekIndex = DateUtils.getWeekIndex({date});
+          secondsWorked.monthIndex = DateUtils.getMonthIndex({date});
+          secondsWorked.yearIndex = DateUtils.getYearIndex({date});
         } else {
           endTime.setDate(date.getDate());
           endTime.setMonth(date.getMonth());
