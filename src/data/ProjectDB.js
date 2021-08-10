@@ -165,8 +165,7 @@ class ProjectDB {
     weekIndex,
     monthIndex,
     yearIndex,
-    sortType,
-    ascendingSort,
+    inverseSort,
     returnList,
   }) {
     let secondsWorked = realm
@@ -202,7 +201,12 @@ class ProjectDB {
     }
 
     if (returnList) {
-      return secondsWorked.sorted('startTime', true);
+      let sort = true;
+      if (inverseSort) {
+        sort = false;
+      }
+
+      return secondsWorked.sorted('startTime', sort);
     }
 
     return this.sumSecondsWorked({secondsWorked});

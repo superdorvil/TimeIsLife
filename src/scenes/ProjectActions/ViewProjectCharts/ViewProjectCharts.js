@@ -178,6 +178,7 @@ class ViewProjectCharts extends Component {
     const secondsWorked = projectDB.getSecondsWorked({
       realm: this.props.realm,
       returnList: true,
+      inverseSort: true,
     });
 
     if (secondsWorked.length > 0) {
