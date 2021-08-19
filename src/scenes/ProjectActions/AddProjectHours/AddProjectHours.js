@@ -271,8 +271,9 @@ const containerStyle = () => {
 
 const innerContainerStyle = () => {
   return {
-    flex: 1,
-    marginTop: 16,
+    marginTop: 24,
+    marginStart: 16,
+    marginEnd: 16,
   };
 };
 
