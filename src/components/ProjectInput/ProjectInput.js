@@ -36,6 +36,7 @@ const headerStyle = () => {
 
 const textInputStyle = () => {
   return {
+    paddingTop: 12,
     fontSize: 20,
     marginStart: 16,
     marginEnd: 16,
@@ -46,6 +47,9 @@ const textInputStyle = () => {
     color: Colors.tertiary[global.colorScheme],
   };
 };
+
+// make the vertical padding zero(0) and specify an height for the input.
+// This will make the text input uniform on both platforms.
 
 const textInputContainerStyle = () => {
   return {
