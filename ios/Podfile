@@ -13,7 +13,6 @@ target 'TimeIsLife' do
   )
 
 
-  pod 'react-native-slider', :path => '../node_modules/@react-native-community/slider'
 
   target 'TimeIsLifeTests' do
     inherit! :complete
