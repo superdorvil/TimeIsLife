@@ -27,7 +27,7 @@
     "react-native-screens": "^3.5.0",
     "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^8.1.0",
-    "realm": "^10.6.1"
+    "realm": "^10.13.0"
   },
   "devDependencies": {
     "@babel/core": "7.13.14",
